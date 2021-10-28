@@ -1,0 +1,4736 @@
+bustuc -  ntur    nguge bus  rute   rc e  
+tore amble  
+dept  computer  information science 
+university  trondheim 
+orway -7491 
+amble@idi ntnu  
+Abstract 
+ pper describes  nturl nguge bsed expert 
+system route advisor   public bus transport 
+ trdheim norway  system  available  
+ internetand   intstalled   bus com- 
+pany' web erver ince  beginning  1999  
+system  bilingual relying   internal guage 
+independent logic representation 
+1 Introduct ion 
+ nturl nguge interfce   computer dtbse 
+provides users   capability  obtag - 
+formation stored   database  queryg  
+system   nturl lnguge (nl)   nturl 
+lnguge   men  communiction   com- 
+puter system  users cn mke  question   
+statement     normall thk   
+information  discussed freeing   hav- 
+ing     computer stes  processes 
+ information 
+  implementtion res   mjor 
+effort  brgg natural anguage  practical  
+ system  developed tht cn nswer queries bout 
+bus routes stated  natural language texts  
+ public   internet world wide web 
+( http : //www idi ntnu /bustuc/) 
+trondheim   smll city   university nd 
+140000 inhabitants  central bus systems  42 
+bus lines serving 590 stations  1900 depar- 
+tures  day ( average)   approximately 
+60000 scheduled bus station passings  day  
+ somehow represented   route data base 
+ starting    aumate  function  
+ route informtion gent  following exmple 
+  system respose  usig  ctul request  
+telephone   local route information company: 
+h  lve  darvoll  toght  
+ rech  rin o oslo  6 oclock 
+nd  typicl nswer  follow quickly: 
+bus  54 passes  nidarvoll skole 
+ 1710  arrives  trondheim railway 
+stion  1725 
+   question nd  nswer   pro- 
+cess  lexical analysis syntax analysis semantic 
+analysis pragmatic reasoning  database query 
+processing 
+  argue   information content 
+  solved   interrogation   
+cuomer   o produce 4 iem:    ion  
+ departure station  arrival earliest 
+departure timeand/  arrival time  
+  myth tht nturl lnguge    wy  
+communication    "natural language" 
+ challenge   prove  demonstration  
+ nl system       preferred 
+  interrogative mode     system 
+   correct user friendly   complete 
+  actual domain 
+2 Previous Efforts CHAT-80 
+prat-89  hsql 
+ system called bustuc  built   clas- 
+sical system chat-80 (warren  pereira 1982) 
+cht-80 ws  stte   rt nturl nguge sys- 
+tem   impressive   own mer   
+etblihed prolog   vible nd competitive ln- 
+guage  artificial telligence    sys- 
+tem ws  brillint msterpiece  stwre efficient 
+ sophisticated  natural anguage system  
+connected   smll query system  interntionl 
+geography  following query   analysed 
+nd nswered   split : 
+ country bordering  mediterranean 
+borders  country tht  bordered   
+country  population exceeds  
+population  india? 
+(te answer 'turkey'   incorrect  
+time  passed  irony   geography  
+choen   domin  time) 
+ abi!ity  answer ridiculously  queries  
+ course   main goal  main lesson   
+complex sentences re nlysed   proper - 
+standing  sacrificing efficiency  superfi- 
+cial pattern matching technique  prove futile 
+sooner   
+21 mking  norwegin cht-80 
+PRAT-89 
+  university  trondheim (ntnu)  stu- 
+dents mde  norwegin version  cht-80clled 
+prat-89 (teigen  vetl 1988)(teigen  
+vetlnd 1989) (lso  similr swedish project 
+snack-85  reported) 
+ dictionary  changed  english  nor- 
+wegian    rules  morphological 
+analysis  change  grammar  english  
+norwegian proved   amazingly easy   
+  langauges   similar    
+believe    languages  incomprehen- 
+ible   ' communitie 
+ changing  dictionary  graramar  
+following norwegian query    domain 
+  nswered correctly     
+Hvilke afrikanske land som hat en 
+befolkning stoerre enn 3 millioner 
+og mindre enn 50 millioner og er nord 
+ botswana og oest  libya hat en 
+hovedstad som hat en befolkning stoerre 
+enn 100 tusen 
+(  trnsltion  beside       
+query  norwegian) 
+22 hsql - help system  sql 
+ nordic project hsql (help system  sql) ws 
+ccomplished  1988-89  mke  jot nordic ef- 
+fort interfaces  databases 
+ hsql project  led   swedish  
+bureau (statskontoret)  participants  swe- 
+den denmark finl  norway (amble et al 
+1990)  im  hsql ws  build  nturl 
+language interface  sql databases   scandi- 
+navian languages swedish danish  norwegian 
+se languages   similar   norwe- 
+gian version  chat-80  easily extended   
+ scandinavian languages instead  geogra- 
+phy   typicl ppliction re ws chosen  
+  query system  hospitl dministrtion  
+ecie  trget  sql tbse   hospitl - 
+ministration    developed  
+  step  n  change  domain 
+ discourse  geography  hospital adminis- 
+tration using   knowledge representation 
+techniques   cht-80  semntic model  
+ doma    n implemented   
+CHAT-80 framework 
+ modelling technique  proved adequate 
+    extended entity relationship (er) 
+model   clss (type) hierrchy ttributes - 
+longing   class single inheritance ofattributes 
+ relationships 
+coupling  system   sql database 
+  remodelling  system  answer 
+queries  "scdavi"   ternal hospital 
+databe    chat-80  answer geog- 
+rphy questions hsql produced  prolog- code 
+fol (  logic)  execution  mpping 
+ fol   data base schema  defined  
+ trnslr  fol  sql ws implemented 
+ example 
+hvlke menn lgger  en kvnnes seng? 
+(  lie   womn' bed? ) 
+  translated ryly   sql query: 
+SELECT DISTINCT 
+T3nameTlsexT2reg_noT3sex 
+T4reg_noT4bed_noT5hosp_noT5ward_no 
+ patient tioccupancy t2patient t3 
+OCCUPANCY T4WARD T5 
+ 
+(tlsex='')  
+(t2reg_no=tlreg_no)  
+(t3sex='')  
+(t4reg_no=t3reg_no)  
+(t4bed_no=t2bed_no)  
+(t5hosp_no=t4hosp_no)  
+(T5ward_no=T4ward_no) 
+23   understanding computer 
+ hsql ws  vluble xperience   effort 
+  transportable natural anguage interfaces 
+  underlying system chat-80 restricted 
+  development 
+  hsql project  finished  inter- 
+nal reseach project tuc ( understanding com- 
+puter)  initied  ntnu  carry   results 
+ hsql  project goals differed    
+hsql   numr  wys nd    con- 
+cerned  multimedia interfaces     
+ portability  versatility   central 
+issues concerning  generality   language  
+ applications  research goals   sum- 
+marised   
+\x95  computers  operational understding 
+ natural language 
+\x95 build intelligent systems  natural language 
+capabilities 
+\x95 study common sense reasong  natural - 
+guage 
+ test criterion   understnding cpcity  
+tht fter  set  defitions   nturlly red- 
+able logic nrl  ytem' anwer  querie  
+nrl  conform   swers   idealised 
+rational agent 
+   lives loves mary 
+john   mn john lives 
+ loves mary? 
+==> John 
+nrl  defed   closed context  - 
+terfaces   systems   prciple defed 
+ imulting  environment   dilogue 
+partner 
+tuc   prototypicl nturl lnguge proces- 
+sor  englh wrten  prolog   designed  
+  generl purpose esily dptble nturl ln- 
+guge processor  consists   generl grmmr 
+  subset  english  semntic knowledge bse 
+ modules  interfaces   interfaces  
+unix sql-databases   textual informa- 
+tion sources 
+24   tabor project 
+  hppened tht  universty project ws strt- 
+eded  1996 called tabor ( " speech based user 
+interfaces  reasoning systems ")   aim  
+building  automatic public trsport route oracle 
+available   public telephone   onset  
+ project  world wide web  fresh   
+ idespread     telephone   
+regarded   main source  inmation   
+public 
+ n  internet   dominant 
+medium nd    likeley    computer wh 
+internet connection     locl buroute tble 
+(  consequtive wide spreading  cellular phones 
+changed  picture  favour   telephone  
+   story) 
+ ws decided tht  text bsed informtion sys- 
+tem   built regardless   status   
+speech rocgnition  speech synthesis effort  
+proved  lg  fter   
+ bustuc system 
+ reulting ytem butuc grew    nturl 
+application  tuc   english prototype  
+ built    months (brtseth 1997) 
+  summer 1996  prototype   
+onto  internet   developed  tested 
+   continually     im- 
+portant extension    system   
+bilingual (norwegian  english)   fall 
+1996 
+ sprg 1999  bustuc  fally adopted 
+  locl bu compny  trondheim ( / 
+trondheim trfikkselskp)  set   server ( 
+ 300 mhz pc  linux) 
+   150000 questions   - 
+swered  bustuc   stabilize  grow 
+increasingly popular 
+3 
+3 anatmy      bus  rute  rac le  
+ main components   bus route information 
+systems : 
+\x95  prser system consisting   dictionry  
+lexicl processor  grmmr nd  prser 
+\x95  knowledge bse (kb) divided   semntic 
+kb   application kb 
+\x95  query processor contlng  routing logic sys- 
+tem nd  route dt bse 
+ system  bilingul nd contins  double set 
+ dictionary morphology  grammar actually  
+detects  language   probable  count- 
+ing    unknown words related   
+language  acts accordingly  grammars  
+surpringly similar   effort    coa- 
+lesce m  norwegian grammar  slightly - 
+ger   englh grammar     
+ elaborated    norwegian allows 
+ freer word  
+31 features    bustuc 
+  norwegi systems  figures   - 
+dication   size   domain: 420 nouns 150 
+verbs 165 adjectives 60 prepositions etc 
+  1300 grammar ules ( 810  english) 
+ alf   rules   low level 
+ semantic net described below contains  
+4000 entries 
+  nme tble  3050 nmes  ddition  
+ official station names  required  capture  
+vriety  nming  simple spell correction   prt 
+  system ( essentially 1 character errors) 
+ pragmatic reasoning    translate  
+output   prser   route dtbse query 
+lnguge  th     production system 
+called pragma  acts   advced rewrit- 
+ing system  580 rules 
+ addition    ule base  actually 
+generating  natural anguage answers (120 rules) 
+ system  maly written  prolog (sicstus 
+prolog 37)   perl programs   com- 
+munication  cgi-scripts 
+  moment re   35000 lines  
+programmed prolog code ( addition  route tables 
+    prolog) 
+average response time  usually   2 sec- 
+onds    queries  demand   10 
+ 
+ error rate  single correct complete  
+relevant questions   2 percent 
+32  parser system 
+ grammar system 
+ grmmr  bsed   simple grmmr  
+statements  questions  comms  de- 
+rived     movements  grammar 
+formalm   called consensical grammar 
+(context sensitive compositional grammar)  
+ easy   varit  extraposition grammar 
+(pereir nd wrren 1980)    generl- 
+tion  definite clause grammars compositional 
+grmmr mens tht  semntics    phrse  
+composed   semantics   subphrases;  ba- 
+sic constituents   form  verb complements 
+  extrpoition grmmr  grmmr  trn- 
+lated  definite clause grammars  executed  
+ 
+ chrcteristic syntctic expression  consen- 
+sical grammar   define  incomplete construct 
+ terms   "difference "  complete con- 
+structs    parser    sub- 
+tracted   stead  readg     
+ gp  necery  effect   me   ex- 
+traposition grammars   th format   
+intuitive 
+examples  grammar rules 
+  analysed  
+     true  
+ () person hs  dog tht brked? 
+  lt line  nlyed   ttement 
+movement  easily handled  consensical gram- 
+mar   special phrase rules   
+  movement  following example  
+ tuc mnges  vriety  nlyses using move- 
+ments: 
+max  bill  
+Joe believed Fido Barked 
+  bill  
+Joe believed Fido barked? ==> Max 
+  max   
+Joe believed Fido barked? ==> Bill 
+statement() ---> 
+noun_phrase(XVPP) 
+verb_phrase(XVP) 
+statement() ---> 
+verb_complementsO(VC) 
+ZZ initial optional verb complements 
+statement() - 
+verb_complementsO(VC) 
+zz   inserted fter  gp 
+q() --->   dog barked? 
+\\[\\] 
+holm() 
+whoq() - ~  ga 
+(\\[\\]\\[hs\\]\\[\\]ou()\\[tht\\]) 
+whoq() ---> 
+\\[\\] 
+q() - (\\[\\]\\[erson\\]) 
+q(()::) ---> 
+\\[\\] 
+statement() - () 
+Example: 
+ dog barked? 
+ analysed    sentence   
+ hs  dog tht  brked? 
+  analysed  
+ person hs  dog tht  brked? 
+  max  bill  
+believed Fido barked? ==> Joe 
+ parser 
+ experiences  consensicl grmmrs re  
+bit mixed   main    parsing 
+method    top   backtracking 
+ principles   prove elegant   
+mains     o costly  larger - 
+mains due   wide variety  modes  expres- 
+sions incredible ambiguities   sheer size   
+covered language 
+ dmbigution   mjor   smll 
+grammars   languages   solved  
+ following guidelines: 
+\x95  semntic type checking ws integrted   
+parser   help  discard sematica/ly 
+wrong parses   start 
+\x95  heuristics ws followed tht proved lmost ir- 
+reprochble:    phrse   
+category   semantically correct    
+  preferred interpretation 
+\x95 due   perplexity   language  
+committed choices (cuts)    inserted  
+ grammar  stregic     
+fear   implied  wrong choices 
+    pot   parsg  
+  recovered  backtracking 
+     imperative  intro- 
+duce  timeout   prsing process  embrss- 
+ing 10    sentences   
+prsed     legl sentences ofmod- 
+erate size actually   time 
+4 
+33  semantic knowledge base 
+adaptability means   system    
+  reprogrammed foreach  application 
+ design principle  tuc      
+chnges re mde   tbulr semntic knowledge 
+base      grammar  dictio- 
+nary    logic  generated automatically 
+  semantic knowledge base 
+ nouns ply  key role   understndg 
+   constitute  cls  tpe hierarch 
+ous re defed   -kd- hierrchy  
+hierarchy  tree-structured  single inheritance 
+ top level  constitute  top level ontology 
+ tuc' world 
+ fct  type check   complces  verbs 
+nouns adjectves  prepostons     neces- 
+sary   semantic processing   essential  
+ syntax analysis   disambiguation aswell 
+ tuc  legal combations  cfully assem- 
+bled   semntic network  n serves  
+dual purpose 
+ semantic definitions    allow 
+ instance  following sentences 
+ dog sw  mn   telescope 
+ mn sw  dog   telescope 
+  treated  cause  telescope 
+ modify  noun     noun dog 
+  telescope modifies  verb  re- 
+stricted  person 
+34  query processor 
+Event Calculus 
+ semntics   phrses re built     
+ verb complements   event ply  centrl 
+role 
+ text  translated  natural anguage  
+ form clled tql (temporl query lnguge/ 
+tuc query lnguge)      event 
+clculus expression  self contined expression con- 
+taining  literal meing   utterce 
+ formlism tql tht ws defined inspired  
+ event calculus  kowalski  sergot (kowal- 
+ski  sergot 1986) 
+ tql expressions consist  predicates func- 
+tions constants  variables  textual words 
+ nouns  verbs  translated  generic predi- 
+cates using  selected interpretation  follow- 
+ing question 
+   wher  bus goes 
+ nidar  saturday ?
+   tql expression below typically 
+ norwegian equivalent 
+Vet du om bussen gaar 
+til Nidar paa soendag ? 
+5 
+ exactly   code 
+test:: % 
+isa(realprogramtuc) % 
+isa(realbusA) % 
+isa(realsaturdayB) % 
+isa(realplacenidar) % 
+event(realD) % 
+type  question 
+tuc   progrm 
+   rel bus 
+ isa saturday 
+nidr   plce 
+   event 
+(whethertu)       
+vnt (  )      vnt   
+action()  th action     
+ctor()  th ctor     
+srl(placnidar)    nidar 
+srl(tim)     th saturda  
+ event parameter plays  importt role  
+ semantics     various purposes  
+ slient role   identify  subset  time nd 
+space    action  event occured   
+actual time  space coordinates  connected  
+ actions   event parameter 
+Pragmatic reasoning 
+ tql  trnslted   route dtbse query 
+lnguge (buslog)   ctully  prolog pro- 
+grm th     production system clled 
+pragma  acts   advced rewriting sys- 
+tem  580 rules 
+ addition    rule base  actually 
+generating  natural language answers (120 rules) 
+4 Conc lus ions  
+ tuc approach    goal  aumate  
+cretion   nturl lnguge interfces    
+defined subset   lnguge nd   minimum 
+ explicit programming 
+ implemented system  proved  worth 
+       reason   
+  increasing    bus compa- 
+nies nd route informtion compnies     
+similar system   customers 
+  remains    parser  
+efficient    remains    lan- 
+guage coverage complete  reasonable imits 
+    question wher  system  th 
+    preferred wy  fering informtion 
+  public 
+      fir mount    mke   
+portable system    implemented lsewhere 
+ connecting various travelling agencies 
+    remin  curiosy  nywy 
+system      contribution   devel- 
+opment  intelligent systems 
+Re ferences  
+Tore Amble Erik Knudsen Aarno Lehtola Jan 
+ljungberg  ole ravnholt 1990 naturlig 
+spr~ och graf - nya vsgar nn  databaser 
+Statskontoret Rapport om HSQL ett kunskaps- 
+baseret hj~lpsystem fSr SQL 
+jon  brteth 1997 butuc -  nturl ln- 
+guage bu traffic information ytem mater' 
+sis  norwegian university  science  
+Technology 
+ kowlski nd  segot 1986  logic bsed 
+calculus  events  generation computing 
+8(0):67-95 
+fcn pereira  dhd warren 1980 definite 
+clause grammar  language analysis artificial 
+Intelligence 0(3) 
+ teigen   etl 1988 syntax analysis  
+norwegian language technical report  nor- 
+wegian institute  technology 
+ teigen   etl 1989 hling reason- 
+able questions beyond 
+ linguistic  conceptual coverage  
+natural anguage interface mater' i  
+norwegian institute  technology 
+ warren  fcn pereira 1982  effi- 
+cient  easily adaptable system  interpreting 
+natural language queries Computational Linguis- 
+tics 8(3-4) 
+6 
+machine translation   close languages 
+Jan HAJI(~ 
+Computer Science Dept 
+Johns Hopkins University 
+3400  charles st baltimore 
+MD 21218 USA 
+hajic@csjhuedu 
+Jan HRIC 
+KTI MFF UK 
+Malostransk6 nfim25 
+Praha 1 Czech Republic 11800 
+hric@barboram ffcunicz 
+Vladislav KUBON 
+OFAL MFF UK 
+Malostransk6 mim25 
+Praha 1 Czech Republic 11800 
+vk@ufalmffcunicz 
+Abstract 
+using examples   transfer-based mt 
+system  czech  russian 
+ruslan   word--word mt system 
+ morphological disambiguation  
+czech  slovak (~esilko  argue  
+  close languages     
+obtain  translation quality  means  
+simpler methods    translation 
+    typologiclly similr lnguges 
+using  pivot lnguge  lso dcussed  
+Introduction 
+lthough  field  mchine trnsltion hs  
+  history     successful 
+systems    impressive    funds 
+invested   development  various mt 
+systems   wasted    
+stimulted  development  techniques  
+ allow  transle   technical texts 
+  certin limited domin    
+course exceptions  demonstrated  
+  condions     develop 
+ system   sve money nd efforts 
+invested  human translation  main reason 
+  field  mt   met  expectations 
+ sci-fi literature    expectations  
+scientific community   complexity   
+tsk   successful utomtic trnsltion 
+system requires  application  techniques  
+   computational inguistics 
+(morphology syntax semantics discourse 
+nlyi etc)   necery    ufficient 
+condion   opinion     easier 
+ crete  mt system   pir  relted 
+languages   contribution     
+demonstrate hat  assumption holds   
+  closely related languages 
+1 czech--russian mt system ruslan 
+11 History 
+  attempt  verify  hypsis  
+related languages  easier  translate started  
+mid 80s  charles university  prague  
+project  called ruslan  aimed   
+translaton  documentaton   doman  
+operating systems  mainframe computers  
+ developed  cooperation   research 
+stitute  mhemical maches  prague  
+ time  former comecon countries   
+obligary  translate    documentation 
+  systems  russian     
+czech--russian mt system ruslan (cf oliva 
+(1989)) started  1985   termated  1990 
+( comecon gone)   lack  funding 
+12 System description 
+ system  rule-based implemented  
+colmeruer' -ytem  contined  - 
+fledged morphological  syntactic analysis  
+czech  trnsfer nd  syntctic nd 
+morphological generation  russian   
+  transfer   beginning   project 
+due   assumption   languages  
+similar   extent    require  
+transfer phase    assumption    
+wrong   phenomena  covered  
+ transfer    stage   project ( 
+example  translation   czech ver "~" 
+\\[ \\]       russian 
+equivalents: empty form  form "byt6"  future 
+7 
+tense   verb "javljat6sja";   translation 
+ verbal negation) 
+  time     termed  
+1990  system hd  min trnsltion 
+dictionary   8000 words accompanied  
+ called transducing dictionary covering  
+2000 words  transducing dictionary  
+based   origal idea described  kirschner 
+(1987)  aimed   exploion    
+tht technicl terms re bsed (  mjority  
+european languages)  greek  latin stems 
+adopted according   particular derivational 
+rules    languages   allows  
+ "trnsltion"  technicl terms  mens   
+direct trnscription  productive ndings nd  
+slight (regular) adjustment   spelling   
+stem  example  english words 
+localization  discrimination   
+transcribed  czech  "lokalizace"  
+"diskrimince"   productive nding -tion 
+ transcribed  -ace    
+assumed    pair czech/russian  
+transducing dictionary   able  profit 
+  substntilly greter   productive 
+rules  hypothesis proved   wrong o 
+( b6mov~ kubi (1990))  set  
+productive ndings   pairs (english/czech 
+ developed   earlier mt system  
+english  czech  czech/russian)   
+similar 
+ evaluation  results  ruslan  
+ roughly 40%  input sentences  
+translated correctly  40%  minor errors 
+correctble   humn post-editor nd bout 
+20%   input required substantial editing  
+re-translation    main factors  
+cused  deteriortion   trnsltion   
+factor   incompleteness   main 
+dictionary   system    system 
+contined  set  -clled fil-st rules  
+task   hdle  situations  unknown 
+word typiclly cused  filure   module   
+syntactic analysis   dictionary entries 
+contained - besides  translation equivalents 
+ morphological information -   
+syntactic information 
+  factor   module  syntactic 
+analysis  czech    reasons  
+parsing failures apart   common inability 
+  rule-bsed forml grmmrs  cover  
+particular natural anguage   finest detail  
+ syntax         
+  existence  -projective constructions 
+   common  czech   
+relatively short sentences    
+accunt nly  17\xb0/'  syntactic dependencies 
+ third czech sentence contains    
+nd   new corpu  dicovered    
+15 -projective dependencies;   haji6 et 
+ (1998)  exmpe f  -prjective 
+construction  "soubor se nepodafilo otev~" 
+\\[: fie ref _not_possibe to_open -   
+     file\\]  formalism  
+  implementation (-systems)   meant 
+ handle -projective constructions  
+urce  trouble     -called 
+semantic features  features  based  
+lexical semantics  individual words  main 
+tsk ws  support  semnticlly plusible 
+analysis   block  implausible ones  
+    question  implausible 
+combinations   semantic features    
+complex    supposed    practical 
+outcome     semntic fetures ws  
+ atio  parsing failures - semantic features 
+ blocked  plusible nlysis  exmple 
+humn lexicogrphers  signed  verb ' run'  
+semntic feture stting tht   noun  
+semntic fetures   humn   living  
+  assigned  role  subject   verb 
+ input text     sentences  
+'programs'  'systems' running etc    
+course  easy  correct  semantic feature  
+ dictionary      re 
+    corrections required 
+   hand     languages 
+llow   degree  word- freedom 
+ccounted   certin simplifiction    
+translati process  grammar elied   
+     minor word- 
+differences  czech  russian 
+13 lessons learned   rom ruslan 
+  learned  lessons regarding  mt 
+ closely related languages: 
+\x95  trnsfer-bsed pproch provides  
+similar quality  translation   closely 
+related  typologically  languages 
+\x95  main bottlenecks  -fledged 
+transfer-based systems : 
+8 
+- complexity   syntactic dictionary 
+- relative unreliability   syntactic 
+analysis   source language 
+  reltively simple component 
+(transducing dictionary)  equally complex 
+ english--czech  czech--russian 
+translation 
+limited text mas   exist  real life 
+  necessry   wh   coverge 
+dictionary     source language 
+2 translation  localization 
+21  pivot lnguge 
+localization  products   documentation 
+  gret   ny compny  wnts 
+ strengthen  positi  foreign language 
+market especially  companies producing 
+various kinds   stware  amounts  texts 
+ localized  huge   localization 
+costs  huge   
+  que    localization   
+source language   target languages 
+  typologically similar   
+  source lnguge   wste  money 
+ effort    course  easier  translate 
+texts  czech  polish   russian  
+bulgarian   english  german    
+ languages    reasons  
+localization  translation    
+performed   pivot language 
+representing  certin   closely relted 
+languages apart  political reasons  
+trnsltion   pivot lnguge hs severl 
+drawbacks       
+   loss  translation quality  
+trnsltion    certin extent shift  
+meaning   translated text    
+subsequent translation provides results   
+    original   
+  reason   lack  translators 
+  pivot   target language  th  
+usually     translation   
+source directly   target language 
+22 translation memory   key 
+ main goal  th paper   suggest   
+overcome  obstcles  mens   
+combination   mt system  commercial 
+MAHT (Machine-aided human translation) 
+systems   chosen  trados 
+trnltor' workbench   repreenttive 
+system   clss   products  cn  
+characterized   example-bed trslation 
+tool ibm' tranlation manager   
+products  belong   class  systems 
+ -called translation memory  contains 
+pirs  previously trnslted sentences   
+source   trget lnguge   humn 
+trnsltor strts trnslting   sentence  
+system tries  match  source  sentences 
+ stored   translation memory    
+successful  suggests  translation   
+human translar decides      
+modify    reject  
+ segmenttion   trnsltion memory   key 
+feature   system  translation memory 
+  exported   text file nd  llows 
+easy manipulation   content   suppose 
+th     disposal  translion 
+memories -  human    source/pivot 
+lguage pair    create   mt 
+system   pivot/target language pair  
+substitution  segments   pivot lnguge  
+ segments   trget lnguge  n   
+routine procedure  human translator 
+translating   source language   target 
+lnguge n   trnsltion memory   
+required pair (source/target)  system  
+penaltie applied  trado tranlator' 
+wkbench (  similr system) gurntees tht  
+  lredy  humn-mde trnsltion  
+n    priory   translation 
+obtined   reult   utomtic mt thi 
+system solves   mentioned  - 
+ human translars   pivot   target 
+language        machine- 
+mde trnltion memory erve    
+resource supporting  direct human translation 
+  source   target language 
+3 mach ine   rans la ion   () closely 
+related Slavic languages 
+    slavic languages re   
+closely related languages  czech  russian 
+apart   pair  serbian  croatian 
+languages    identical   
+9 
+considered  lnguge    yers   
+ closely related languages     
+czech  slovak 
+   led    experiment  
+automatic translation  czech  slovak 
+ ws cler tht ppliction   similr method 
+      system ruslan  
+lead  similar results due   closeness  
+ lnguges  hve decided  pply  
+simpler method   system (~esilko 
+ims   mximl exploiion  he similriy 
+  languages  system   method  
+direct word--word translation justified   
+similarity  syntactic constructions   
+languages 
+  system  currently  tested  
+texts   domain  documentation  
+corporate information systems    limed  
+ specific domain  primary task   
+ provide support  translation  localization 
+ various technical texts 
+31 System (~ESiLKO 
+     word--word 
+translation approach ( languages   
+similar syntax  word    
+morphological system)     
+morphological ambiguity  individual word 
+forms  type  ambiguity  slightly  
+ lnguges   rich flection (mjority  
+slavic languages)   languages    
+hve   wide vriety  forms derived   
+sgle lemma  example  czech   
+ rare   --speech ambiguiies ( ~ 
+\\[ stay/ \\] zena \\[woman/chasing\\]  tri 
+\\[/rub(imperative)\\])   frequent  
+ ambiguity  gender    ( 
+example  form   adjective jam\\[ \\[spring\\] 
+ 27-times ambiguous)  main    
+   slavic languages   
+ property  czech  ambiguity   
+preserved   dtributed    mnner 
+  "--" translation   
+applicable 
+whout  analysis    nominal   
+   difficult  solve th  
+  example  actual morphemic 
+categories  adjectives   czech 
+distinguishable ly   basis  gender 
+   agreement   ajective 
+  governing noun  alternative    
+solution    ws  ppliction   
+stochastically based morphological disambiguator 
+(morphological tagger)  czech  success 
+rate  close  92\xb0/'0  system  consts 
+  following modules: 
+1 import   input  -called 'empty' 
+translation memory 
+2 morphological analysis  czech 
+3 Morphological disambiguation 
+4 Domain-related bilingual glossaries (incl 
+single-  multiword terminology) 
+5  bilingual dictionary 
+6 morphological synthesis  slovak 
+7 exprt f  utput   riginal translatin 
+memory 
+leus  look    deil  he dividul 
+modules   system: 
+ 1  input text  extrcte    
+trslation memory previously exported   
+ascii file  exported translation memory ( 
+trdos) hs  sgml-iike nottion   
+relatively simple structure (cf  following 
+example): 
+exmple 1 -  smple   exported trnsltion 
+memory 
+<RTF Preamble></RTF Preamble> 
+<TrU> 
+<CrD>23051999 
+<CrU>VK 
+<seg =cs_01>pomoci ~kazu ad-hoc m65ete 
+rychle  jednoduge vytv~~et regerge 
+<seg =sk_01 >/ 
+</TrU> 
+ system    segments marked  
+<seg =cs_01>  contain  source 
+anguage sentence ach  <seg =sk_01> 
+  empty     contain  
+ sentence translated   target language 
+ cesilko 
+ad 2  morphological analys  czech  
+based   morphological dictiary developed 
+ ja haj6  haa skoumalov~  1988-99 
+(  description  haji~ (1998))  
+dictionary contains  700 000 dictionary 
+entries   typical coverage varies  
+10 
+99% (novels)  95% (technical texts)  
+morphological analysis   system  
+positional tags  15 positions ( 
+morphological category   --speech 
+ gender cse etc hs  fixed single- 
+symbol    tag) 
+example 2 - tags assigned   word-form 
+"pomoci" (help/ means ) 
+pomoci: 
+nfp2       \\]nfs7     --2             
+ : 
+ - ou;  - pepositio 
+ - eminine gender 
+ - ingular  - lural 
+7 2 -  (7 - instrumental 2 - genitive) 
+ - ffirmtive ( negtive) 
+ad 3  module  morphological 
+dmbigution   key   success    
+trslation    average   358 
+tags  token (word form  text)    
+ tagging system  purely stattical   
+  log-liner model  probbility distribution 
+-  haji~ hladkfi (1998)  learning  based 
+  mnully tgged corpus  czech texts 
+(    newspaper domain) 
+ system learns contextual rules (features) 
+automatically   automatically determines 
+feature weights  average accuracy  tagging 
+  91  93%  remains   
+  technical texts (  disregard  
+unknown names  foreign-language  rms ha 
+  ambiguous anyway) 
+ lemmatization immediately follows tagging; 
+ chooses   lemm wh   tg 
+corresponding   tag selected despite  
+simple lemmatization method   thanks  
+   czech words  rly ambiguous  
+ --speech   wh  accuracy 
+exceeding 98% 
+ad 4  domain-related bilingual glossaries 
+contain pairs  individual words  pairs  
+multiple-word terms  glossaries  
+orgnized   hierrchy specified   user; 
+typically  glossaries    specific 
+domain  applied      
+matching rule   levels  glossaries -  
+ match wins 
+ multiple-word terms  sequences  lemmas 
+( word forms)  structure   
+advantages    allows  minimize 
+ size   dictionary   due   
+simplicy   structure  allows modifications 
+  glossaries   linguistically naive user 
+  morphological information  
+troduced   doma-related glossary   
+-line preprocessing stage    
+require user intervention  mkes   
+difference  compared   ruslan 
+czech--russian mt system   
+multiword dictionary entry cost  30 minutes 
+ linguitic expert' time  average 
+ad 5  main bilingual dictionary contains data 
+   translation    lemmas  
+tags  translation  tags (  czech  
+ slovak morphological system)   
+ due   morphological differences  
+systems  close  slightly  tagsets 
+currently  system handles  1:1 translation  
+tags ( 2:2 3:3 etc)  ratio  
+translation   rare  czech  siovak 
+ nevertheless  advced system  dictionary 
+items   construction (  translation 1:2 
+2:1 etc)   que    lexically 
+homonymous words  preserve  
+homonymy    translation   
+special treatment  homonyms  deemed 
+ 
+ad 6  morphological syns  slovak  
+bsed   molingul dictiry  siovk 
+developed  jhric (1991-99) covering  
+ \\]00000 dictionary entries  coverage  
+ dictionary         czech  
+    growing  ims   similr coverge 
+ slovak   enjoy  czech 
+ad 7  export    output   system 
+(~esilko   translation memory ( 
+trado tranlator' workbench) amount 
+mainly  cleaning   irrelevant sgml 
+markers   resulting slovak sentence  
+serted   appropriate location   
+original translation memory file  following 
+example     marker <cru> 
+contains  information   target lguage 
+sentence  created   mt system 
+11 
+exmple 3 -  smple   trnsltion memory 
+containing  results  mt 
+<RTF Preamble></RTF Preamble> 
+<TrU> 
+<CRD>23051999 
+<CrU>MT! 
+<seg =cs_01>pomoci ~kazu ad-hoc mfi~ete 
+rychl  jdnodu~ vyv~~ rr 
+<seg =sk_01>pomoci ~kazo ad-hoc m6~ete 
+~chio  jednoducho vytvht' eeie 
+</TrU> 
+32 evaluation  results 
+    evaluate results  aumatic 
+translation   difficult   evaluation  
+ system   exploited  close 
+connection   system   
+trado tranlator' workbench  method 
+ simple -  human translator eceives  
+translation memory created   system  
+translates  text using  memory  
+translar  free    changes   text 
+proposed   translation memory  target 
+text creted   humn trnsltor   
+compared   text created   mechanical 
+application  translation memory   source 
+text trados n evaluates  percentage  
+matchg    manner   normally 
+evaluates  percentage  matching  source 
+text  sentences  translation memory  
+system achieved  90% match ( defined  
+ trados match module)   results  
+humn trnslti bsed   reltively lrge 
+(  10000 words) test sample 
+4 Conclusions 
+ accuracy   translation achieved   
+system justifies  hyposis  word-- 
+word trnsltion    solution  mt  
+ closely related languages  remaining 
+   solved     - 
+   -- translation   
+lack  formation  glossaries  dictionaries 
+sometimes causes  unnecessary trslation 
+error 
+ success   system cesilko  
+encouraged  investigation   possibility  
+   method   pairs  slavic 
+languages namely  czech--polish translation 
+  languages    similar  
+czech d slovk  hope tht  dditio   
+simple partial noun phrase parsing  provide 
+results   quality comparable   - 
+fledged syntactic analysis based system RUSLAN 
+(th   course true    czechoto-slovak 
+translation)   results  czech- polish 
+translation   encouragg   respect 
+     perform  rigorous 
+testing     slovak 
+Acknowledgements 
+ poject  suppoted   gant gat~ 
+405/96/k214  patially   gant ga(~ 
+201/99/0236  project   ministry  
+education  vs96151 
+References 
+b6movfi alevtina  kubofi vladislav (1990) czech- 
+-russian transducg dictionary; : proceedgs 
+  xlllth coling conference helsinki 1990 
+hji~ jn (1998) building nd using  syntctilly 
+annotated coprus:  prague dependency 
+treebak : festschrf  jarmla paevov~ 
+Karolinum Press Charles Universitz Prague pp 
+106---132 
+haji~ jan  barbora hladk~ (1998) agging 
+inflective languages prediction  morphological 
+ctegories   rich structured tgset cl- 
+Coling'98 Montreal Canada August 1998 pp 483- 
+490 
+haji~ jan; brill eric; collins michael; hladk~ 
+Barbora; Jones Douglas; Kuo Cynthia; Ramshaw 
+lance; schwartz oren; tillman christoph;  
+Zeman Daniel: Core Natural Language Processing 
+technology applicable  multiple languages  
+workshop'98 final report clsp jhu  : 
+http:llwwwclspjhuedulws981projectslnlplreport 
+irschner zden~ (1987) apac3-2:  english-- 
+Czech Machine Translation System; Explizite 
+Beschreibung der Sprache und automatische 
+Textbearbeitung XII1 MFF UK Prague 
+oliv krel (1989)  prser  czech implemented 
+ systems ; explizite beschreibung der sprache 
+und automatische Textbearbeitung XVI MFF UK 
+Prague 
+12 
+Abstract 
+Cross-Language Multimedia Information Retrieval 
+Sharon Flank 
+emotion Inc 
+2600 Park Tower Dr Vienna VA 22180 USA 
+sharonflank@emotioncom 
+simple measures  achieve -accuracy 
+coss-language  tieval  caefully chosen 
+applications image retrieval     
+applications  results ranging  68% 
+ human translator permance  
+german  100%  french 
+1 Introduction 
+contain strings  keywords typical queries 
+    web search applications  
+  words  length   pot   
+ cptions re  english emotion hosts  
+ database  images  sale   
+licensing picturequest   10%  
+picturequet' uer bae  outide  
+united   tests  performed  
+ picturequest database  approximately 
+400000 images 
+information  increasingly global   
+  access  crosses language barriers 
+ topic   paper cross-language 
+information retrieval concerns  automatic 
+retrievl  text   lnguge vi  query 
+   lnguge  considerble 
+body  literature  grown   
+cross-language information retrieval (eg 
+grefenstette 1998 trec-7 1999)  
+  basic approaches   query 
+  translated   entire document 
+  translated    language  
+ query  accuracy  retrieval  
+languages      
+   weaknesses  plagues cross- 
+lnguge retrievl  tht    hve  
+ sense    users     
+ interact   
+  pper  describe  multimedi 
+application   cross-language 
+information retrieval  particularly 
+ emotion inc hs developed  nturl 
+language information retrieval application 
+ retrieves images   photographs 
+based  sht textual descriptis  
+captions  captions  typically   
+ sentences     
+recent web utilization data  picturequest 
+indicate    10%  users  
+outside  united sttes  significnt 
+portion   spanish-speaking 
+french-speaking  german-speaking 
+countries   expected  adding 
+appropriate language interfaces  listing 
+picturequest  foreign-language search 
+engines  dramatically increase - 
+English usage 
+ cross-language multimedia 
+Retrieval Application 
+ paper offers  original 
+ctributis   literature  cross- 
+language information retrieval   
+choice  application  novel  
+significant   simplifies  language 
+     tractable 
+  objects retrieved  images  
+ text   instantly comprehensible 
+  user regardless  language issues 
+  makes    users  
+perform  relevnce ssessment   
+     translation  
+ users themselves  select 
+objects    recourse  
+translation  images    
+13 
+associated  caption information  
+   monolgual system  users 
+  view  captions    
+noted     images  
+picturequest  utilized  advertising  
+publishing    news 
+applications users  history  news 
+phos  tend  check  captions  
+ users  publishg  view  
+captions  advertising    
+image  conveys     
+  circumstances     
+created 
+ significant contribution   
+pper   inclusion   vriety  
+machine translation systems none   
+systems tested   - mchine 
+translati system:   freely available  
+ web 
+ key feature  th paper   
+careful selection   accuracy measure 
+appropriate   circumstances   
+application  standard measure percent 
+ monolingual performance achieved  
+   firm focus  precisi   
+application users  able  evaluate  
+       idea 
+wht ele     collection   
+result precin  f     
+customers  recall recall    
+terest  image suppliers      
+   prudent  optimize  
+precision  taking  account  
+recall tradeoff 
+ picturequest application avoids  
+  major stumblg blocks  stand  
+   -accuracy cross-language 
+retrieval ballesteros  croft (1997) note 
+ pitfalls common  cross-language 
+information retrieval: 
+(1)  dictionary   contain 
+specialized vocabulary (particularly 
+bilingual dictionaries) 
+(2) dictionary translations  inherently 
+ambiguous  add extraneous terms 
+  query 
+(3) failure  translate multi-term 
+concepts  phres reduces 
+effectiveness 
+  picturequest application se pitfalls 
+ minimized   queries  short 
+ paragraph- descriptions   trec 
+( eg voorhees  harman 1999) 
+       sttisticl 
+approach   queries  little 
+ctext      relying  
+context ( reducing ambiguity   
+ top priory)  makes  task simpler 
+assuming   translation program  
+multi-term concepts intact    th  
+preserves  modifier-head structure  
+ successfully match phrases  
+captins (ie  dcuments   retrieved) 
+   sentences   phrases 
+ intact  phrase recognizer identifies 
+meaningful phrases (eg fire engine)  
+hndle m   unit  pttern mtcher 
+recognizes core noun phrases  makes  
+   hey  match correctly 
+word choice cn   mjor iue    
+cross-language retrieval systems  
+ambiguity    resolved  
+    prt--speech tgger   
+captions  resnik  yarowsky ( 
+press) observe --speech tagging 
+considerably reduces  word sense 
+disambiguation    
+ambiguity remains  example  
+deciion  trnlte  word  cr 
+automobile  vehicle  dramatically 
+affect retrieval accuracy  picturequest 
+14 
+system   semntic net bsed  
+wordnet (fellbaum 1998)  expand terms 
+  query  cr  utomobile  
+retrieve ssentially identical results; vehicle 
+   accurate    retrieve 
+    images   word 
+choice    significnt considertion  
+ system ike tht  jng et  1999  
+impact  picturequest  minimal 
+   wordnet   aid  information 
+retrieval  controversial   studies 
+indicate    hindrance  help (eg 
+voorhees 1993 1994 smeaton kelledy  
+'dnnell 1995) wrdnet  extremely 
+fine-grained distinctions   interfere 
+ precision   monolgual 
+formtion retrievl   cross-lnguge 
+application  additional senses  add 
+cfounding mistranslatis    
+ hand wordnet expansion  
+constrained  correct ranslation   
+missed lowerg recall   picturequest 
+application   tuned wordnet 
+expansion levels   corresponding 
+weights attached     wordnet 
+serves  increase recall  minimal 
+impact  precisi (flank 2000)  
+tuned expansion appears   neficial  
+ cross-language application   
+gilarranz gonzalo  verdejo (1997) 
+    cross-language 
+information retrieval  precion  lost 
+    wordnet     
+enhance cross-linguistic  monolingual 
+applications 
+  smeaton  quigley (1996) 
+conclude  wordnet  deed helpful  
+image retrieval  particular  image 
+captions   short  statistical analysis 
+  eful th insight   led   
+develop  proprietry imge retrievl engine 
+   : fe-graed lguistic 
+nlys   useful tht  sttticl 
+pproch   cption vergg  thirty 
+words ( typical captions    
+ reported  smeaton  quigley 
+1996) 
+3 Translation Methodology 
+ performed preliminary testing using  
+translation methodologies   initial 
+tests  chose european languages: french 
+spanish  german   choice 
+simplifies  translation     
+   reflects   pressing 
+business   translation   
+french spanish  german tests   
+systran  provided  altavista 
+(babelfish);   tested   
+b translation programs   native 
+speakers  craft queries   translated 
+ queries  manually  
+aumatically  submitted   
+picturequest  resulting image set  
+evluted  precision nd   limited 
+fashion  recall 
+  translation methodology 
+employed  direct dictionary translation 
+tested   spanish     
+queries   test using  -line 
+spanish-english dictionary  selected  
+ word  top (top-frequency) 
+translation   submitted  word- 
+-word translation  picturequest 
+(unlike altavista  method spell- 
+corrected letters entered   
+ diacritics) evaluation proceeded 
+   manner  word--word 
+method troduces  wekness  phrse 
+recognition:  phrase recognition 
+capabilities   retrieval system  
+defeated  phrases   retaed   
+input   assume   -english- 
+speaking user   recognize 
+phrases     own language  look 
+15 
+   phres     
+ expect    multiword phrases 
+tht hve  dictionry entry   correctly 
+understood    lose  noun 
+phrase recognition capabilities   
+retrieval system  confounded   
+   spanish adjectives follow  
+nouns  modif   hombre de 
+negocios example   data below  
+altavista  langenscheidt correctly 
+identify  phre  multiword  
+translate   business    
+ businesses 
+   phrase recognition   
+shown   helpful  optimally  
+   include  hull  
+grefenstette 1996   upper bound 
+  improvements   using 
+lexicalized phrases  phrase  
+appeared  added   dictionary  
+ tactic  aid retrieval  statistical 
+co-occurrence  syntactic phrases   
+ approaches unfortunately  
+extra-system approach    relies 
+heavily   external machine translati 
+ preserve phrases intact  altavista ( 
+    langenscid  user) 
+recognize  phre nd trnlte    
+unit  translation    retrieval  
+   tter    
+trnsltion mistkenly misses  phrse 
+retrieval quality     worse   
+compositional noun phrases   
+translation preserves normal word  
+n  picmrequest-internal oun phrase 
+recognition   effect   ifjeune 
+fille translates   girl  
+picturequest  understand    
+ adjective modifyg girl    
+dficult    translation preserves  
+correct   translatg la selva africana 
+ie  african jungle n noun phrase 
+recognion      comes 
+   jungle african n retrieval  
+ worse   architecture  scri  
+fixing   requires access   
+internals   machine translation program 
+4 Evaluation 
+evluting precisi nd recll   lrge 
+corpus   difficult tsk    
+evaluation methods detailed  flank 1998 
+precision ws evluted using  crossing 
+measure whereby  image ranked  
+thn   mtch ws penlized recll 
+ se ws mesured nly  respect   
+defined subset   images ranking 
+incorporates  recall measures   
+precision score  images ranked  low 
+re  recll  nd imges mrked  
+ re  precision    re 
+  matches   third   
+ #4  bogu #3   precion  
+nd  -low #4   recll  
+ evaluation   overall cross-language 
+retrieval performance  simply measured 
+ ratio   cross-language  
+onolingual retrieval auray (/%) 
+th  standard;   example jang et al 
+1999 
+table 1 illustrates  percentage  
+monolingual retrieval performance  
+achieved   translation tests permed 
+  stance    precision 
+performance   human-translated queries 
+ normalize   100%  adjust  
+ translation modalities relative   
+human baseline 
+Language Raw 
+Precision (%) 
+French (Human) 80 
+French 86 
+(AltaVista) 
+French 66 
+(Transparent 
+Language) 
+/ 
+(%) 
+100 
+100 
+83 
+16 
+Language Raw 
+Precision (%) 
+French (Intertran) 44 
+Spanish (Human) 90 
+Spanish 53 
+(AltaVista) 
+63 Spanish 
+(Langenscheidt 
+Bilingual 
+Dictionary) 
+German (Human) 80 
+German 54 
+(AltaVista) 
+/ 
+(%) 
+55 
+100 
+59 
+70 
+100 
+68 
+  factors   picturequest 
+ppliction  prticulrly  ppliction 
+ machine translation technology unlike 
+document ranslation      
+match  word   description; useful 
+imges   retrieved    wd  
+  lost    dcourse sues  
+: searches   anaphora    
+cares   translated query sounds   
+ 
+ addition     objects  
+retrieved  images greatly simplified  
+endeavor  normal circumstances 
+developing  user-friendly interfce   
+maj challenge users   limited ( 
+nonexistent) reading knowledge   
+lnguge   documents   wy  
+determine   ones  useful  
+      picturequest 
+application   retrieved assets  
+images users  instantly assess  
+images meet heir  
+ cclusi  appears  simple -le 
+translation  queries  support effective 
+cross-language inmation retrieval  
+ applications  sed   
+image retrieval application eliminates ome 
+    coss-language  tieval 
+  carefully tuned wordnet expansion 
+simplifies word choice issues    
+variety  machine translation systems none 
+  -     free  
+nonetheless achieved commercially viable 
+results 
+5 Appendix: Data 
+Source Example Score 
+human  repairing road 100 
+av  repairing wagon 0 
+lang  repair oad 100 
+Human woman wearing red 100 
+shoppg  store 
+av woman dressed red buying 90 (2  
+  tends 20 bad) 
+lang woman clothe red buy  wearg 
+shop red  lost 
+75 (5  
+20 bad) 
+human cars driving   100 
+highway 
+av cars handling   80' (4  
+freeway 20 bad) 
+lang cart handle   0 
+expressway 
+human lions huntg   80 (1  5 
+African forest bad) 
+av lions huntg   80 (1  5 
+African forest bad) 
+lang lion hunt  thejungle 45 (11  
+gst \\]  20 bad) 
+~'~                                                            ~:~  ~ 
+human juggler using colorful balls 67 (1  3 
+bad) 
+av juggler  using balls  50 (4  8 
+colors bad) 
+lang juggler  means   (0; 1 
+ball colour   
+) 
+17 
+Source Example Score 
+Human blonde children playing 90(#3 
+ marbles   
+#1; 
+remainder 
+ top 20 
+ok) 
+av blond children playing 90 (2  
+ marbles 20 bad) 
+lang  fair play  means 50 (1  2 
+ marble bad) 
+Human buying power 
+av spending power 45 (11  
+20 bad) 
+Lang 
+AV 
+purchasing power 100 
+successful busnessman  60 (8  
+office 20 bad) 
+lang successful busnessman  6 (8  20 
+office bad) 
+human mother  daughter 100 ( 
+bakg bread   kitchen   
+matches) 
+av mother  daughter 30 (14  
+\\[horneando-removed\\] 20 bad) 
+bread   kitchen 
+lang mother  child bake 100 ( 
+bread   kitchen   
+matches) 
+human  age  loneliness 100 
+av oldness  solitude 0 
+lang  age  loneliness 100 
+51 Spanish 
+human translatis tested  picturequest: 
+90% (normalize  100%) 
+AltaVista: 53% (59% normalized) 
+langenscheidt word--word: 63% (70% 
+normalized) 
+511 AltaVista 
+ altavista  left   words  
+alavisa didn' ranslae 
+512 Langenscheidt 
+langenscheidt word--word: 63% (70% 
+normalized) 
+  langenscheidt word--word  
+  bilingual dictionary  translate 
+ word separately      
+english        
+translation    following 
+adjustments: 
+1 left  "una"  langenscheidt 
+mpped   "unir" rther thn     
+ 
+2 translatd ""   instad    
+52 French 
+human translatis tested  picturequest: 
+80% 
+AltaVista: 86% (100% normalized) 
+Transparent Language (freetranslationcom): 
+66% (83% normalized) 
+Intertran (wwwintertrannet:2000): 44% 
+(55% normalized) 
+\\[french examples originally drawn  
+http ://humanitiesuchicagoedu/ARTFL/proj 
+ects/academie/1835searchformhtml: 
+French-French\\] 
+Source : Example Score 
+~ ~ ! ~~! "  ~:~:: ~ ~'~  ~ 
+human signs   zodiac 100 
+av signs   zodiac 100 
+TrLang sign zodiaque 0 
+IntrTran 
+Human 
+\\[signes\\]  zodiac 
+fish  water 
+100 
+30 (14  20 
+bad) 
+av fish  water 30 (14  20 
+bad) 
+trlang fish  water 30 (14  20 
+bad) 
+fish  wer intrtran 30 (14  20 
+bad) 
+18 
+Source Example Score 
+ 
+Human painful earaches lO0 
+AV Painful earaches 100 
+trlang  painful ear evil 0 
+ \\[manx\\] \\[doreille\\]' 0 
+distressing 
+ tke  rbbit   
+ears 
+ tke  rbbit   
+IntrTran 
+~ ~ ~ii ~ 
+Human 
+AV 
+65 (7  20 
+bad) 
+65 (7  20 
+bad) ears 
+trlng tke  rbbit   ers 65 (7  20 
+bad) 
+IntrTran 
+Human 
+cpture  bunny   
+ears 
+cat  lives  wood 
+80 (1  5 
+bad) 
+%~!~:' ~: ~'" 
+45 (11  20 
+bad) 
+av cat  lives  wood 45 (11  20 
+bad) 
+trlang cat  lives  wood 65 (7  20 
+bad) 
+ thanksgiving lives  
+ forest 
+ leve  house 
+IntrTran 
+Human 
+70 (6  20 
+bad) 
+60 (8  20 
+bad) 
+  lee  house 60 (8  20 
+bad) 
+trlng      house 95 (1  20 
+bad) 
+intrtran   dune' dwelling 90 (18  20 
+house bad) 
+human carpenter' tool 95 (1  20 
+bad) 
+av instrument  carpenter 100 
+trlang instrument  carpenter 100 
+ ntrtran mplement  carpenter 35 (13  20 
+bad) 
+human  play  violin 100 
+av  play   violin 100 
+trlang  play  violin 100 
+intrtran gamble  violin 0 
+human pleasures   body 100 
+Source Example Score 
+av pleasures   body 100 
+100 TrLang 
+IntrTran 
+ pleasures   body 
+ delight  body 
+humn  girl ets fruit 
+  girl ets fruit 100 
+trlng  girl ets fruit 100 
+intrtrn  girl  eting ny fruit 65 (7  20 
+bad) 
+0 
+100 
+53 German 
+human translatis tested  picturequest:  
+80% (100% normal ized)  
+AltaVista 54% (68% normal ized)  
+Source Example Score 
+Human boys golf course 95 
+AV golf course 95 
+Human artificial paradise 100 
+AV artificial paradiese 0 
+human solar energy  automobiles 95 
+av solar energy  auto 95  ~  ~ :~~  ~~ ~ ~ ~; :      ~<~ 
+human hiking   forest 90 
+av migrations   forest 0 
+hum  elepht   zoo 25 
+(#17 
+ 
+ #2) 
+av elephant   zoo 100 
+ !~  = ~!~ ~ ~ 
+human  synsis  i00 
+desoxyribonucleic acid 
+av  synsis   0 
+Desoxynribonukleinsaeure 
+Human black cars 100 
+AV black auto 100 
+human playing  60 
+  play 
+19 
+Source Example Score 
+human women  blue 65 
+av ladies  blue 75 
+human woman   65 
+av ladies   40 
+6 Acknowledgements 
+ am grateful  doug oard  comments  
+ earlier version    paper 
+7 References 
+ballesteros lisa   bruce croft 1997 "phrasal 
+translation  query expansion techniques  
+cross-language formation retrieval"  aaai 
+spring symposium  cross-language text  
+Speech Retrieval Stanford University Palo Alto 
+California March 24-26 1997 
+fellbaum christie ed 1998 wordnet:  
+Electronic Lexical Database Cambridge MA: MIT 
+Press 
+flank sharon 2000 " wordnet improve 
+multimedia information retrieval?"  paper\x95 
+flnk shron 1998\x95 " lyered pproch  nlp- 
+based formation retrieval"  proceedgs  
+coling-acl 36th annual meeting   
+association  computational linguistics montreal 
+Canada 10-14 August 1998 
+gilarranz julio julio gonzalo  felisa verdejo 
+1997 " approach  conceptual text retrieval 
+using  eurowordnet multilingual semantic 
+database"  aaai sprg symposium  cross- 
+language text  speech retrieval stanford 
+University Palo Alto California March 24-26 
+1997 (http://wwwclisumdedu/dlrg/filter/sss/papers) 
+Grefenstette Gregory ed 1998 Cross-Language 
+Information Retrieval Norwell MA: Kluwer 
+hull dvid  nd gregory grefenstette 1996 
+"experiments  multilgual formation retrieval" 
+ prceedin    19 th  \x95 "   nternatina cnerence 
+ research  development  formati 
+Retrieval (SIGIR96) Zurich Switzerland 
+jang myung-gil sung hyon myaeng  se 
+ park 1999 "using mutual information  
+resolve query translation ambiguities  query 
+term weightg"  proceedgs  37 th annual 
+meeting   association  computational 
+Linguistics College Park Maryland 
+mccarley  scott 1999 "  translate  
+documents   queries  cross-language 
+Information Retrieval?" 
+resnik philip  yarowsky david  press 
+"distinguishing systems  distinguishing sense: 
+ evaluation methods  word sense 
+Disambiguation" Natural Language Engineering 
+smeatn alan   kelledy   'dnnell 
+1995 "trec-4 experiments  dublin city 
+University: Thresholding Posting Lists Query 
+expansion  wordnet  pos tagging  
+spanish"  donna  harman (ed) nist special 
+publication 500-236:  fourth text retrieval 
+Conference (TREC-4) Gaithersburg MD USA: 
+department  commerce national institute  
+stards  technology 
+(http://trecnistgov/pubs/trec4/t4_proceedingshtml) 
+smeaton alan    qugley 1996 "experments 
+ usg semantic distances  words  
+image caption retrieval"  proceedgs   19 th 
+internatial cference  research  
+development  formation retrieval (sigir96) 
+Zurich Switzerland 
+voorhees ellen  1994 "query expansion using 
+lexical-semantic relations"  proceedgs   
+17 th internatial acm sigir cference  
+research  development  formation retrieval 
+pp 61-70 
+voorhees ellen  1993 "using wordnet  
+disambiguate word senses  text retrieval"  
+proceedings   16 th international acm sigir 
+cference  research  development  
+Information Retrieval pp 171-180 
+voorhees ellen   donna  haran editors 
+1999\x95  7 th text retrieval conference (trec- 7) 
+20 
+automatic construction  parallel english-chinese corpus  
+cross-language information retrieval 
+  g  che     -yu   e  
+~partement  '  format ique et recherche op~rationnel le 
+Universit~ de Montreal  
+cp 6128 succursale centre- ille  
+Montreal  (Quebec) Canada  H3C 3J7 
+{chen nie} @iro umontreal ca 
+abs rac   
+ mjor obstcle   construction  probbilis- 
+tic translation model   lack   parallel cor- 
+por   pper   describe  prllel text 
+mining system   parallel texts automatically 
+  web  generated chinese-english paral- 
+lel corpus    trin  probbiltic trnsltion 
+model  translates queries  chinese-english 
+cross-language information retrieval (clir)   
+discuss ome   translation model trag 
+   preliminary cur results 
+1   roduc ion  
+prllel texts hve       studies 
+ computational lguistics brown et al (1993) 
+defined  series  probbilistic trnsltion models 
+ mt purposes  people  question  
+effectiveness  using  models   -blown 
+mt system  models   valuable  de- 
+veloping translation assistance tools  example 
+ cn    trnsltion model  help com- 
+plete trget ext  drfted   humn trnsl- 
+tor (Langlais et al 2000) 
+ utilization   cross-language forma- 
+tion retrieval (clir)  queries    trans- 
+lated   language   language  
+  documents  written  clir  qual- 
+ity requirement  translation  relatively low  
+example  syntactic aspect  irrelevant   
+ trnslted word    true trnsltion   
+strongly related   original query    help- 
+ful theree clir   suitble ppliction  
+  trnsltion model 
+  mjor obstcle  th pproch   
+lack  parallel corpora  model training  
+   corpor exist including  hnsrd 
+english-french corpus   hkust english- 
+chese corpus (wu 1994)   paper   
+describe  method  utomticlly serches  
+parallel texts   b   discuss  text 
+mg algorithm  adopted  issues  trans- 
+lation model training using  generated parallel 
+corpu  finally  tranlation model' perfor- 
+mance  clir 
+2 pr  e   text    g   gor  th 
+ ptminer system   intelligent web agent 
+  designed  search   amounts  paral- 
+lel text   web  mining algorithm   
+language independent     adapted  
+ language pairs   minor modifications 
+taking advantage ofweb search engines   
+  ptminer implements  following steps 
+(illustrated  fig 1): 
+1 search  candidate sites - using existing web 
+search engines search   candidate sites 
+  contain parallel pages; 
+2 file name fetching -   candidate site 
+fetch  urls  web pages   indexed 
+  search engines; 
+3 host crawling - starting   urls col- 
+lected   previous tep search   
+candidate site separately   urls; 
+4 pair scan -   obtained urls   
+site scan   parallel pairs; 
+5 download  verifying - download  parallel 
+pages determine file size language  charac- 
+ter set   page  filter  -parallel 
+pairs 
+21 search  candidate sites 
+  advantage   huge   b sites 
+dexed  existg search enges  determg 
+candidate sites th    submitting  
+particular equests   search engines  re- 
+quests  determined according   following ob- 
+servations   sites  parallel text exists 
+  normally  pages   language con- 
+tag lks   parallel version    lan- 
+guage   usually indicated   links' 
+anchor texts 1  example   english page 
+    link   chinese version  
+ anch text "chese version"  " chese" 
+1n nchor text    piece  text   web pge  
+ clicked       linked page  
+ helpful  usual ly  contains  key information   
+ inked page 
+21 
+figure 1:  workflow   mining process 
+  phenomen   observed  chinese 
+pges chnces re tht  site  prllel texts 
+ conta  lks     documents 
+th      criterion  searchg  
+candidate sites 
+theree  determine  sites  english- 
+hinese parallel texts   request  english 
+document containing  following anchor: 
+ancor : "engl  version  \\[" engl" \\] 
+similar requests  sent  chinese documents 
+   sets  pages obtained    
+queries  extract wo sets  b sites  union 
+ se  sets constitutes n  candidate sites 
+tht    sy  se   cndidte se   
+ found     englh page linking  
+ chinese version   chinese pge linking   
+English version 
+22 File Name Fetching 
+  ssume tht  pir  prllel texts exists  
+ sme site  serch  prllel pirs   site 
+ptminer    obtain  (    ) 
+ html file names   site  se names 
+pirs re scnned       web crwler 
+ explore  candidate sites completely  
+   advantage   search engines   
+accelerate  process    step  submit 
+ following query   search engines: 
+host : hostname 
+ fetch  web pages   indexed   
+site    require  smll mount  prllel 
+texts  result   sufficient   purpose 
+    explore  sites  thor- 
+oughly using  host crwler   continue 
+ serch  files   host crwler   
+ documents found   search engines   
+starting  
+23 Host Crawling 
+ host crwler  slightly    web 
+crawler web crawlers   innumerable 
+pges nd hosts   web  host crwler   
+web crwler tht crwls  documents   
+ host   bredth- crwling lgorithm 
+ applied  ptmer  host crawler  prciple 
+ h whe  lik   uexplred cume  
+ sme se  found   document   dded  
+ list tht   explored lter   wy  
+file names   candidate sites  obtained 
+24 Pair Scan 
+ collecting file names   candidate site 
+  task   determine  parallel pairs 
+  try    heuristic rules  guess 
+ files   parallel texts fore downloading 
+m  rules  based  external features  
+ documents  external feature  mean  
+features      analyzing  
+contents   file    url size  date 
+th   contrt   ternal features   
+language character set  html structure  
+      downloaded  page 
+ analyzed  contents 
+ heuristic criterion comes   following 
+observation:  observe  parallel text pairs usu- 
+ally  similar name patterns  difference - 
+tween  names   parailel pages usually lies 
+  segment  dictes  lnguge  ex- 
+ample "file-chhtml" ( chese) vs "file-enhtml" 
+( english)  difference   appear   
+path   "/chinese//fi lehtml" vs "/en- 
+glsh//  lehtml'  name patterns descrbed 
+  commonly   webmasters  help - 
+gnize  sites hence  cn suppose tht  
+pair  pages     pattern  probably 
+parallel texts 
+22
+  establish  lists  english pre- 
+fixes english suffixes chinese prefixes  chi- 
+nese suixes  examle: engl ish  re  ix  = 
+{  _ _  -    -   }  ach fil   la- 
+guge   segment   nme corresponds   
+  language affixes   names  gener- 
+ated  changing  segment    corre- 
+sponding ffixes    lnguge   generted 
+name corresponds   exting file n  file  
+conidered   cndidte prllel document   
+original file 
+25 Filtering 
+   examine  contents   paired 
+files  determine     parallel according 
+ various external  internal features   
+ improve  pairing precision  following 
+methods   implemented   system 
+251 Text Length 
+parallel files   similar file lengths  sim- 
+ple   filter  incorrect pairs   compare 
+ lengths    files      
+set  resonble threshold tht   discrd  
+  pairs ie balance recall  precision 
+ usual difference ratio depends   language 
+pairs   dealing   example chinese- 
+english prllel texts usully hve  lrger - 
+ence ratio  english-french parallel texts  
+filtering threshold    determined empirically 
+  actual observations  chinese-english 
+ difference   50%  lerted 
+252 language   character set 
+  lso obvious tht   files   pir hve 
+     languages  terest  au- 
+matically identifying language  character set  
+ filter   pairs    satisfy  basic 
+criterion  web pages explicitly indicate  
+language   character set    
+information  omitted  authors    
+language identification tool   task 
+silc   lnguge nd encoding identifiction 
+system developed   rali laborory   
+universy  montrel  employs  probbilistic 
+model estimated  tri-grams using  mod- 
+els  system  able  determine   proba- 
+be nguge nd encoding   text (isbee et  
+1997) 
+253 html structure  alignment 
+  strand system (resnik 1998)  candi- 
+date pairs  evaluated  aligning  according 
+  html structures  computing confidence 
+values pairs  assumed   wrong    
+  mismatching markups  low confidence 
+values 
+compring html structures     sound 
+  evaluate candidate pairs  parallel pairs 
+usually  similar html structures   
+ noticed  parallel texts    dif- 
+ferent html structures    reasons   
+  files   created using  html ed- 
+itors  example      english 
+   chinese depending   language 
+handling capability   editors refore cau- 
+tion  required  measuring structure difference 
+numerically 
+parallel text alignment    experimental 
+ measuring  confidence values   align- 
+ment    complicated  example  
+alignment algorithm     trag   
+statistical translation model produces acceptable 
+lignment results     provide  confi- 
+dene value    "onfidently"    eval- 
+uation criterion    moment  criterion  
+   candidate pair evaluation 
+3 generaed  corpus   rans la  ion  
+mode   tra  g  
+  section  describe  results   parallel 
+text mining  translation model training 
+31  corpus 
+using   approach  chinese-english 185 
+candidate sites  searched   domain hk 
+ limited  mining domain  hk  hong 
+kong   bilingul englh-chinese city   
+quality parallel web sites exist     
+  candidate sites  host crawler   
+ thoroughly explore  site  resulting cor- 
+pus contains 14820 pairs  texts including 1172mb 
+chinese texts  1365mb english texts  entire 
+mining process lsted bout  week using length 
+comparison  language identification  refined 
+ precision   corpus   90%  preci- 
+sion  estimated  examining 367 randomly picked 
+pairs 
+32 Statistical Translation Model 
+ approaches  computational lguistics try  
+extract ranslation knowledge  previous trans- 
+lation examples      establishes 
+probabilistic models  parallel corpora based 
+ e   statistical models proposed  brown 
+et al (1993)  basic principle   translation 
+model   following:   corpus  ligned sen- 
+tences   words  co-occur   source  
+trget sentences     likelihood tht  
+ translations      simplest  
+(model 1)  model earns  robability (tls)  
+hvg  word   he rnslion   senence con- 
+tiig  word    iput etece  model 
+ clcultes  sequence  words tht re  
+probble  pper   trnsltion usg  sim- 
+ilr sttisticl model wu (1995) extrcted  lrge- 
+scae engish-chinese  xicon   hkust cor- 
+23  
+< id="00~"> 
+<HTML> <HEAD> 
+<META HTrP-EQUIV="Content-type" 
+CONTENT="text/html; charset--iso-8859-1"> 
+<meta hti'-equiv="content-language" 
+CONTENT="Western"> 
+</> 
+< id="0001"> 
+<title>journal  primary education 1996 
+voi  &2 pp 19-27 </tite> 
+</HEAD> 
+</> 
+< id="0002"> 
+<BODY BACKGROUND="Jgif/pejbgjpg" 
+text="#000(3(" bgclr="#ffffff"> 
+<CENTER> 
+</> 
+< id="0003"> 
+<hi>journal  primary education </hi> 
+</> 
+< id="0004"> 
+<hr> <>voume 6  &2 pp 19-27 ( 
+1996) </> <hr> 
+</> 
+< id="0005"> 
+<h3>principles  redesigning teacher 
+Education </H3> Alan TOM </CENTER> 
+</> 
+< id="0006"> 
+<> <> <> astract </> </> 
+</> 
+< id="0000"> 
+<HTML> <HEAD> 
+<meta 'itp-equw="content-type" 
+CONTENT="text/html; charset=bigS"> 
+<META HTTP-EQUIV="Content-language" 
+CONTENT="zh"> 
+<> 
+< id="0001"> 
+<title> journal  primary education 1996 
+vo  &2 page 19-27 </tite> 
+</HEAD> 
+</> 
+< id="0002"> 
+<BODY BACKGROUND="Jgif/pejbgjpg" 
+text="#000000" bgcolor="#ffffff"> < 
+HREF="/erdpej/b2g__pejphtml?URL=%2fen%2fp 
+ej%2f0601%2f0601019chtm"> 
+<IMG SRC="/en/gif/kangif" ALT="~"  
+bode=0 lign= ight> </> <cente> 
+</> 
+< id="0003"> 
+<h2>~ ~ 11i ~ </h2> 
+</> 
+< id="0004"> 
+<> (~:~-fv-?jljl) ~-\\]'\xa2~ 
+</> 
+< id="0005"> 
+~ 19-27\\]~ <-1r> 
+</> 
+figure 2:  alignment example using pure length-based method 
+pus   built manually     prob- 
+abilistic translation model     clir 
+ requirement   translati model   
+ demanding:    absolutely   
+ word  wih  (ls ) lwys   rue rns- 
+laion     ill ueful    rongly relaed 
+   exmple lthough "rilwy"    true 
+translation  "tra" ( french)   highly useful 
+ clude "rilwy"   trnslti   query  
+"trin" th     resons     
+ controlled prllel corpus cn    trin  
+translation model  clir 
+33 Parallel Text Al ignment 
+fore  mined documents   aligned  par- 
+llel sentences  rw texts hve  undergo  se- 
+ries   preprocessing    extent  
+language dependent  example  major opera- 
+tis   chinese-english corpus include encod- 
+ing scheme transmation ( chinese) sentence 
+level segmentation parallel text alignment Chinese 
+word segmentation (nie et al 1999)  english 
+expression extraction 
+ parallel b pages  collected  vari- 
+ous sites       quality   
+highly parallel  easy  align     
+ noisy aligning english-chinese parallel texts 
+   difficult     - 
+ences   syntactic structures  writg sys- 
+tems    lnguges    lignment 
+techniques   proposed varying  statis- 
+tical methods (brown et al 1991; gale  church 
+1991)  lexical methods (kay  rsscheisen 1993; 
+chen 1993)  method  adopted    
+simard et al (1992)   considers  
+length similarity  cognateness  alignment cri- 
+teria  method   robust   able 
+ deal  noise  pure length-based methods 
+cognates  identical sequences  characters  cor- 
+respondg words   languages   com- 
+monly found  english  french     
+english-chinese alignment     cog- 
+nates shared    languages   html 
+markup   texts    cognates - 
+cause  html structures  parallel pages  nor- 
+mally similar  markup  found   helpful 
+ alignment 
+ illustrate  markup  help   align- 
+ment  align   pair    pure 
+length-based method  gale & church (fig 2) 
+  method  simard et al (fig 3)   
+  observe   figures    texts  
+24
+< id="0000"> 
+<HTML> <HEAD> 
+<META HTTP-EQUIV="Content-type" 
+CONTENT="text/html; charset=iso-8859-1 "> 
+<META HTTP-EQUIV="Content-language" 
+CONTENT="Westem"> 
+</> 
+< id="0001"> 
+<title>journal  primary education 1996 
+vo  &2 pp 19-27 </tite> 
+</HEAD> 
+</> 
+< id="0002"> 
+<BODY BACKGROUND=-" Jgif/pejbgjpg" 
+TEXT="#000000" BGCOLOR="#ffffff"> 
+<CENTER> 
+</> 
+< id="0003"> 
+< 1 >journal  primary education </ 1 > 
+<> 
+< id="0004"> 
+<hr> <>voume 6no &2 pp 19-27 ( 
+1996) </> <hr> 
+</$> 
+< id="0000"> 
+<HTML> <HEAD> 
+<META HTrP-EQUIV="Content-type" 
+CONTENT="text/html; charset=big5"> 
+<meta 'ltp-equiv="content-language" 
+CONTENT="zh"> 
+<> 
+< id="0001"> 
+:<title> journal  primary education 1996 
+vo  &2 page 19-27 </tite> 
+</HEAD> 
+</> 
+< id="0002"> 
+<BODY BACKGROUND=-" Jgiffpejbgjpg" 
+text="#o00000" bgcolor="#fffffff> < 
+HREF="/ergpej/b2g_pejphtml?URL=%2fen%2fp 
+ej %2f0601%2 f0601019chtm"> 
+<img src="/erdgif/angif" alt="~" 
+bode={) lign= ight> </> <cehteil~ 
+</> 
+< id="0003"> 
+<h2>~ ~ ~ ~\\[1</h2> 
+</> 
+< id="0004"> 
+<hr> (~~-~\xa2-#cjl~) -~\xa2~ 
+</> 
+< id="0005"> 
+~ $ ~  19-27 \\]~ <HR> 
+<\\]> 
+< id="0005"> < id="0006"> 
+<h3>principles  redesigning teacher <h3>~ ~4vt ~'~ ~ ~ </h3> alan tom 
+Education </H3> Alan TOM </CENTER> </CENTER> 
+<> <> 
+< id="0006"> < id="0007"> 
+<> <> <> astract </> </> <> <> <> ~4\\[- </> </> <> 
+</> </> 
+figure 3:  alignment example considering cognates 
+divided  sentences  sentences  marked  
+< id="xxxx">  </>  note   determine 
+sentences    periods    means  
+HTML markup 
+  notice    difficult  align sen- 
+tences 0002  sentence   chese page  
+    counterpart   english page 
+  additional information (font)  added 
+ length-based method  tends   sen- 
+tence 0002 0003  0004   english page  
+ translation  sentence 0002   chese page 
+(fig 2)   wrong th   provocated 
+  following incorrect alignments    
+  fig 3  cognate method     
+ mistake    noise  sentence 0002 
+despite ir  length difference   0002 
+entence re till ligned   1-1 pir becue  
+sentences   followg 4 alignments (0003 - 0003; 
+0004 - 0004 0005; 0005 - 0006; 0006 - 0007)  
+ similar html markups      
+program      alignments 
+beside html markups  criteria   
+ incorporated  example    helpful 
+ consider strong correspondence  tween  
+english  chese words   (wu 1994)  
+hope  implement  correspondences   fu- 
+ture research 
+34 Lex icon  Eva luat ion  
+ evaluate  precision   english-chinese 
+translati model trained   b corpus  
+examed  sample lexicons  200 words   
+ direction  200 words   lexicon  
+randomly selected   training source  ex- 
+amined   probable translation   word 
+ chinese-english lexicon ws found  hve  
+precision  77%  engish-chinese  xicon  
+  precision  815% prt   lexicons 
+re shown  ig 4   /   dices wheher  
+translation  true  false 
+ precisions    reasonably  
+   comparable   obtained  wu 
+(1994) using  mnul chinese-english prllel cor- 
+pus 
+35 eect      tpwrd  
+  found  stop-lists  significant effect 
+  trnslti model stop-lt   set   
+ frequent words   remove   train- 
+2fi 
+English word 
+     
+access 
+adaptation 
+add 
+adopt 
+agent 
+agree 
+airline 
+amendment 
+ appliance 
+apply 
+attendance 
+auditor 
+- average 
+base_on 
+/ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Translmion Probability Chinese word 
+~'~- 0201472 ~  :  
+~"  0071705 "~"  
+~~~ 0179633 jlll~ 
+0317435 
+~ 0231637 ~~ 
+1~tA~ 0224902 4J~'~ 
+036569 
+0344001 
+0367518 
+~ 4~ 0136319 
+~~ 019448 ~  
+~'1~ 0171769 ~- JJ~ 
+*~ 015011 -~-~ 
+~- ~ 0467646 * *~ 
+0107304 
+figure 4:    evaluation lexicons 
+/ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Translation Probability 
+office 0375868 
+protection 0343071 
+report 0358592 
+prepare 0189513 
+oca   0421837 
+follow 0023685 
+standard 0445453 
+adu    0044959 
+inadequate 0093012 
+ 0313676 
+financial 016608 
+visit 0309642 
+bill 0401997 
+vehicle 0467034 
+saving 0176695 
+figur 5: fft  stop lists  - translation 
+g source   words exist   align- 
+ments  statistical model  derive correct 
+translations    importantly  ex- 
+istence greatly affects  accuracy   transla- 
+tions      translations   
+words 
+ priori    tht   english nd 
+chinese sp-lists hould  applied  eliminate  
+noise caused   interestingly   ob- 
+servation  analysis  concluded    
+precision   stop-list   target language 
+  applied   model trag 
+  explain   stop-list   target lan- 
+guage    applied   left   fig 5 
+  hese word  exists    alignments 
+ th nglish word  mor   othr chi- 
+nese words      probable translation 
+    thir frqunt apparanc som 
+chese spwords    chances    
+th sam alignmnts   th probability  th 
+translation  --+   thn rdud (mayb vn lss 
+    incorrect ones) th   reason 
+  english words  translated  "~ '  () 
+  translation model trained  using  
+Chinese stop-list 
+  found       remove 
+ stopwords   source language    il- 
+lustrated      fig 5  existence  
+ english stopwords   effects   proba- 
+bility  th translation  -~ : 
+1     found toger   chi- 
+nese word  owing   expetation maxi- 
+mization algorithm th probability   -~  
+   reduced 
+2    hnd re   greter likelihood 
+ english stopwords   found  
+   frequent chinese words  
+   term "chese frequent words" - 
+sted  "chinese stopwords" becuse ven   
+stop-lt  applied    remain  
+common words     effect   
+stopwords  coexistence ofenglish  chi- 
+nese frequent words reduces  probability  
+ chinese frequent words   translations 
+    rais th probability   -+  
+  effect  found    signifi- 
+cant      model trained  
+ english stopwords   precision   
+model trained   english stopwords   
+correct ranslations    models  model 
+26
+Mono-Lingual IR 
+Translation Model 
+Dictionary 
+- lir 
+03861 
+01504 (390%mono) 
+01530 (396%mono) 
+02583 (669%mono) 
+- lir 
+03976 
+01841 (463%mono) 
+01427 (359%mono) 
+02232 (561%mono) 
+Table 1: CLIR results 
+trained  considering  english stopwords 
+  probabilities 
+4 eng   sh -ch nese  c   esu  ts  
+ final goal   test  performance   
+translati models trained   web parallel cor- 
+pora  clir  condcted clir experiments  - 
+ing  smart ir system 
+41 Results  
+th nglish tst orpus ( - lir)  th 
+ap corpus   trec6  trec7  short 
+english queries  translated manually  chi- 
+nese  n translated   english   
+translation model  chinese test corpus   
+    trec5  trec6 chese track 
+ contains  chinese queries   english 
+translations 
+ experiments    corpora produced 
+ results hown  tab 1  precision  mono- 
+lgual ir  givn  bnhmark   -  
+- lir th translation modl ahivd  
+40%  monolingual precision  compare   
+dictionry-bsed pproch  employed  chinese- 
+English dictionary CEDICT (Denisowski 1999) 
+  english-chinese online ictionary (ony- 
+mous 1999a)  translate queries   word 
+  source query    translations 
+   dictionary  cluded   translated 
+query  chinese-english dictionary   
+  performace   translation model  
+ english-chinese dictionary  lower precision 
+    translation model 
+  tried  combine  translations   
+ translation model   dictionary   
+-  - lir signifiant improvmnts wr 
+achieved ( shown  tab 1)  improvements 
+   translations    translation 
+model   dictionary complement   
+  ir purposes  translation model  
+  exact ranslations orincorrect  related 
+words    words   correct  
+ sense  translation    possibl re- 
+lated   subject   query   helpful 
+ ir purposes  dictionary-based approach ex- 
+pnds  query  nother dimension   
+   translations   word including 
+   missed   translation model 
+42 Comparison Wi th  MT Systems 
+ dvntge   prllel text-bsed trnsltion 
+model     easier  build th  mt system 
+    examined  clir performance 
+  translation model   compare  wh 
+ existing mt systems  systems  tested 
+ - lir 
+421 Sunshine WebTran Server 
+using  sunshine webtran server (anonymous 
+1999b)  online engiish-chinese mt system  
+trslate  54 english queries  obtained  
+average precion  02001   503%   
+mono-lingual precion  precion    
+ obtained using  translation model (01804) 
+  dictionary (01427)   lower   
+precison obtained using   (02232) 
+422 Transperfect 
+kwok (1999) investigated  clir performance 
+ english-chinese mt software called trsper- 
+fect using   trec chinese collection   
+   study usg  mt software  
+kwok achieved 56%  monolingual precision  
+precion  improved  62%  refining  trans- 
+ltion   dictionry kwok lso dopted pre- 
+translation query expansion   improved 
+ precison  70%   monolingual results 
+  as th  - lir prison usg th 
+translation model ( dictionary)  561%   
+lower   kwok achieved using transperfect 
+  difference    
+43    
+ chinese-english trnsltion model hs  fx 
+lower clir performance     english- 
+french model established using   method 
+(nie et al 1999)  principal reason  th   
+  english  chinese    - 
+ent  english  french   surfaced 
+  phases     text alignment  
+query translation below  list   fac- 
+tors affecting CLIR precision 
+\x95  web-collected corpus  noy    dif- 
+ficul o align english-chinese  xs he align- 
+ment method  employed  performed  
+poorly   english-french alignment  
+  leads  poorer performance   trans- 
+ltion model  generl  observe   
+27 
+variability  chese-english translations  
+ english-french translations 
+\x95  - lir  quris   lan- 
+guages  provided  english queries  
+ strictly translated   original chi- 
+nese ones  exmple  jg ~ (humn  
+situation)  translated  human  - 
+sue   expect  translation model 
+ translate issue   ~ (situation) 
+\x95  training source   clir collections 
+   domains  web cor- 
+pus  retrieved   parallel sites  hong 
+kong   chinese collection   peo- 
+ple' daily  xinhua new agency   
+published  maland cha   result 
+  erms   ~$ $ (- 
+favored-naton)  --- !! ~ ~ (-naton-- 
+systems)   collection      
+model 
+5 Summary  
+ goal  his   o invesigae  feasibil- 
+ity  using  sttisticl trnslti model trined  
+ web-collected corpus   english-chinese clir 
+  paper   described  algorithm  
+implementation    parallel text mining 
+translation model training   results  ob- 
+taed  clir experiments    
+remains      conclude    pos- 
+sible  umticlly construct  chinese-english 
+parallel corpus   web  current system 
+  easily adapted   language pairs de- 
+spite  noisy nature   corpus    
+difference   languages  evaluation lexicons 
+generated   translation model produced accept- 
+able precision   current clir results  
+  encouraging   english-french clir 
+   improved  various    im- 
+proving  alignment method  adapting cognate 
+definitions  html mrkup incorporting  lexi- 
+con / removing  common function wds 
+ translated queries 
+ hope   able  demonstrate   near 
+future tht  fine-tuned english-chinese trnsltion 
+model  provide query translations  clir  
+  quality produced  mt systems 
+Re ferences  
+Anonymous 1999a Sunrainnet - English-Chinese 
+dictionary http://sunrainnet/r_ecdict _ehtm 
+Anonymous 1999b Sunshine WebTran server 
+http://wwwreadworldcom/translatehtm 
+  bown   ai    mee 1991 
+aligng sentences  parallel corpora  29th 
+annual meeting   association  computa- 
+tional Linguistics pages 89-94 Berkeley Calif 
+  brown   dell ietr   dell ietr 
+   mece 1993  mamatics  ma- 
+chine translation: Parameter estimation Compu- 
+tational Linguistics 19:263-311 
+  chen 1993 aligng entence  bilgual 
+corpora usg lexical formation  proceedgs 
+  31th annual meeting   association  
+Computational Linguistics pages 9-16 Colum- 
+bus Ohio 
+Paul Denisowski 1999 Cedict (chinese-english dic- 
+tionary) project http://wwwmindspringcom/ 
+paul_denisowski/cedicthtml 
+illim  gle nd kenneth  church 1991  
+program  aligng sentences  bilgual cor- 
+pora  proceedgs   29th annual meetg 
+  association  computational linguistics 
+pages 177-184 Berkeley Calif 
+ isabelle  foster   lamondon 
+1997 silc: un syst~ 'ientification 
+de la langue et du codage http://www- 
+raliiroumontrealca/ProjetSILCenhtml 
+ kay   rsscheisen 1993 text-translation 
+alignment Computational Linguistics 19:121- 
+142 
+  wo 1999 engish-chinese cross-anguage 
+retrievl bsed   trnslti pckge  - 
+shop  machine translation  cross language 
+Information Retrieval Machine Translation Sum- 
+mit VII Singapore 
+ lanlais  foster   laalme 2000 unit 
+completion   computer-ided trnsltion typ- 
+g system  applied natural language pro- 
+cessing Conference (ANLP) Seattle Washington 
+ 
+jianyun nie michel simard pierre isabelle  
+Richard Durand 1999 Cross-language informa- 
+ti retrieval based  parallel texts  auto- 
+matic mg parallel texts   web  
+ACM SIGIR '99 pages 74-81 August 
+philip resnik 1998 prllel stnds:  preliminry 
+nvestgan   mnng  web  blngual 
+text  amta '98 october 
+michel simard george  oster  pierre - 
+abelle 1992 using cognates  align sentences 
+ bilgual corpora  proceedgs  tmi-92 
+Montreal Quebec 
+deki wu 1994 ligning  prllel english- 
+chinese corpus statistically  lexical criteria 
+ acl-9$: 32nd annual meetg   assoc 
+ computational linguistics pages 80-87 las 
+Cruces NM June 
+dekai wu 1995 -scale automatic extraction 
+  engish-chinese  xicon machine trsa- 
+tion 9(3-4):285-313 
+28 
+prtsld:  dilogue-bsed system  identifying prts  medicl 
+Systems 
+amit baa tomek strzalkowski   bowden wise 
+Information Technology Laboratory 
+ge corporate research  development 
+1 Research Circle 
+Niskayuna USA NY 12309 
+{ bagga strzalkowski wisegb } @crdgecom 
+Abstract 
+ pper describes  system tht 
+provides customer service  allowing 
+users  retrieve identification umbers  
+  medical systems using spoken 
+natural language dialogue  paper  
+  evaluation   system 
+    system successfully 
+retrieves  identification   
+approximately 80%    
+Introduction 
+currently people deal  customer service 
+centers    phe    wld 
+wide web   regulr bsis  service 
+centers upport  wide vriety  tsks including 
+checking  blnce   bnk   credit crd 
+accunt transferring mney  ne accunt  
+ buying airline ticket  filing ' 
+income tax returns    customer 
+service centers  interactive voice response 
+(ivr) systems   frt-  determining 
+ uer'   providing  lit  option tht 
+ user  choose   n routing  
+call appropriately  ivrs  gar 
+eential information   uer' bank 
+account  social security  etc 
+ - support  customer service 
+centers   specialized computer systems 
+(exmple:  system tht retrieves  ccount 
+blnce   dtbe)     ce 
+human operators 
+  ivr systems  unwieldy 
+ ue   uer'  re  covered  
+ options provided   system forcing  
+user  hit 0  trnsfer   humn operr  
+addition frequent users  memorize  
+sequence  options    m  
+desired formation   change  
+ options greatly inconveniences se users 
+moreover   users   hit 0  
+spek   live operr becuse  prefer  
+del   humn insted   mchine 
+finally  customer service providers continue 
+ rapidly add functionality   ivr 
+systems  size  complexity  se 
+systems contues  grow proportionally  
+ popular systems   ivr system  
+provides customer service   internal 
+revenue service (irs)  user  initially 
+bombarded  10  options   
+option leding  sub-menus offering   3- 
+5 optis     total   nodes 
+  tree correspondg   irs' ivr system 
+ que  (approximately 100)   
+extremely complex   
+ customer service providers  
+started   advantage   recent advances 
+ speech recognition technology  
+   ivr systems  allow users   
+ option  (1 2 3       etc) instead  
+pressg  correspondg button  addition 
+ providers hve tken   step   
+llowing users  sy  keywd   phrse 
+  list  keywds nd/ phrses  
+example & he  disance company 
+provides ir users  following options: 
+"please  inmati  inmati  
+plcing  cll credit  requesting credit  
+operar  speak   operar" 
+   improved speech 
+recognition technology   research   
+natural anguage dialogue    decade 
+ exists tremendous potential  enhancg 
+29 
+ customer service centers  allowing users 
+ conduct   nturl humn- dilogue 
+  umted system  provide  
+cutomer-friendly  tem  thi paper  
+describe  system tht  nturl lnguge 
+dilogue  provide cusmer service   
+medical domain  system allows field 
+engineers  call  obtain identification 
+    medical systems using 
+natural language dialogue   describe 
+   previously  usg natural 
+language dialogue  customer service 
+applications     architecture 
+  system    description  ech  
+ key components finally  conclude  
+providing results   evaluation   
+system 
+1 previous  
+ mentioned earlier  customer service 
+centers  allow users     option 
+   keywd   list  
+options/descriptions     
+  utomtes prt   customer service 
+center using natural language dialogue    
+ chu-carroll  carpenter (1999)  
+system described      front-  
+ bnk' cutomer ervice center  route cll 
+ extrcting key phrses   user utternce 
+   statistically comparing  phrases 
+ phrses extrcted  utternces   trg 
+corpus consisting  pre-recorded calls  
+ routing ws    humn  cll  
+routed   destination   utterance  
+ training corpus    "similar"   
+current utterance  occasi  system  
+interact   uer  clarify  uer' requet 
+ sking  question  exmple   user 
+wishes  reach  loan department  system 
+ sk   lo    utomobile   
+home  related   (georgila et al 
+1998) 
+   aw     
+  speech recognition companies  
+nuance (wwwnuancecom)  speechworks 
+(wwwspeechworkscom)     
+providing  natural anguage dialogue-based 
+customer service    aw   
+conference  journal publications   
+ magazine articles  mention  
+  (rosen 1999; rossheim 1999; 
+greenemeier 1999 ; meisel 1999)  addition 
+  tried   demo  nunce' ytem 
+ found tht  systems hd   ivrish 
+feel    example     
+transfer $50  ne accunt    
+system     account   
+money  coming  n  account hat 
+ money     finally  amount 
+  trnsferred   user   
+ "   transfer $50   savngs 
+accunt   checking accunt"    
+system conduct  transaction 
+ addition    mentioned  
+re    classic projects   
+  natural language dialogue  
+trains/trips project  rochester (allen et 
+al 1989 1995 1996) duke' circuit-fixit- 
+shoppe  pascal tutoring system (biermann 
+et al 1997; 1995) etc   circuit-fixit- 
+shoppe system helps users fix  circuit  
+dialogue   system  trips   
+trains projects allow users  plan  
+itinerarie  dialogue duke' pacal 
+tutorg system helps students   troductory 
+programming class debug  programs  
+allowing   analyze  syntax errors  
+additial informati   error  learn  
+correct syntax   systems  
+  successful   detailed models 
+  domain  ree     
+diverse applications uch   ones required 
+ customer service centers  related  
+ dialogue include (carberry 1990; grosz  
+Sidner 1986; Reichman 1981) 
+2 prtsld:  system  identifiction 
+   medical systems 
+initially  re approached   medical 
+systems busess   company  help  
+reducing    calls handled  human 
+operors  ir call center  alysis   
+types  customer service provided   call 
+center  tht  lrge volume  clls 
+handled   operators  placed  field 
+engineers requesting identification umbers  
+  various medical systems  id 
+        
+corresponding  using  automated ivr 
+system refore  system   built 
+30 
+Figure 1 PartslD System Architecture 
+ 
+ parser  
+~ User 
+Dia logue  Manager  
+     
+pros entetion 
+helps automate  percentage   calls 
+ llowing  engineer  describe  prt using 
+natural language  rest   section 
+describes  system  detail 
+21 Data 
+ database     system   
+       operors   call 
+center  database consists    
+common    built   operators 
+mselves   data contaed   
+database   clean     types 
+ errors including mis-spellings   - 
+standard abbreviations     
+abbreviations    word etc 
+ database consists  approximately 
+7000       databae 
+contins  identifiction umber  description 
+  product (mache type)      
+ descriptions consist  approximately 
+60000 unique words   approximately 
+3000  words    -standard 
+abbreviations   unique   medical 
+domain (example: collimator) 
+due    size   database  
+  attempt  clean  data   
+ build  data structures based   
+database      system  
+primary data structures built   inverted 
+hash tables corresponding   product   
+ description fields   database  
+inverted hh tables  built  follows: 
+1)  product   description field 
+ split  words 
+2) stop-words (words containing  
+iformtio :    etc)  
+filtered 
+3)  remaining ord  inserted   
+index   appropriate hash table  
+ identification     
+  value corresponding   
+index 
+theree   -stop-word word   
+describing  prt  hsh tble contins  list  
+    descriptions contained  
+word similarly  products hash table 
+contins  list  ll prts corresponding  ech 
+product word 
+22 System Architecture 
+ architecture   system  shown  
+figure 1  system ws designed   mnner 
+     easily ported   
+application    minimal effort  
+ providing  domain-specific knowledge 
+regarding   application refore  
+decided  abstract   domain-specific 
+information  self-contained modules  
+keeping   modules completely 
+independent  domain-specific modules  
+   dark shaded boxes  fgure  
+ remainder   section discusses   
+ modules hown   system architecture 
+221  speech recognition system (asr) 
+ custmer service centers  meant   
+   vriety  users    user- 
+dependent speech recognition system  
+31 
+addiion   sysem   resric  
+mnner    user sked  service  
+speech recognition system    
+grmmr-bsed     generl 
+purpose dictation engine   system  
+dictation ytem ued wa lernout & haupie' 
+voicexpress ystem (wwwlhscom)  
+ system   purpose   provide 
+   set  keywords  phrases   
+commonly    doma reby enablg 
+   recognize  domain-specific 
+keywords  phrases  keywords  
+phrases   simply  list  descriptions 
+ product names correspondg     
+ database    noted   set  
+domain-specific keywords  phrases  
+provided   peech recognition ytem   
+text document   words  trag  
+    humn speking  keywords nd 
+phrases   speech recognition system  
+addition  speech recognition system   
+ perfect  recognition rates hover 
+ 50%   system  additional 
+difficulty  identifyg product names  
+re   words  found   dictionry 
+(examples: 3MlaserCam 8000BUCKY etc) 
+222 parser   lexicon 
+he parer  doman-drven  he ene ha  
+ domain-dependent information produced  
+ lexicon  look  mtion   user 
+utterance   useful   current doma 
+    attempt  understand  
+ user utterance   robust   
+handle ungrammatical sentences hort phrases 
+ sentences  contain mis-recognized text 
+ lexicon  addition  providg 
+domain-dependent keywords  phrases   
+parser  provides  semantic knowledge 
+associated   keyword  phrase 
+ree   content word   verted 
+hash tables  lexicon contains entries  
+help  system determine wher  word  
+   prt description   product nme  
+addition  lexicon  provides  semantic 
+knowledge associated   pre-specified 
+actions       user  
+"operar"  allows  user  transfer  
+ operat  "stop"  "quit"  allow 
+ user  quit  system  sample ntries 
+: 
+collimator => (description_word collimator) 
+camera => (product_word camera) 
+operator => (user action operator) 
+etc 
+ prser scns  user utternce nd 
+return  output  lit  emntic tuple 
+associated   keyword/phrase contained 
+  utterance   maly terested  "key 
+words" (words   contaed  product  
+ descriptions user action words etc)   
+ignores    words   user utterance 
+ prser lso returns  specil tuple contining 
+ entire input string      
+  context-based parser  sub-string 
+matchg specially     dm  
+sked  specific question   user nd  
+expecting  prticulr   response 
+223  filler  template modules 
+ filler takes  input  set  tuples 
+generated   parser  attempts  check 
+ templates contaed   templates module 
+usg se tuples  set  templates   
+templates module contains   remaining 
+domain-specific knowledge required   
+system  template   internal 
+representtion   prt   dtbse  
+contains     id  description  
+ product  contas   addion re 
+  additional templates corresponding 
+pre-specified user actions  "operator"  
+"quit"  smple templte follows: 
+tl__I = ( 
+'product' = > 'SFD' 
+'product__ids' = > 2229005" 
+'product_descriptions' => 'IR RECEIVER PC 
+BOARD CI104 BISTABLE MEMORY') 
+  tuple input   parser  
+filler checks   fields  correspond  
+ tuple  example   filler   input 
+(description_word collimator)  checks   
+description fields   templates containing 
+collimtor   word   field  templte  
+checked f iff      fields  
+checked   addition  filler  
+mintins  list  ll description nd product 
+words passed   tuples (ie se words 
+32
+  uttered   user) se  lists 
+ subsequently passed   dialogue 
+manager 
+  filler   appear   
+ helpful   current application domain 
+   importt    archecture  
+ application domains  example  
+curret prtsld system   descedt   
+earlier system  allowed users  process 
+financial transactions   filler  
+strumental  helpg  dialogue manager 
+determine  type  transaction  carried 
+   user (bagga et al 2000) 
+224  dialogue manager (dm) 
+ dm receives  input   filler  set 
+ templates   checked f  addition 
+  receives  lists containing  list  
+description words  product word uttered  
+ user  dm proceeds using  following 
+algorithm: 
+1)   checks  set  checked f 
+templates input   filler  re  
+exactly  template   set  dm  
+ user  confirm     template 
+corresponds   receipt   
+confirmation   user  returns  
+identification       user 
+2) otherwise   description word uttered 
+  user  dm looks   set   
+( templates) containing  wd   
+descriptions inverted hash table   
+computes  intersection  se sets  
+ intersection  empty  dm computes 
+ union  se sets  proceeds treating 
+ union   intersection 
+3)   intersection obtained  (2)  
+contains exactly  template  dm  
+ user  confirm   corresponding 
+ template   (1)  
+4) orwise  dm looks   set  
+product words uttered   user   set 
+ empty  dm queries  user   
+product nme   dm  expecting 
+product name   input provided   
+user  handled   context-based parser 
+  product names consist  - 
+standard words consisting  alpha-numeric 
+characters (examples: AMX3 
+8000bucky etc)  recognition quality 
+  poor refore  context-based 
+parser anks  input received   user 
+using  sub-string mtching lgorithm tht 
+ character-based unigram  bigram 
+counts (details  provided    
+section)  sub-string matching algorithm 
+greatly enhances  performance   
+system ( shown   sample dialogue 
+below) 
+5)   set  product wds  -empty  
+  dm  successfully queried  user 
+  product nme  extrcts  set  
+ (templates) containing  product 
+word   product words inverted hash 
+table   computes  intersection  
+se sets   intersection set  
+description words obtained  (2)  
+ resulting intersection   joint product 
+ descrpton  tersecton 
+6)   joint intersection  exactly  
+template  dm proceeds   (1)  
+alternatively     templates  
+ joint intersection    4  dm 
+lists   corresponding toeach  se 
+   user  confirm  correct  
+7)  re    4 templates   
+joint intersection  dm ranks  
+templates based  word overlap   
+description words uttered   user   
+  resultng top-ranked templates 
+  4  dm proceeds    
+ half  (6)  
+8)   jot tersection  empty    
+highly unlikely      
+ 4 top-ranked templates  (7)  dm 
+  user  enter additional 
+disambiguating information 
+ goal   dm   he     
+(template) desired   user     
+determine    set  templates input  
+   filler     robust   deal 
+ poor recognition quality inadequate 
+information input   user  ambiguous 
+data refore  dm  designed  handle 
+ issues  example description words 
+  mis-recognized   description 
+words usually cause  intersection   sets 
+  corresponding   words   
+empty  dm   cse tkes  union  
+ sets   corresponding   description 
+333333
+words reby ensuring   template 
+correspondg  desired     union 
+ dm navigates  space  possibilities 
+  analyzing  intersection   sets  
+ corresponding   description words 
+uttered   user   unique  emerges 
+ dm n checks     user  
+provided  information   product hat 
+          product  
+mentioned   user  dm queries  user 
+  product name  th  obtained  
+dm  checks     unique prt 
+corresponds   product name    
+description provided   user   unique 
+ emerges n  dm     
+ user  re-enter   description 
+alternatively      corresponds 
+  specified product   description 
+n  dm ranks   based   
+  words uttered   user 
+obviously sce  dm   cse   
+heuristic    user  confirm    
+ranks       ( 
+  4)     rank n  
+dm explicitly lists se     user 
+ specify  desired     noted 
+  dm   ensure   information 
+receives  actually   user meant th  
+especially true   dm  heuristics  
+sub-strg matches (   ce  product 
+names) refore  dm occasionally  
+ user  confirm input   received 
+225  sub-string matching algorithm 
+  dilogue mnger  expecting  
+ type  input (examples : product names 
+yes/ responses)   user  user 
+response  processed   context-based 
+parser   type  input    
+context-bsed prser   sub-string mtching 
+algorithm   character-based unigram  
+bigram counts  match  user input   
+expectation   dialogue manager refore 
+ ub-tring mtching module tke  input  
+user utternce string    list  
+expected responses   ranks  list  
+expected responses based   user 
+response listed below   details   
+algorithm : 
+1)  algorithm  concatenates  words 
+  user utterance    string 
+th     speech 
+recognition system  breaks   
+utternce  words    single 
+word     example  
+product name amxl l0    broken  
+  string 'amex 110' 
+2)   algorithm goes   string 
+formed  (1)  compares  character  
+character   list  expected responses 
+ assigns     common 
+character refore  expected response 
+'amx3'      utterance 
+'Amex110' 
+3)  algorithm n compares  user 
+utterance   list  expected responses 
+using 2 chrcers (bigrms)   ime  
+assigns 2    bigram match  
+ example shown  (2) re   
+bigram matches:      
+utterce strts   '' ( previous 
+character  th    null character) 
+     bigram 'am' 
+4)  algorithm  compares  length  
+ user utterance string   expected 
+response   length    strings  
+  n  assigns 2    
+expected response 
+5) finally  algorithm calculates   
+ unique characters   expected 
+response   user utterance string  
+se characters    n  assigns 
+4    expected response 
+ expected response     
+          
+  expected responses    
+   n  system   user 
+ confh'  correct  
+    evaluated  sub- 
+string mtching lgorithm independently  brief 
+evaluation   context   system resulted 
+  90% accuracy 
+226  presentation module 
+ presentation module      
+ modes:   phone    
+web thi module tke  input  tring 
+generated   question-generation module 
+   strg   user   
+appropriate mode  communication   
+speech opti   system     
+speech-based output  generated using lernout 
+"~ld 34
+ haupie' realpeak text--peech ytem 
+  system currently    
+modes  communication simultaneously  
+plan  corporate  feature sometime   
+future 
+22 7 robustness    system 
+ wh  dialogue system   extremely 
+   system   robust  
+system   following  features  
+  extremely robust: 
+1)  user     moment 
+ operar  trsfer   
+operar quit~sp  exit  
+~restart  start afresh 
+2)  expecting  response   
+user   system   receive  
+expected input  repeats  question 
+  twice  transferring 
+control   operar 
+3 Sample Dialogues 
+ section  examples   sample 
+dialogues  occur   testing   
+ytem  ytem' repone  indicated  
+">"  er' repone  ">"   
+recognition   uer' repone  ">" 
+> welcome   partld center pleae tell 
+       id  
+>    d   pcb control 
+>       pcb home thrown 
+>  product    thi ? 
+> compax 40e 
+> hom fx   o0  
+>  compax 40e  product name   
+? 
+> yes 
+> gas 
+>     id  pcb diplay id  
+ pcb control? 
+>    
+>   home 
+>     id  pcb control ued  
+product COMPAX 40E? 
+> yes 
+> yes 
+>  id  pcb control ued  product 
+compax 40e  2168983   wan  exit 
+  ind  id    ? 
+> look p   
+> welcome   partld center pleae tell 
+       id  
+>   cable data  cradle 2m  
+>   cable date   cradle   
+loan 
+>    thi prt   ngixm2004 
+  fm ? 
+> afm 
+>  fn 
+>  afm  product name   aid? 
+> yes 
+> yes 
+>     id  cable data  
+cradle 2m  ? 
+> yes 
+> yes 
+>  id   cable data  cradle 2m  
+  product afm  45438628   wan 
+ exit   ind  id   ? 
+> look p   
+4 evaluation  results 
+ goal   evaluation   ensure   
+system helped  user successfully identify prts 
+irrespective   performance   speech 
+recognition enge   user   words 
+      system  robust 
+  conduct trnsctions   diverse 
+mix  users  tested  system  4 
+ users   whom  foreign accents 
+  user  randomly selected 20  
+  database  results  summarized 
+ table 1 
+se results    system  
+ successful  handlg requests  users 
+  vriety  ccents chieving vrying 
+recognition rates    80  tested 
+ wice   uer feel ha /  o 
+trsfer   operar  system successfully 
+retrieved  identification umbers  79%  
+ prts  trnsferring 19%   cses   
+human operator   extremely bad 
+:$5 
+user  
+successfully 
+identified 
+15 
+Calls system 
+transfers  
+operator 
+3 
+Calls user 
+transfers  
+operator 
+2 
+System 
+prompts  
+call 
+37 
+Relevant words 
+recognized  
+ 
+25 
+18 2 0 3 235 
+13 7 0 25 165 
+17 3 0 29 27 
+table 1: summary  results 
+recogniti  re plnning  cducting 
+ elborte test   lrger set  users 
+Conclusions 
+  pper  hve described  robust system 
+tht provides customer service   medicl 
+ application  preliminary results  
+extremely encouraging   system  
+able  successfully process approximately 80% 
+  requests  users  diverse accents 
+Acknowledgements 
+ wish  thank  ge medical systems team 
+ todd reinke jim tierney  lisa 
+naughton  providing support  funding  
+ project  addition   wish  thank 
+dong hsu  lernout  hauspie   help 
+  asr   text--speech systems 
+finally  wish  thank  information 
+technology laboratory  ge crd  
+providing additional funding   project 
+References 
+en   et  (1995)  trins proect:  
+cse study  buildg  converstionl  nng 
+agent journal  experimental nd theoretical ai 
+(7) 7-48 
+alln   millr  ; ringr  ;  
+sikorski  (1996)  robus sysem  nurl 
+spoken dialogue 34th annual meeting   
+ACL Santa Cruz 62-70 
+b  sein   nd srzlkowski  (2000) 
+fidelityxpress:  multi-modl system  
+finncil trnsctions proceedings   6 ~ 
+cference  ctent-based multimedia 
+Information Access (RIAO'00) 
+biemann aw; oman ; ubin ;  
+heidlage jr (1985) natural language  
+dicrete peech   mode  humn  mchine 
+communication communication   acm 
+18(6): 628-636 
+berann alan ; gunn curry ; fulkerson : 
+keim ga; liang ; melamed dm;  
+rajagopalan  (1997) goal-orientedmultimedia 
+dialogue  variable itiative lecture notes  
+artificial intelligence 1325; springer-verlag  
+York; pp 1-16 
+carberry  (1990) plan recognition  natural 
+language dialogue cambridge mass:  mit 
+Press 
+chu-caoll    capente (1999) vecto- 
+based natural language call routing journal  
+Computational Linguistics 25(30) pp 361-388 
+georgila  atsopanoglou nfaotais  
+gkokkinakis (1998)  integrated dialogue 
+system   automation  call centre services 
+iclsp'98 5th internatial cference  spoken 
+Language Processing Sydney Australia 
+grosz bj  sidner cl (1986) attentions 
+intentions   structure  discourse 
+Computational Linguistics 12(3): 175-204 
+greenemeier  (1999) voice-recognition 
+technology builds  following informtion 
+Week December 13 
+meisel  (1999)  speech recognition  
+telephones   fce? business 
+Communications Review November 1 
+eichmn  (1981) plin-speking:  theoy nd 
+grammar  spontaneous discourse phd thesis 
+department  computer science harvard 
+University Cambridge Massachusetts 
+rosen  (1999) speeh  industry talking 
+Business Travel News November 
+rossheim  (1999) giving voice  cusmer 
+Service Datamation November 1 
+36 
+translati using informati  dialogue participants 
+stsuo yamada    c  ro  sum ta     dk   kasoka 
+ATR Interpreting Telecommunications Research Laboratories* 
+2-2 Hikaridai Seika-cho Soraku-gun 
+Kyoto 619-0288 JAPAN 
+{ syamada sumia kashioka} @ilarcojp  
+Abstract 
+ pper proposes  wy  improve  trns- 
+lati quality  using informati  dialogue 
+participants   easily obtained  - 
+  translation component  incorpo- 
+rated informati  participants' ocial roles 
+ genders  transfer ules  dictionary 
+entries  experiment  23 unseen dia- 
+logues demonstrted  recll  65% nd  preci- 
+sion  86%  results howed   sim- 
+ple  easy--implement method  effective 
+nd   key technology enbling smooth con- 
+verstion   dilogue trnsltion system 
+1    rduc   
+Recently various dialogue translation systems 
+  proposed (bub   1997; 
+kurematsu  morimoto 1996; rayner  
+carter 1997; ros~  levin 1998; sumita 
+  1999; yang  park 1997; vi- 
+dl 1997)   wnt  mke  converstion 
+proceed smoothly using  translation sys- 
+tems       nly lingu- 
+tic information  comes   source 
+language   extra-linguistic nformation 
+      source language 
+  shared   participants   
+conversation 
+ dialogue translation methods  
+ extra-linguistic information   pro- 
+posed horiguchi outlined  "spoken lan- 
+guage pragmatic information"   trans- 
+lated (horiguchi 1997)     
+pply  ide   dilogue trnsltion system 
+uperfoy et  proposed  softwre rchitec- 
+*current affiliation  atr spoken language trans- 
+lation Research Laboratories 
+current mail addresses  
+{ setsuoyarnada eiichirosumita hidekikashioka} 
+@slt atr cojp 
+ture   '% pragmatic adaptation" (lu- 
+perfoy   1998)  mima et al pro- 
+posed  method tht  "situtionl inform- 
+tion" (mima   1997) luperfoy et al 
+simulated  method  -machine inter- 
+  mima et al preliminarily evaluated 
+ method neither study  applied 
+ proposals   actual dialogue trslation 
+system 
+  mentioned methods   time 
+   practice sce   hard  obta 
+ extra-linguistic nformati    
+depend 
+   paying special attention  "po- 
+liteness" becuse  lck  politeness cn inter- 
+fere   smooth converstion   
+prticipnt uch   clerk nd  cutomer  
+ esy   dilogue trnsltion system   
+ participant   clerk     
+customer   interface (   wires 
+  microphones) 
+ pper describes  method  "polite- 
+ne" election ccording   prticipnt' o- 
+cil role ( clerk   customer)   es- 
+ily obtained   extra-linguistic environ- 
+ment  incorporated  participant' o- 
+cial role  transfer ules  transfer dictio- 
+nary entries   conducted  experiment 
+ 23 unseen dialogues (344 utterances)  
+method chieved  recll  65% nd  preci- 
+sion  86%  rates   improved  
+86%  96% respectively ( section 4)  
+    ue  "prticipnt' o- 
+cil role" ( clerk   customer   cse) 
+ appropriately   translation results 
+"polite"     conversation proceed 
+smoothly   dilogue trnsltion system 
+section 2 nlyzes  reltionship  
+prticulr prticipnt' ocil role ( clerk) nd 
+politeness  japanese section 3 describes  
+proposal  detail usg  english--japese 
+37 
+trslation system section 4   exper- 
+iment nd results followed   discussion  
+section 5 finally section 6 concludes  pa- 
+ 
+2  pr    pn '   o    ro e  nd  
+po   teness  
+thi ecti focue  e participant' ocial 
+role  investigted jpnese outputs   di- 
+alogue translation system     ut- 
+ternces hould  polite expressions   cur- 
+rent translation system  travel arrangement 
+ input 1409 clerk utternces   trnsfer 
+Driven Machine Translation system (Sumita 
+  1999) (tdmt  short)  - 
+  closed utterances meaning  sys- 
+tem    utterances enabling  
+uernces o  rnsferred    quliy 
+refore   closed utterances   - 
+  avoid translation errors 
+  reult   hon tht bout 70% 
+(952)   utterances   improved   
+polite expressions  result  tht  cur- 
+rent translation system      
+ converstion smoothly  surprisingly  ll 
+expressions  polite  japanese speakers 
+ feel insulted  japanese speak- 
+ers      polite expression   
+utterances 
+ classified  investigated ata  dif- 
+ferent ypes  english expressions  japanese 
+politeness ie  honorific titles   
+speech   verbs  canned phres 
+ shown  table 1;    types 
+appeared   data  example  
+ clerk  "    paying  
+suzuki"  japanese translation   
+polite  "donoyouni oshiharaininarimu-ka 
+suzuki-sama"     standard expres- 
+sion "donoyouni shiharaimasu-ka suzuki-san" 
+tble 1  tht    difference  
+ expressions     polite ac- 
+cording   type    polite ex- 
+pressions   translated  using  local 
+information ie transfer rules  dictionary 
+entries    section  describe   
+incorporate  informati  dialogue partic- 
+ipants   roles  genders  transfer 
+rules nd dictionry entries   dilogue trns- 
+lation system 
+3  method     g   fo rmt ion  
+    logue  pr    pns  
+ section describes    information 
+ dialogue participants   participants' 
+social roles  genders   describe 
+tdmt       experiment 
+  mention   modify transfer 
+rules  transfer dictionary entries according 
+ informati  dialogue participants 
+31 Transfer  Dr iven  Mach ine  
+rans la  ion  
+tdmt  botm- left-- chart pars- 
+g  transfer rules  shown  figure 1 
+ parsing determines   structure  
+ transferred result locally  performing 
+structural disambiguation using semantic dis- 
+tance calculations  parallel   deriva- 
+tion   structures  semantic dis- 
+tnce  defined   thesurus 
+(source pattern) 
+==~ 
+ ((target pattern 1) 
+((source xample 1) 
+(source xample 2) 
+\x95 "- ) 
+(target pattern 2) 
+\xb0o* ) 
+Figure 1: Transfer ule format 
+ trnsfer ule consists   source pttern 
+ trget pttern nd  source exmple  
+source pattern consists  variables  con- 
+stituent boundaries (furuse  iida 1996) 
+ constituent boundry    functionl 
+wd   prt--peech   left contituent' 
+lst word nd  prt--speech    con- 
+tituent'  word  example (1)  con- 
+stituent boundary iv-cn)  inserted  
+"accept"  "payment"  "accept"  
+ verb nd "pyment"   common noun 
+ target pattern consists  variables  cor- 
+respond  variables   source pattern  
+words   target language  source exam- 
+ple consists  words    utterances 
+referred    person cretes trnsfer ules 
+( call  utterances closed utterances) 
+figure 2   trnsfer ule  source 
+pattern  ( (-cn) ) ariable  corre- 
+sponds        target pat- 
+tern   corresponds      
+38 
+table 1: examples  polite expressions 
+Type: verb title 
+eng:     paying  suzuki 
+Standard: donoyouni shiharaimasu-ka suzuki-san 
+Polite: donoyouni o_shiharaininarimasu-ka suzuki-sama 
+gloss:  pay-question suzuki- 
+Type: verb common noun 
+eng:    types   available 
+standard: aiteiru ni-shurui- heya-ga ariraasu 
+polite: aiteiru ni-shurui- oheya-ga gozaimasu 
+gloss: available -types- -top  
+Type: auxiliary verb 
+eng:   shop  hours 
+Standard: suujikan kaimono-wo surukotogadekimasu 
+Polite: suujikan kaimono-wo shiteitadakemasu 
+gloss:  hours -obj  
+Type: pronoun 
+eng:    please 
+Standard: anatano heya bangou-wo 
+Polite: okyakusamano heya bangou-wo 
+gloss:   - obj 
+onegaishirnasu 
+onegaishimasu 
+please 
+Type: canned phrase 
+eng:    help  
+Standard: dou shimashitaka 
+Polite: douitta goyoukendeshouka 
+gloss:    help  
+Example (1) 
+eng:  accept payment  credit card 
+Standard: watashitachi-wa kurejitlo-kaado-deno shiharai-wo ukelsukemasu 
+Polite: watashidomo-wa kurejitto-kaado-deno o_shiharai-wo ukeshimasu 
+gloss: -top credit-card- payment-obj accept 
+   target pattern  source exam- 
+ple (("accept") ("payment")) comes  ex- 
+ample (1)    source examples  
+   closed utterances  transfer 
+rule means    source pattern  ( (- 
+cn) )  ( "wo" )  ( "ni" )  selected 
+  target pattern   input word pair 
+corresponding      semanticall  
+ similr   surus   exctly  
+   source example  example  
+ input wor pair corresponing     
+ semnticlly   similr   surus 
+  exactly    (("accept") ("pay- 
+ment")) n  target pattern ( "wo" )  
+elected  figure 2   reult  pproprite 
+target pattern  selected 
+fter  trget pttern  selected tdmt cre- 
+tes  trget structure ccording   pttern 
+( (-cn) ) 
+(( "wo" ) 
+((("accept") ("payment")) 
+(("") ("picture"))) 
+( "hi" ) 
+((("") ("bus")) 
+(("") ("sunstroke"))) 
+) 
+Figure 2: Transfer ule example 
+ referring   trnfer dictionry  hown 
+ figure 3     "accept ( -cn)  
+payment"  th   translated  "shi- 
+harai wo uketsukeru" "wo"  derived   
+target pattern ( "wo" )  "shiharai"  
+"uketsukeru"  derived   transfer dic- 
+tionary  shown  figure 4 
+39 
+(source pattern) 
+(((target pattern 11) :pattern-cond 11
+(target pattern 12) :pattern-cond 12 
+itarget pattern ) :default) 
+((source xample 1) 
+\x95 oo ) 
+(((source xample 1) ~ (target word lt) :word-cond 11 
+(source example 1) --* (target word 12) :word-cond 12 
+\xb0\xb0   
+(source example 1) --* (target word lm) :default) 
+  "  ) 
+(((target pattern 21) :pattern-cond 21 
+    ) ) )  
+figure 5: transfer ule format  informati  dialogue participants 
+(((source word 1) --* (target word 11) :cond 11  
+(source word 1) -* (target word 12) :cond 12  
+     
+(source word 1) -~ (target word lk) :default)\\[ 
+*  )  
+figure 6: dictiary format  informati  dialogue participants 
+((source word) ~ (target word) 
+\x95 "   ) 
+Figure 3: Transfer dictionary format 
+(("accept") --* ("uketsukeru')  ("payment") --* ("shhara"))  
+Figure 4: Transfer dictionary example 
+( "sama") 
+((("" ) :-gender male 
+("ms" ) :-gender female 
+("-ms" )) 
+((" "))) 
+) 
+figure 7: transfer ule example   par- 
+ticipant' gender 
+32 transfer rules  entr ies 
+according  informati  
+dialogue  ic ipants 
+  research  modified  transfer ules 
+  transfer dictionary entries  shown  
+figures 5  6  figure 5  target pattern 
+"target pattern 11"   source word "source 
+example 1"    change  translation 
+according  informati  dialogue partici- 
+pants  example  ":pattern-cond 11"  de- 
+fed  ":-gender male"  sown  figure 7 
+n "target pattern 11"  selected   
+herer   mle tht  "("" )"  selected 
+moreover  ":word-cond 11"  defined  ":- 
+role clerk"  shown  figure 8  "source 
+example 1"  translated  "target word 11" 
+  speker   clerk tht  "ccept"  
+translated  "oukesuru" translations uch 
+ "target word 11"  valid    source 
+pttern; tht   source exmple   
+  translated     target 
+words      produce transla- 
+tis according  informati  dialogue par- 
+ticipants n    modify  entries 
+  transfer dictionary  figure 6  
+conversely        change 
+ translation n    modify  
+entries  modify  transfer ules  
+conditions      ":word-cond" 
+ ":pattern-cond"  example ":-role cu- 
+tomer  :-gender female"  mean  
+speker   customer nd  femle cn  
+  figure 5 ":default" means  de- 
+40 
+fault target pattern  wd   condition  
+matched  condition  checked    
+  ;    ":pattern-cond 11" 
+secd ":pattern-cd 1~"     
+( (-cn) ) 
+(( "wo" ) 
+((("accept") ("payment")) 
+(("") ("picture"))) 
+((("accept") -~ ("oukeuru"):-role clerk 
+( "accept" ) --+ ( "uketsukeru" ) )) 
+) 
+figure 8: trnsfer ule exmple   prtici- 
+pant' role 
+((("payment") --~ ("ohiharai") :-role clerk 
+( "payment" ) ---* ( "shiharai" )) 
+(("") --* ("watahidomo") :-role clerk 
+("") --~ ("watashltachi"))) 
+figure 9: trnsfer dictionry exmple   
+peaker' role 
+      rules  en- 
+tries  pattern conditions  word condi- 
+tion according   participant' infor- 
+mation uch  ":-role cutomer'( mean 
+ peker' role   cutomer) nd ":-gender 
+male" ( mean  peaker' gender  
+male) tdmt  translate xpressions corre- 
+sponding   inmation o  example 
+"  please   confirm "  
+ translated  "shouchiitashimasita kakunin 
+ssete itdkimsu"   speker   clerk 
+ "sedekekkoudesu kakunin sasete kudasai" 
+  peker   cutomer  hown  
+Example (2) 
+ mkig  rule d  etry   ex- 
+amples shown  figures 8  9  utter- 
+ance  example (1)   translated  
+"watashidomo wa kurejitto kaado deno oshi- 
+hri wo oukeshimsu"   speker   
+clerk 
+4   exper iment  
+ tdmt system  english--japanese  
+ time   experiment   1500 
+transfer ules  8000 transfer dictionary en- 
+tries   words  tdmt system  
+capable  translating 8000 english words  
+japanese words  300 transfer ules  
+40 transfer dictionary entries  modified  
+improve  level  "politeness" 
+ conducted  experiment using  trs- 
+fer rules nd trnsfer dictionry   clerk  
+23 unseen dialogues (344 utterances)  input 
+ws f-line ie  trnscription  dilogues 
+ wa encoded   participant' ocial 
+role   -le situati  system  
+ infer wher  participant' ocial role  
+ clerk   customer  cn insted etermine 
+ role  error   interface ( 
+  microphone   button) 
+   evaluate  experiment  clas- 
+sifted  japanese translation results obtained 
+  23 unseen dialogues (199 utterances  
+ clerk nd 145 utternces   customer 
+makg 344 utterances  tal)   types: 
+expressions     changed   po- 
+lite expressions  expressions    
+table 2     utterances  - 
+cluded  expression     chged 
+   polite  (indicted  "yes") nd 
+hose ha   (indicaed  "")  ne- 
+glected 74 utterances  translations  
+o po  judge   ssign  "yes"  
+"" 
+table 2:  numr  utterances   
+changed   
+necessity |   
+ change   utterances 
+Yes 104 
+ 166 
+  scope 74 
+Total \\[ 344 
+* 74 translations  o poor  handle   
+"politeness"      ignored   
+paper 
+ translation results  evaluated   
+wher  impressions   translated re- 
+sults  improved   /out mod- 
+ification   clerk   viewpoint  
+"politeness" table 3   impressions 
+obtained according   necessity  change 
+shown  table 2 
+ evaluation criteria  recall  preci- 
+sion   defined  follows: 
+Recall = 
+  utterances  impression   
+numr  utterances     polite 
+41 
+Example (2) 
+eng:   please   confirm  
+Standard: wakarimasita kakunin sasete 
+clrk: shouchiitashimasita kakunin sas~ 
+Customer: soredekekkoudesu kakunin sasete 
+gloss:   con:firm   
+kudasai 
+itadakimasu 
+kudasai 
+please 
+table 3: evaluati  uing  peaker' role 
+Necessity 
+ change 
+Yes 
+(lo4) 
+ 
+(166) 
+~ Impression 
+ 
+ 
+worse  
+-diff 
+ 
+ altle 
+worse  
+-diff 
+  
+ utterances 
+68 
+5 
+3 
+28 
+0 
+3 
+0 
+163 
+bet ter :  impression   trnsltion   
+sme:  impression   trnsltion hs  chnged 
+worse: impression   trnsltion  worse 
+-diff: re   difference    
+translations 
+Precision = 
+  utterances  impression   
+  utterances  expression   
+changed   modified rules  entries 
+ recall  65% (= 68 - (68 + 5 + 3 + 28)) 
+  precision  86% (= 68 -: (68 + 5 + 3 + 
+0+3+0))  
+   main reasons  bring  
+ rates  reason   tdmt   
+     agent   action  
+ utterance ; agents     se- 
+lect polite expressions   reason   
+    rules  transfer dictio- 
+nary entries   clerk 
+  easier   care   latter  
+  former    resolve  lat- 
+ter      expand  transfer 
+rules   transfer dictionary entries accord- 
+ing   "prticipnt' ocil role" ( clerk nd 
+ customer) n  recll rte nd  preci- 
+sion rate   improved ( 86%  96% 
+repectively   hve found)   reult  
+    method  effective  smooth 
+converstion   dilogue trnsltion system 
+5  iscuss ion  
+  extra-lgutic formation  hard 
+ obtain   extra-linguistic infor- 
+mation   easily obtained: 
+(1)  piece  information   participant' 
+social role    obtaed   - 
+terface    microphone    
+proven tht  clerk nd cutomer   ocil 
+roles  participants  useful  translation 
+ japanese   research  re- 
+quired   participant' ocial role 
+(2)  piece  information   par- 
+ticipnt' gender  cn  obtined   
+speech recognizer   accuracy (takezawa 
+  1998; naito   1998)  
+ considered  expressions   useful 
+ uing  hearer' gender  japanee-- 
+English translation 
+  consider  japanese honorific title 
+"ama"  "an"   heater' gender  male 
+n    translated ""    
+hearer' gender  female   hould  
+translated "ms"  shown  figure 7 ad- 
+ditionally  participant' gender  ueful  
+translating typical expressions  males  fe- 
+males  example japanese "wa"   - 
+tached      utterance  females 
+  lso importnt   dilogue trnsltion 
+system   extra-linguistic information  
+ system  obta easily     
+ converstion proceed smoothly nd comfort- 
+ably  humans using  translation system 
+ expect hat  pieces  usable informa- 
+tion   easily obtaed   future  
+exmple ge   obtined   cellulr 
+telephone     carried    
+person  provided  personal information 
+  cse   system   herer ws  
+child   change complex expressions  
+easier ones 
+6 Conc lus ion  
+ hve proposed  method  trnsltion - 
+ing informati  dialogue participants  
+42 
+ easily obtained  outside  translation 
+component nd pplied    dilogue trns- 
+lation system  travel arrangement  
+method c select  polite expressio   
+utterance according   "participant' ocial 
+role"   easily determined   inter- 
+ (   wires   microphones)  
+example   microphone    clerk ( 
+speker   clerk) n  dilogue trnsltion 
+system cn select   polite expression 
+  english--japese trslation system 
+ added additional transfer ules  transfer 
+dictionary entries   clerk    po- 
+lite th  customer n  conducted  
+experiment  23 unseen dialogues (344 ut- 
+terances)  evaluated  translation results 
+  wher  impressions   results im- 
+proved    method chieved  recll  
+65% nd  precision  86%  rtes  
+easily  improved  86%  96% respec- 
+tively       method 
+ effective  smooth converstion   di- 
+logue translation system 
+ proposl hs  limittion  tht   
+system        agent 
+  action   utterce   cnot ap- 
+propritely select  polite expression  re 
+considering   enable identification   
+agent   action   utterce   ex- 
+pand  current framework  improve  level 
+ politeness    addition  tend 
+ pply  extr-linguistic nformtion   
+dialogue translation system 
+References  
+thomas bub et al 1997 verbmobih  
+combination  deep  shallow processing 
+ spontaneous speech translation   
+1997 internatial cference  acoustics 
+speech  signal processing: icassp 97 
+pages 71-74 Munich 
+osamu furuse  hitoshi iida 1996 - 
+cremental translation utilizing constituent 
+boundary patterns  proceedgs  
+COLING-96 pages 412-417 Copenhagen 
+Keiko Horiguchi 1997 Towards translating 
+spoken lguage pragmatics   alogical 
+framework  proceedgs ofa cl/ea cl-97 
+workshop  spoken language translati 
+pages 16-23 Madrid 
+akira kurematsu  tsuyoshi morimoto 
+1996 Automatic Speech Translation Gordon 
+ breach publishers 
+susn luperfoy et al 1998  architecture 
+ dialogue management context tracking 
+ pragmatc adaptaton   spoken dalogue 
+system  proceedgs  colg- cl'98 
+pages 794-801 Montreal 
+hideki mim et  1997  sitution-bsed 
+approach  spoken dialogue translation - 
+tween  social roles  proceedgs 
+TMI-97 pages 176-183 Santa Fe 
+masaki naito et al 1998 acoustic  lan- 
+guage model  speech translation system 
+atr-matrix   proceedgs   
+1998 spring meeting   acoustical soci- 
+ety  japan pages 159-160 ( japanese) 
+manny rayner  david carter 1997 hy- 
+brid language processg   spoken lan- 
+guage translator   1997 ternational 
+cference  acoustics speech  signal 
+Processing: ICASSP 97 pages 107-110 Mu- 
+nich 
+carolyn pentein ro~  lori  levin 1998 
+ interactive domain independent approach 
+ robust dialogue terpretation  proceed- 
+ings  coling-acl'98 pages 1129-1135 
+Montreal 
+eiichiro sumita et al 1999 solutions  prob- 
+lems herent  spoken-language translation: 
+ atr-matrix approach   ma- 
+chine Translation Summit VII pages 229- 
+235 Singapore 
+toshiyuki tkezw et  1998  jpnese- 
+-english speech translation system: atr- 
+matrix   5th ternational con- 
+ference  spoken language processing: 
+ICSLP-98 pages 2779-2782 Sydney 
+enrique vidal 1997 finite- speech-- 
+speech translation   1997 ternational 
+cference  acoustics speech  signal 
+Processing: ICASSP 97 pages 111-114 Mu- 
+nich 
+jae-woo yg  jun park 1997  exper- 
+iment  korean--english  korean-- 
+japanese spoken language translation   
+1997 internatial cference  acoustics 
+speech  signal processing: icassp 97 
+pages 87-90 Munich 
+43 
+disti   ing diogues -  method using ntur diogue 
+dialogue systems development 
+are  jo         dah b~ck  
+depar tment   computer     format ion  sc ience 
+ nksp ng  un vers  ty  
+-581 83  inkoping 
+SWEDEN 
+nilda@idaliuse arnjo@idaliuse 
+corpora  
+Abst ract  
+ report   method  utilising corpor col- 
+lected  natural settgs   based  dtillg 
+(re-writing) natural dialogues  elicit  type  
+dialogue   occur    dialogue par- 
+ticipnts ws  computer insted   humn  
+method   complement toother men uch  wiz- 
+ard  oz-studies  un-distilled natural dialogues 
+   distilling method  guidelines  
+distillation   illustrate   method af- 
+fects  corpus  dilogues nd discuss  pros nd 
+cons   approaches   phases  dia- 
+logue systems development 
+1   roduc ion  
+     que  time   
+ lnguge   intercting   comput- 
+er        dialogues  
+people (cf jsnsson  dahlb~ick (1988))  
+     language    
+          base 
+ development  natural language dialogue sys- 
+tems   relevnt set  dilogue corpor    
+belief tht    clrify     
+issues regardg  collection    corpora  
+ development  speech-  multimodal dia- 
+logue systems exchanging experiences  develop- 
+g guideles          
+ sense  necessry pre-requisite   develop- 
+ment  computational models  speech language 
+ dialogue/dcourse     note  
+difference     art   field  natu- 
+ral language dialogue systems    corpus 
+linguistics  issues   usefulness   
+samples   sampling size representative- 
+ness  corpus design     discussed 
+   ime (eg (garside  al 1997; akins 
+et al 1992; crowdy 1993; biber 1993))   
+neighboring   evaluation  nlp systems ( 
+ overview  sparck jones  galliers (1996)) 
+   advanced  
+         natu- 
+ral language dialogue systems eg   design 
+ wizard  oz-studies (dahlb~ck et al 1998) 
+ measures  inter-rater eliability (carletta 
+1996)  frameworks  evaluating spoken dialogue 
+agents (walker et al 1998)      - 
+ent corpor   development   prticulr sys- 
+tem ( carnegie-mellon communicator eskenazi 
+et al (1999)) 
+ question   addressg  th paper  
+  collect  analyse relevant corpora  - 
+gin  describing   consider    main 
+advantages  disadvantages    currently 
+ methods; studies  human dialogues  wiz- 
+ard  oz-dialogues especially focusing   eco- 
+logicl vlidity   methods  n describe  
+method called 'distilling dialogues'   serve 
+  upplement     
+2 natural  wizard  
+Oz-Dialogues 
+ advantage  using real dialogues  peo- 
+ple     illustrate  tasks   
+tht people ctully bring   prticulr service 
+provider    level   users'  
+gols  dilogues hve   vlidity   
+  drawbacks  ;    self-evident 
+ users     task expectations  
+ computer ytem   hve   peron ec- 
+ond  language      language 
+  intercting   computer 
+se  disadvantages    major 
+force   development  wizard  oz- 
+methods  advantage     setting  
+ human-computer interaction    im- 
+portant disadvantages     practical 
+  tsk  setting    qulity simultion 
+environment  training  operators ('wizards') 
+  th   resource consuming tsk (dhlb~ck et 
+al 1998)   probably   impor- 
+tant     hen observe real users using 
+ system  rel life tsks   bring  
+own  motivations resources  constraints 
+ ar   extent     - 
+ using -designed  called 'scenarios'  
+poted   dahlb~ck (1991)   levels  
+analysis  artificiality   situation   af- 
+44 
+fect  lguage   example  th   
+pattern  pronoun-antecedent relations   
+ tasks    users   pre-described 
+  reserchers th mens tht th     
+  finding   tasks  users actually 
+wnt  perform nor   provide  cler  
+picture    users  act    
+ satfies ir requirements  eg  task  
+  finding  chrter holidy trip  buying  tv- 
+set   specified set  constrints (economicl 
+ )   conceivable  people  stay 
+   item  matches  specification 
+whereas  real life   probably look  
+lterntives   experience th  primrily  
+ccern   focus    users' goals  plans 
+          lower- 
+level pects   syntax  patterns  pronoun- 
+antecedent relationship (cf Dahlb~ick (1991)) 
+ summrize; rel life dilogues  provide  
+reasonably correct picture    users' ap- 
+proach  tasks   tasks  bring  
+ service provider   language    
+   pproximtion  wht  system un- 
+der construction    handle wizard  oz- 
+dilogues    hnd    resble 
+approximation   aspects   language  
+   artificial context 
+ usual approach       
+steps  analyse real human dialogues  based 
+ se   secd phase design e   
+wizard  oz-studies  final step   fine-tune 
+ ytem' performnce  rel uer   ex- 
+ample  th method    eskenazi et al 
+(1999)        
+ approach (    claiming   
+    ir particular project) eskenazi et 
+ (1999) sked  humn operr  ct 'computer- 
+'  ir wizard  oz-phase  advantage 
+  course   human operator   able 
+ perform   tasks   usuy provided  
+th service  ddvntge  tht    hevy 
+burden   humn operr  ct   comput- 
+er     lay-persons' ideas   
+computers        respects 
+ removed    actually    rk 
+introducing  systematic distortion   
+sce   difficult  perform constently  similar 
+situations   risk introducing -systematic 
+distortion        'wiz- 
+ard'   nlp-professional 
+ suggestion  trefore  supplement  
+ mentioned methods  bridge  gap - 
+tween   post-processing human dialogues  
+ m  computer- qulity  dvntge 
+compared   people   simulati   
+fly        wh  cons- 
+tency         researchers 
+ actually   human-computer natural 
+lnguge dilogues cn look    dis- 
+advantage  using  wizard  oz- real 
+computer dialogues   users  quickly adapt 
+   system  provide m    
+theree  try     tasks    
+cn perform consequently       
+picture    services     
+system  provide 
+ ddvntge  th method   course 
+ post-processing takes  time compared  
+using  natural dialogues    re  al- 
+  ccern   ecologicl vlidity   results 
+ discussed  
+3 Distilling dialogues 
+Distilling dialogues ie re-writing human interac- 
+tions    hve  reflect wht  humn- 
+computer interction  look  involves  num- 
+ber  considerations  ma sue    cor- 
+pora  natural dalogues    nterlocutors 
+  dilogue ytem  ytem' tk  inted 
+performed   humn nd      
+nticipte  behviour   system tht   
+exist based   performce   agent  dif- 
+ferent performance characteristics   
+aspect    deal  human features   
+     system  supposed   able  
+ handle  instance   user talks   
+outside   domain   discussing  episode 
+  recent tv   lo involve iue   
+ handle situations     interlocuters 
+discusses  somee lse    opic eg 
+discussing  -coming fridy prty   friend 
+  middle   formation providg dialogue 
+  customer 
+     dtilling process    
+  outline   dialogue system    
+development:    instance   capacy 
+ recognise users' goals    explicitly stat- 
+ed?    able  reason   discourse 
+domain?  services   provide   
+  outside  capacity  handle? 
+    assume   planned dialogue 
+system   ability  reas  various aspects 
+ dialogue  properties   application   
+current     examples   illustra- 
+tion   pper  ssume  dilogue model tht 
+ hle  relevant dialogue phenomenon  
+  interpreter  speech recogniser  able 
+ undersand  user inpu ha  relevan  he 
+tsk    lso  powerful domin reson- 
+ing module allowing      knowledge 
+reasing  issues    accomplished - 
+  doma (flycht-eriksson 1999)  current 
+system      explicit user task 
+model  oppoed   ytem tk model (dhlb~ick 
+45 
+ jsnsson 1999)   included    
+  assume   'system' remembers utter- 
+ances   user explains  task furrmore 
+  aim  system development    con- 
+sider interaction outside  systems capabilities  
+relevant  clude   distilled dialgues 
+ context      development  
+multi-modal dialogue system    cur- 
+rent   distilling dialogues  abilities  
+ multi-modl system    ccounted  
+ reason  th    dialogues   
+significntly ffected eg  telephone converstion 
+  user  likes     con- 
+nection plese  result   tble  multi-modl 
+output   nd hence  fir mount   di- 
+alogne  removed     th paper 
+nlysed  corpus ssuming  speech- system 
+ th  closer   original telephone conversa- 
+tis  hence  fewer assumptis  system 
+performance  distilling  dialogues 
+4 ds         gu de  nes  
+distilling dialogues requires guidelines    
+handle various types  utterances   section 
+    guidelines  distilling  corpus 
+ telephone converstions   humn infor- 
+mati provider  local buses 1to    devel- 
+oping  multimodl dilogue system (qvrfordt nd 
+jsnsson 1998; flycht-eriksson  jsnsson 1998; 
+Dahlb~ick et al 1999; Qvarfordt 1998) Similar 
+guidelines     project  devel- 
+oping swedish dialogue systems   domain 
+ travel bureau information 
+  distinguish  types  contributors: 
+'system' (ie  future systems) utternces user ut- 
+terances   types   moves   
+speakers  noise 
+41 Modifying system utterances 
+   modifying 'system' utterances  
+ divided   :   change   
+ change     respects tertwed 
+   - affects  -   
+ tke thi   trting  
+\x95  'system' provides   relevant infor- 
+mi    ce  depends  
+ capabilities   systems output modal- 
+ities   hve  screen  similr output 
+device        
+normy   relevant informati    
+  hand   spoken output  
+amount  information   hearer  inter- 
+pret   utterance   considered  
+1the bus time table dialogues  collected  
+lkspg university   available ( swedish)  
+http://wwwidal iuse/~arnjo/kfb/dialogerhtml 
+distillg  system     pro- 
+vide  information  principle  provid- 
+ing  relevant informati  bed   - 
+sumption tht  omputer system  hs - 
+cess   relevant information  querying 
+ background system      
+ conveniently especilly   multimodl 
+system (hrenberg et  1996)  typic ex- 
+ample   dialogue fragment  figure 1  
+ fragment  system provides information 
+ wht trin  tke nd   chnge   
+bus  result  distilling  fragment pro- 
+vides  revised fragment  figure 2  seen  
+ frgment  figure 2  lso remove  num- 
+ber  utterances typical  human interaction 
+ discussed below 
+* system utterances    computer- ike 
+   include irrelevant information  
+latter  seen  $9   dialogue  figure 3 
+  provided information   relevant 
+      remove $5  re- 
+spond  $7     depends 
+   formati grounded  $5-u6  - 
+ed   'system'      arrival 
+time      concluded  u4 
+thi   depend   ytem' capabili- 
+ties   assume   dialogue system  
+ model  user tsks  formtion  $5-u6 
+   concluded     
+ thi ce ret $5-u6     ume 
+user task model (dahlb/ick  jsnsson 1999) 
+    stay  close   origal di- 
+alogue   
+   concerns    'system' 
+utterances  changed  removed 
+\x95 dialogue contributions provided    
+    user   'system'  
+removed   regarded     
+  interaction  means   - 
+ interrupts  current interaction   
+ telephone rings   fce--fce inter- 
+action  interrupting interaction  normally 
+removed   corpus 
+furthermore 'system' interruptions  re- 
+moved  humn cn   interrupt noth- 
+er humn interlocuter   computer system 
+    
+  guideline  lead   
+ instance  users follow   interr- 
+tions   fmation  provided   - 
+terrupted sequence   affect  dialogue 
+    removing  interruption 
+       information 
+  'system'     contug dia- 
+logue       fixed strategy 
+46 
+U4: 
+$5: 
+U6: 
+$7: 
+U8: 
+$9: 
+U10: 
+$11: 
+U12: 
+S13: 
+U14: 
+$15: 
+yes  wonder f    mm buses  () lke express buses leavng  lnkspng 
+ vadstena ()  sunday 
+ja ville undra om ni hade ndgra 5h bussar eUer () typ expressbussar sore dkte frdn LinkSping 
+till Vadstena () pd sSnda 
+ he bus   run  sundays 
+nej bussen ~ inte pd ssndaa 
+   ()     train  n change   ()  () 
+ mjslby ''  
+hur kan  () kan  ta tg  sn byta ~ ntt sstt () fsr  () 
+till mjSlby ~ sd 
+     yes 
+de kan du gSra ocksd ja 
+ ()      suggestions 
+hut () hr du ~r ~gr ~ frlg 
+ye ' ee (4)  moment (15)    ee  ()     ndy yo hold trvel 
+ja ska se ~ir (4s) eft 5gonblick (15s) nu ska vise sr () va de ~ ssndagen du skulle dka d 
+yes  afternoon preferably 
+ja  de eftermidda ggirna 
+afternoon preferable ()   train  linksping fourteen twenty nine 
+efermia srna ()  ha ~ frn linkspin fjoron  jonie 
+mm 
+mm 
+    change  mjslby station six hundred sixty 
+sd byter du frdn MjSlby station sexhundrasexti 
+sixhundred sixty 
+sexhundrasexti 
+fifteen  ten 
+femton ~ tie 
+figure 1: dilogue frgment   rel intercti  bus time-tble informti 
+u4:  wonder f    buses  () lke express buses   lnkspng 
+ vadstena ()  sunday 
+s5:  he bus   run  sundays 
+u6:    ()     train  n change   ()  () 
+ mjslby   
+$7:     train  linksping fourteen  twenty nine  n   
+change  mjslby stion  bus six hundred sixty  fifteen  ten 
+figure 2:  distilled version   dilogue  figure 1 
+ dialogue    rearranged epending 
+   informati     (cf  
+discussion   fal section   paper) 
+\x95 'system' utterances     valid 
+ removed typical examples     
+utterances $7 $9 $11  $13   dialogue 
+fragment  figure 1 
+* remove sequences  utterances   'sys- 
+tem' behves   wy  computer    
+ instance jokes irony humor commenting 
+   dialogue participant  dropping 
+ telephe ( whatever     $7 
+ figure 4)  common cse  th   
+ 'system'  talkg  lookg  - 
+mation $5   dialogue fragment  figure 4 
+  example  th related  th   
+ system provides  own comments   
+ assume     capabilies  
+ included otherwise  remove  
+ system   repeat information   
+  provided unless explicitly   
+   human teraction    uncommon 
+ repeat    uttered  purposes 
+   provide grounding infmation  
+feedback th   instance common  
+47  
+u4: ''     resecetrum fore fourtee  thrty fve () 'cause  wll    
+interstate buses 
+ja ska va ~ rececentrum innan \\]jorton ~ trettifem () f5 vi ska till 
+~ngf~irdsbussarna 
+$5: aha () ''     re  twety past  somethig  
+jaha () ~  bhhvr  va hr strax ~tr tjg 5vt tv ~tig ~ 
+u6: yes   
+ja ungefgir 
+$7: et' ee  (  )   hudred  fourtee ryd  tatio eave forty ix () thirtee '' 
+forty six      fourteen oh seven () 
+~ ska vise hsr (11s) tv~hunrafjorton ry 5nh~llplatsen gr ~5rtisex () tretton  
+\\]stisex ~   nee ~joton noll sj 5) 
+U8: aha 
+jaha 
+$9: '' ()  ext oe takes  re () fourtee thirty seve ()     late 
+() nta   n 5) ~joton  tttij () mn  5 j ~ nt 
+figure 3: dilogue frgment   rel intercti  bus time-tble informti 
+u2:  h ()  am   ugglegatan eghth 
+ja hej () ja ska till Ugglegatan dtta 
+$3: Yes 
+ja 
+u4:  ()  woder ()   omewhere  aefor 
+och () jag undrar () det lgger ndnstans  tannefors 
+$5: ye ()  ll ee     ll look exacly     momen pleae 
+ja () jag ska se hhr eft eft jag ska titta exakt vat det ligger eft 6gonblick barn 
+U6: Oh Yeah 
+jar~ 
+$7: (operator disconnects) (25s) mm () okey (hs)   hell (2s) 
+(operator connects ) hello yes 
+((Telefonisten kopplar ur sig)) (25s) iihh () okey (hs) de va sore \\]aan (2s) 
+((telefonisten kopplar  sig igen)) halld ja 
+U8: Yes hello 
+ja hej 
+$9:   bus  hundred ten  runs   tannefors road th         
+ bus stop  th bus stop named vetegan 
+det ~ buss tv~hundato soe ~ amla tanne~osvsen som du ~  ~ka ~ ~ av d 
+den hdllplatsen rid den hdllplatsen sore heter vetegatan 
+figure 4: dilogue frgment   nturl bus timetble interction 
+search procedures  discussed  
+\x95  system     inmation   
+ achieved  instance     
+  sunday   $9  figure 1 th   un- 
+common  human teraction   utter- 
+ances   user   removed  
+  assume   dialogue system  
+ forget    talked   
+42 mod  fy ng  ser    e rances  
+  rule   change user utterances  lit- 
+tle    reon  th      
+  develop systems   user   
+restrict / behaviour   capabilities   
+dialogue system     changes 
+mde  uer utternce   ce   cone- 
+quence  changes  system utterances 
+utterances     valid  removed 
+  common   utterances  
+request    answered  seen  
+ distilled dialogue  figure 2   dialogue 
+ figure 1 
+48 
+Sl1: sixteen fifty five 
+sexton \\]emti/em 
+U12: sixteen fifty five () aha 
+sexton femti/em () jaha 
+s13: bus line  hundred thirty five 
+linje \\]yrahundra tretti/em 
+figure 5: dilogue frgment   nturl bus 
+timetable interaction 
+\x95 utterances  removed   user discuss- 
+es thgs     environment  
+instance commenting  'systems' clos  
+hair   includes  types  commu- 
+nicative signals   laughter bed   
+outside  teraction  stance   en- 
+vironment   interlocuters 
+\x95 user utterances    added    
+  dialogue contue   dialogue  
+figure 5 re  nothg   dialogue xpla- 
+g   system utters s13    
+   dd  user utternce eg  
+bus  ?       
+  cues   intonation found  
+listening   tapes    detailed analyses 
+ carried     course    
+add utterances furthermore   sometimes 
+    telephone operator deliberate- 
+ly splits  information  chunks   
+ comprehended   user  n  
+ considered   distillation 
+5 app ly ing    method 
+ illustrate  method     section try  
+characterise  results   distillations  
+illustrati  based  39 dtilled dialogues  
+ previously mentioned corpus collected   
+telephe operator  informati  local bus 
+time-tables  persons calling  information ser- 
+vice 
+ distillation    hours   39 
+dialogues ie   reasonably fast  dtilled 
+dialogues    average 27% shorter  
+ varies   dialogues   73%  
+removed     seven dialogues  
+  changed   
+   34 utterances  removed  
+ single dilogue nd tht ws   dilogue 
+ discussis      prking lot ie 
+discussions outside  capabilities   applica- 
+tion     dialogue    
+30 utternces  removed nd tht dilogue   
+typical example  dialogues  distillation actu- 
+ally   useful   indicates   normal- 
+ly removed   dialogues  particular dia- 
+logue begins   user    telephone 
+  ' lost property office'   specific bus 
+opertor   opertor strts  discussion 
+  bus  traveller traveled   provid- 
+ing  requested telephone   reason  
+th dcussion  probably   operator  
+  bus companies  utilised   
+      user  understands 
+/ request  interaction  follows  
+   respect  relevant    pur- 
+pose  developing systems based   overall goal 
+ providing information   understand human 
+interaction  dialogue system   able  han- 
+dle  phenomenon (jsnsson 1996) 
+ dialogues  roughly  divided  five dif- 
+ferent categories based   users task  dis- 
+cussi  twenty five dialogues   bus times 
+ various    departure   
+arrival  five dialogues volved    
+five dialogues  discussion   price  var- 
+ious types  discounts five users    
+ telephone   ' lost property office' 
+ discussed  bus stops   discussed  
+  utilise  season ticket  travel - 
+  trafficking    bus company   
+  te     correspondence 
+  task  performed uring  inter- 
+action   amount  changes    dia-  
+logue     assume   amount  
+ditilltion indicte omething bout  uer' inter- 
+action style  factors   task  impor- 
+tant  characterising user behaviour 
+looking  wh  altered   th   
+ dtilling principle    'system' 
+provides  relevant informion   cf fig- 
+ures 1  2    removes utterances pro- 
+vided   'system'  user 
+ added utterances    user  
+ 'system' provide explicit requests  inma- 
+tion    provided   dialogue eg ut- 
+terance $3  figure 6   added ten utterances 
+  39 dialogues five 'system' utterances  five 
+user utterances note    utilised  
+transcribed ialogues  informati  - 
+nation   probably     add 
+  utterances    utilised  tapes 
+ reas   using inmati  intati 
+     aume   ytem' peech 
+recogniser  recognise intonation 
+finally  discussed     utilise  
+ potential  multi-modality  distilling  
+dialogues  instance  dialogues   
+ distilled    assumed   system 
+hd   time-tble  reson  th  
+    capture    - 
+pects intact    advantage    
+ hve   corpus  understnding humn- 
+49 
+u2: yee h anna nlon   name    lke    bu  ryd center  reecentrum 
+ lkspg 
+jaa hej aa ilsso hete jag och jag ill ~ka buss ~~ yds cetum till esecetum 
+ lnkspng 
+$3: mm         leave? 
+mm ~      du  \xa3ka? 
+u4: ''     resecetrum fore fourtee  thrty fve () 'cause  wll    
+interstate buses 
+ja ska va ~ rececentrum innan fjorton  trettifem () f5 vi ska till 
+~ngfiirdsbussarna 
+figure 6: distilled dialogue fragment  added utterance 
+computer interaction     corpus  
+ secd distillti   focus   multi- 
+modal interaction 
+6 Discuss ion 
+ hve    method  distilling hu- 
+ dialogues    resemble hu com- 
+puter teraction    utilise  dialogues 
+  knowledge ource  developing dilogue - 
+tems  own main purpose      
+ developing multimodal systems   dis- 
+cussed      paper  assumed 
+ speech- system   believe tht  bsic 
+approach      multi-modal systems 
+  kinds  natural language dialogue sys- 
+tems 
+     aware f  limatins f 
+ method   'realistic'  produced result 
+  compred   dilogue   finl sys- 
+tem    changing  dialogue moves  
+ stance providg  required mation   
+move      reminded    - 
+er  previously requested   obvious   
+follows   changed sequence  probably 
+ ffected  wy  nother  consequence  
+th    resulting dialogue   accurate  
+ model   etire dilogue   refore ot  
+ideal candidate  trying   systems - 
+permance  system development   
+  sub-segments  sub-dialogues  - 
+lieve tht  cretes   pproximtion  wht 
+     system    running 
+furthermore  believe distilled dialogues   
+respects    realistic  wizard  oz- 
+dilogue collected   wizrd cting   com- 
+puter 
+ issue    discussed previously 
+  description   method    dtillg 
+ mde bsed   prticulr view  wht  dilogue 
+  computer  look    necessri- 
+ly   deiled nd specific model    les 
+ istce   clss  computer dilogue models 
+ example  th  wher  system  meant 
+ acquire informati   uer' underlying mo- 
+tivations  goals     examples  
+   sumed  capabilities   - 
+sumption    absolute necessity  believe 
+   distilling process   based 
+ e  model   lest  ensure  c- 
+sisen reamen  similar recurring phenomena  
+    corpora 
+ validity   results based  analysing dis- 
+tilled dialogues depends  ly    distilla- 
+tion   carried    using natural 
+dialogues    situations   interac- 
+tion   mysterious  instance    
+ dialogue participants behaves irrational   
+ providing feedback    elliptical - 
+  careful considerations     stay 
+ close   original dialogues    - 
+lieve tht distilled dilogues  reflect wht  hu- 
+mn  consider    nturl interction 
+Acknowledgments  
+  results     projects  de- 
+velopment  natural language interfaces upported 
+  swedish transport & communications re- 
+search board (kfb)   joint research program 
+ language technology (hsfr/nutek)     
+indebted   participants   swedish dialogue 
+systems project especially  staffan larsson lena 
+santamarta  annika flycht-eriksson  inter- 
+esting discussis   topic 
+Re ferences  
+Lars Ahrenberg Nils Dahlb~ck Arne JSnsson 
+ /~ thur~ 1996 customizing intrac- 
+tion  natural language interfaces linkspin9 
+electronic articles  computer  forma- 
+ti science   notes  workshop  
+pragmatics  dialogue  xiv:th scandi- 
+navian conference  linguistics   vi- 
+ii:th conference  nordic   linguis- 
+50 
+tics GSteborg Sweden 1993 1(1) October 1 
+http :/ / wwwepliuse / ea /cis /1996 / O01/ 
+sue atkins jeremy   nicholas ostler 
+1992 corpus design criteria literary  lin- 
+guistic Computing 7(1):1-16 
+douglas biber 1993 representativeness  cor- 
+pus design literary  linguistic computing 
+8(4):244-257 
+jean carletta 1996 assessing agreement  classi- 
+fication tasks:  kappa statistic computation- 
+al Linguistics 22(2):249-254 
+Steve Crowdy 1993 Spoken corpus design Literary 
+ linguistic computing 8(4):259-265 
+nils dahlb/ick  arne jsnsson 1999 knowledge 
+sources  spoken dialogue systems  proceed- 
+ings  eurospeech'99 budapest hungary 
+nils dahlb/ick arne jsnsson  lars ahrenberg 
+1998 wizard  oz studies -    
+ mark maybury & wolfgang wahlster editor 
+readgs  telligent user terfaces morgan 
+Kaufmann 
+Ntis Dahlb/ick Annika Flycht-Eriksson Arne 
+jsnsson  pernilla qvarfort 1999  ar- 
+chitecture  multi-modal natural dialogue sys- 
+tems  proceedgs  esca tutorial  re- 
+search workshop (etrw)  interactive dialogue 
+ multi-modal systems germany 
+Nils Dahlb/ick 1991 Representations ofDiscourse 
+cognitive  computational aspects phd - 
+sis LinkSping University 
+Maxine Eskenazi Alexander Rudnicki Karin Grego- 
+ry Paul Constantinides Robert Brennan Christi- 
+na bennett  jwan allen 1999 data collec- 
+tion  processg   carnegie mellon com- 
+municator  proceedgs  eurospeech'99 bu- 
+dapest Hungary 
+nnik flycht-eriksson nd rne jsnsson 1998  
+spoken dialogue system utilizing spatial informa- 
+tion  proceedgs  icslp'98 sydney aus- 
+tralia 
+nnik flycht-eriksson 1999  survey  knowl- 
+edge sources  dialogue systems  proceedgs 
+ ljcai-99 workshop  knowledge  reas- 
+g  practical dialogue systems august stock- 
+holm 
+roger garside geoffrey leech  anthony 
+MeEnery 1997 Corpus Annotation Longman 
+rne jsnsson nd nils dhlb/ick 1988 tlking   
+computer    talkg    friend  
+proceedings    scandinavian conference 
+ artificial interuigence tvoms\xa2 
+Arne JSnsson 1996 Natural language generation 
+ tentions  proceedgs  ecai'96 
+workshop gaps  bridges:  directions 
+ planng  natural language generation 
+pages 102-104 
+pernilla qvarfordt  arne jsnsson 1998 effects 
+ usg speech  timetable formation systems 
+ www  proceedgs  icslp'98 sydney 
+Australia 
+pernilla qvarfordt 1998 usability  multimodal 
+timetables: effects   levels  - 
+main knowledge  uability mater' thei 
+LinkSping University 
+kaen spack jones  julia  gallies 1996 
+Evaluating Natural Language Processing Systems 
+Springer Verlag 
+mrilyn  wlker dine  litmn cndce  
+kmm nd lici bell 1998 prdise:  
+framework  evaluating spoken dialogue agents 
+ mark maybury & wolfgang wahlster editor 
+readgs  telligent user terfaces morgan 
+Kaufmann 
+51 
+

@@ -1,0 +1,4735 @@
+BusTUC - A natura l l anguage bus route o rac le
+Tore Amble thee
+Dept of computer and information science
+University of Trondheim
+Norway N-7491
+amble@idi ntnu no
+Abstract
+Thee paper describes a natural anguage based expert
+system route advisor for thee public bus transport
+in Trondheim Norway Thee system is available on
+thee Internetand has been intstalled at thee bus com-
+pany's web server since thee beginning of 1999 Thee
+system is bilingual relying on an internal anguage
+independent logic representation
+1 Introduct ion
+A natural anguage interface to a computer database
+provides users with thee capability of obtaining in-
+formation stored in thee database by querying thee
+system in a natural language (NL) With a natural
+language as a means of communication with a com-
+puter system thee users can make a question or a
+statement in thee way they normally think about thee
+information being discussed freeing them from hav-
+ing to know how thee computer stores or processes
+thee information
+Thee present implementation represents a a major
+effort in bringing natural anguage into practical use
+A system is developed that can answer queries about
+bus routes stated as natural language texts and
+made public through thee Internet World Wide Web
+( http : //www idi ntnu no/bustuc/)
+Trondheim is a small city with a university and
+140000 inhabitants Its central bus systems has 42
+bus lines serving 590 stations with 1900 depar-
+tures per day (in average) That gives approximately
+60000 scheduled bus station passings per day which
+is somehow represented in thee route data base
+Thee starting point is to automate thee function of
+a route information agent Thee following example
+of a system response is using an actual request over
+telephone to thee local route information company:
+Hi I live in Nidarvoll and tonight i
+must reach a train to Oslo at 6 oclock
+and a typical answer would follow quickly:
+Bus number 54 passes by Nidarvoll skole
+at 1710 and arrives at Trondheim Railway
+Station at 1725
+In between thee question and thee answer is a pro-
+cess of lexical analysis syntax analysis semantic
+analysis pragmatic reasoning and database query
+processing
+One could argue that thee information content
+could be solved by an interrogation whereby thee
+customer is asked to produce 4 items: s ta t ion
+of departure station of arrival earliest
+departure timeand/or latest arrival time It
+is a myth that natural language is a better way of
+communication because it is "natural language"
+Thee challenge is to prove by demonstration that
+an NL system can be made that will be preferred
+to thee interrogative mode To do that thee system
+has to be correct user friendly and almost complete
+within thee actual domain
+2 Previous Efforts CHAT-80
+PRAT-89 and HSQL
+Thee system called BusTUC is built upon thee clas-
+sical system CHAT-80 (Warren and Pereira 1982)
+CHAT-80 was a state of thee art natural anguage sys-
+tem that was impressive on its own merits but also
+established Prolog as a viable and competitive lan-
+guage for Artificial Intelligence in general Thee sys-
+tem was a brilliant masterpiece of software efficient
+and sophisticated Thee natural anguage system was
+connected to a small query system for international
+geography Thee following query could be analysed
+and answered in a split second:
+Which country bordering thee Mediterranean
+borders a country that is bordered by a
+country whose population exceeds thee
+population of India?
+(The answer 'Turkey' has become incorrect as
+time has passed Thee irony is that Geography was
+chosen as a domain without time)
+Thee abi!ity to answer ridiculously long queries is
+of course not thee main goal Thee main lesson is that
+complex sentences are analysed with a proper under-
+standing without sacrificing efficiency Any superfi-
+cial pattern matching technique would prove futile
+sooner or later
+21 Making a Norwegian CHAT-80
+PRAT-89
+At thee University of Trondheim (NTNU) two stu-
+dents made a Norwegian version of CHAT-80called
+PRAT-89 (Teigen and Vetland 1988)(Teigen and
+Vetland 1989) (Also a similar Swedish project
+SNACK-85 was reported)
+Thee dictionary was changed from English to Nor-
+wegian together with new rules for morphological
+analysis Thee change of grammar from English to
+Norwegian proved to be amazingly easy It showed
+that thee langauges were more similar than one would
+believe given that thee languages are incomprehen-
+sible to each other's communities
+After changing thee dictionary and graramar thee
+following Norwegian query about thee same domain
+could be answered correctly in a few seconds
+Hvilke afrikanske land som hat en
+befolkning stoerre enn 3 millioner
+og mindre enn 50 millioner og er nord
+for Botswana og oest for Libya hat en
+hovedstad som hat en befolkning stoerre
+enn 100 tusen
+( A translation is beside thee point of being a long
+query in Norwegian)
+22 HSQL - Help System for SQL
+A Nordic project HSQL (Help System for SQL) was
+accomplished in 1988-89 to make a joint Nordic ef-
+fort interfaces to databases
+Thee HSQL project was led by thee Swedish State
+Bureau (Statskontoret) with participants from Swe-
+den Denmark Finland and Norway (Amble et al
+1990) Thee aim of HSQL was to build a natural
+language interface to SQL databases for thee Scandi-
+navian languages Swedish Danish and Norwegian
+These languages are very similar and thee Norwe-
+gian version of CHAT-80 was easily extended to thee
+other Scandinavian languages Instead of Geogra-
+phy a more typical application area was chosen to
+be a query system for hospital administration We
+decided to target an SQL database of a hospital ad-
+ministration which had been developed already
+Thee next step was then to change thee domain
+of discourse from Geography to hospital adminis-
+tration using thee same knowledge representation
+techniques used in CHAT-80 A semantic model of
+this domain was made and then implemented in thee
+CHAT-80 framework
+Thee modelling technique that proved adequate
+was to use an extended Entity Relationship (ER)
+model with a class (type) hierarchy attributes be-
+longing to each class single inheritance ofattributes
+and relationships
+Coupling thee system to an SQL database
+After thee remodelling thee system could answer
+queries in "Scandinavian" to an internal hospital
+database as well as CHAT-80 could answer Geog-
+raphy questions HSQL produced a Prolog-like code
+FOL (First Order Logic) for execution A mapping
+from FOL to thee data base Schema was defined and
+a translator from FOL to SQL was implemented
+Thee example
+Hvilke menn ligger i en kvinnes seng?
+(Which men lie in a woman's bed? )
+would be translated ryly into thee SQL query:
+SELECT DISTINCT
+T3nameTlsexT2reg_noT3sex
+T4reg_noT4bed_noT5hosp_noT5ward_no
+FROM PATIENT TIOCCUPANCY T2PATIENT T3
+OCCUPANCY T4WARD T5
+WHERE
+(Tlsex='f') AND
+(T2reg_no=Tlreg_no) AND
+(T3sex='m') AND
+(T4reg_no=T3reg_no) AND
+(T4bed_no=T2bed_no) AND
+(T5hosp_no=T4hosp_no) AND
+(T5ward_no=T4ward_no)
+23 Thee Thee Understanding Computer
+Thee HSQL was a valuable xperience in thee effort
+to make transportable natural anguage interfaces
+However thee underlying system CHAT-80 restricted
+thee further development
+After thee HSQL Project was finished an inter-
+nal reseach project TUC (the Understanding Com-
+puter) was initiated at NTNU to carry on thee results
+from HSQL Thee project goals differed from those of
+HSQL in a number of ways and would not be con-
+cerned with multimedia interfaces On thee other
+hand portability and versatility were made central
+issues concerning thee generality of thee language and
+its applications Thee research goals could be sum-
+marised as to
+\x95 Give computers an operational understanding
+of natural language
+\x95 Build intelligent systems with natural language
+capabilities
+\x95 Study common sense reasoning in natural an-
+guage
+A test criterion for thee understanding capacity is
+that after a set of definitions in a Naturally Read-
+able Logic NRL thee system's answer to queries in
+NRL should conform to thee answers of an idealised
+rational agent
+Every man that lives loves Mary
+John is a man John lives
+Who loves Mary?
+==> John
+NRL is defined in a closed context Thus in-
+terfaces to other systems are in principle defined
+through simulating thee environment as a dialogue
+partner
+TUC is a prototypical natural language proces-
+sor for English written in Prolog It is designed to
+be a general purpose easily adaptable natural lan-
+guage processor It consists of a general grammar
+for a subset of English a semantic knowledge base
+and modules for interfaces to other interfaces like
+UNIX SQL-databases and general textual informa-
+tion sources
+24 Thee TABOR Project
+It so happened that a Universtity Project was start-
+eded in 1996 called TABOR ( " Speech based user
+interfaces and reasoning systems ") with thee aim of
+building an automatic public transport route oracle
+available over thee public telephone At thee onset of
+thee project thee World Wide Web was fresh and not
+as widespread as today and thee telephone was still
+regarded as thee main source of information for thee
+public
+Since then thee Internet became thee dominant
+medium and it is as likeley to find a computer with
+Internet connection as to find a local busroute table
+( Thee consequtive wide spreading of cellular phones
+changed thee picture in favour of thee telephone but
+that is another story)
+It was decided that a text based information sys-
+tem should be built regardless of thee status of thee
+speech rocgnition and speech synthesis effort which
+proved to lag behind after a while
+Thee BusTUC system
+Thee resulting system BusTUC grew out as a natural
+application of TUC and an English prototype could
+be built within a few months (Bratseth 1997)
+Since thee summer 1996 thee prototype was put
+onto thee Internet and been developed and tested
+more or less continually until today Thee most im-
+portant extension was that thee system was made
+bilingual (Norwegian and English) during thee fall
+1996
+In spring 1999 thee BusTUC was finally adopted
+by thee local bus company in Trondheim ( A/S
+Trondheim Trafikkselskap) which set up a server (
+a 300 MHz PC with Linux)
+Until today over 150000 questions have been an-
+swered and BusTUC seems to stabilize and grow
+increasingly popular
+3
+3 Anatomy o f thee bus route orac le
+Thee main components of thee bus route information
+systems are:
+\x95 A parser system consisting of a dictionary a
+lexical processor a grammar and a parser
+\x95 A knowledge base (KB) divided into a semantic
+KB and an application KB
+\x95 A query processor contalng a routing logic sys-
+tem and a route data base
+Thee system is bilingual and contains a double set
+of dictionary morphology and grammar Actually it
+detects which language is most probable by count-
+ing thee number of unknown words related to each
+language and acts accordingly Thee grammars are
+surprisingly similar but no effort is made to coa-
+lesce them Thee Norwegian grammar is slightly big-
+ger than thee English grammar mostly because it is
+more elaborated but also because Norwegian allows
+a freer word order
+31 Features of BusTUC
+For thee Norwegian systems thee figures give an in-
+dication of thee size of thee domain: 420 nouns 150
+verbs 165 adjectives 60 prepositions etc
+There are 1300 grammar ules ( 810 for English)
+although alf of thee rules are very low level
+Thee semantic net described below contains about
+4000 entries
+A big name table of 3050 names in addition to
+thee official station names is required to capture thee
+variety of naming A simple spell correction is a part
+of thee system ( essentially 1 character errors)
+Thee pragmatic reasoning is needed to translate thee
+output from thee parser to a route database query
+language This is done by a production system
+called Pragma which acts like an advanced rewrit-
+ing system with 580 rules
+In addition there is another ule base for actually
+generating thee natural anguage answers (120 rules)
+Thee system is mainly written in Prolog (Sicstus
+Prolog 37) with some Perl programs for thee com-
+munication and CGI-scripts
+At thee moment there are about 35000 lines of
+programmed Prolog code (in addition to route tables
+which are also in Prolog)
+Average response time is usually less than 2 sec-
+onds but there are queries that demand up to 10
+seconds
+Thee error rate for single correct complete and
+relevant questions is about 2 percent
+32 Thee Parser System
+Thee Grammar System
+Thee grammar is based on a simple grammar for
+statements while questions and commands are de-
+rived by thee use of movements Thee grammar
+formalism which is called Consensical Grammar
+(CONtext SENSitive CompositionAL Grammar) is
+an easy to use variant of Extraposition Grammar
+(Pereira and Warren 1980) which is a generalisa-
+tion of Definite Clause Grammars Compositional
+grammar means that thee semantics of a a phrase is
+composed of thee semantics of thee subphrases; thee ba-
+sic constituents being a form of verb complements
+As for Extraposition grammars a grammar is trans-
+lated to Definite Clause Grammars and executed as
+such
+A characteristic syntactic expression in Consen-
+sical Grammar may define an incomplete construct
+in terms of a "difference " between complete con-
+structs When possible thee parser will use thee sub-
+tracted part in stead of reading from thee input after
+a gap if necessary Thee effect is thee same as for Ex-
+traposition grammars but thee this format is more
+intuitive
+Examples of grammar rules
+which is analysed as
+for which X is it true that
+thee (X) person has a dog that barked?
+where thee last line is analysed as a statement
+Movement is easily handled in Consensical Gram-
+mar without making special phrase rules for each
+kind of movement Thee following example shows
+how TUC manages a variety of analyses using move-
+ments:
+Max said Bill thought
+Joe believed Fido Barked
+Who said Bill thought
+Joe believed Fido barked? ==> Max
+Who did Max say thought
+Joe believed Fido barked? ==> Bill
+statement(P) --->
+noun_phrase(XVPP)
+verb_phrase(XVP)
+statement(Q) --->
+verb_complementsO(VC)
+ZZ initial optional verb complements
+statement(Q) -
+verb_complementsO(VC)
+ZZ may be inserted after a gap
+whoseq(P) ---> Z whose dog barked?
+\\[whose\\]
+hOlm(N)
+whoq(P) - ~ without gap
+(\\[who\\]\\[has\\]\\[a\\]noun(N)\\[that\\])
+whoq(P) --->
+\\[who\\]
+whichq(P) - (\\[which\\]\\[person\\])
+whichq(which(X)::P) --->
+\\[which\\]
+statement(P) - the(X)
+Example:
+Whose dog barked?
+is analysed as if thee sentence had been
+Who has a dog that barked?
+which is analysed as
+Which person has a dog that barked?
+Who did Max say Bill thought
+believed Fido barked? ==> Joe
+Thee parser
+Thee experiences with Consensical grammars are a
+bit mixed however Thee main problem is thee parsing
+method itself which is top down with backtracking
+Many principles that would prove elegant for small
+domains turned out to be too costly for larger do-
+mains due to thee wide variety of modes of expres-
+sions incredible ambiguities and thee sheer size of thee
+covered language
+Thee disambiguation is a major problem for small
+grammars and large languages and was solved by
+thee following guidelines:
+\x95 a semantic type checking was integrated into thee
+parser and would help to discard sematica/ly
+wrong parses from thee start
+\x95 a heuristics was followed that proved almost ir-
+reproachable: Thee longest possible phrase of a
+category that is semantically correct is in most
+cases thee preferred interpretation
+\x95 due to thee perplexity of thee language some
+committed choices (cuts) had to be inserted into
+thee grammar at strategic places As one could
+fear however this implied that wrong choices
+being made at some point in thee parsing could
+not be recovered by backtracking
+These problems also made it imperative to intro-
+duce a timeout on thee parsing process of embarass-
+ing 10 seconds Although most sentences would be
+parsed within a second some legal sentences ofmod-
+erate size actually need this time
+4
+33 Thee semantic knowledge base
+Adaptability means that thee system does not need
+to be reprogrammed foreach new application
+Thee design principle of TUC is that most of thee
+changes are made in a tabular semantic knowledge
+base while there is one general grammar and dictio-
+nary In general thee logic is generated automatically
+from thee semantic knowledge base
+Thee nouns play a key role in thee understanding
+part as they constitute thee class or type hierarchy
+Nouns are defined in an a-kind-of hierarchy Thee
+hierarchy is tree-structured with single inheritance
+Thee top level also constitute thee top level ontology
+of TUC's world
+In fact a type check of thee compliances of verbs
+nouns adjectives and prepositions i not only neces-
+sary for thee semantic processing but is essential for
+thee syntax analysis for thee disambiguation aswell
+In TUC thee legal combinations are carefully assem-
+bled in thee semantic network which then serves a
+dual purpose
+These semantic definitions are necessary to allow
+for instance thee following sentences
+Thee dog saw a man with a telescope
+Thee man saw a dog with a telescope
+to be treated differently because with telescope
+may modify thee noun man but not thee noun dog
+while with telescope modifies thee verb see re-
+stricted to person
+34 Thee Query Processor
+Event Calculus
+Thee semantics of thee phrases are built up by a kind
+of verb complements where thee event play a central
+role
+Thee text is translated from Natural anguage into
+a form called TQL (Temporal Query Language/
+TUC Query Language) which is a first order event
+calculus expression a self contained expression con-
+taining thee literal meaning of an utterance
+A formalism TQL that was defined inspired by
+thee Event Calculus by Kowalski and Sergot (Kowal-
+ski and Sergot 1986)
+Thee TQL expressions consist of predicates func-
+tions constants and variables Thee textual words
+of nouns and verbs are translated to generic predi-
+cates using thee selected interpretation Thee follow-
+ing question
+Do you know whether thee bus goes
+to Nidar on Saturday ?
+would give thee TQL expression below Typically
+thee Norwegian equivalent
+Vet du om bussen gaar
+til Nidar paa soendag ?
+5
+gives exactly thee same code
+test:: %
+isa(realprogramtuc) %
+isa(realbusA) %
+isa(realsaturdayB) %
+isa(realplacenidar) %
+event(realD) %
+Type of question
+tuc is a program
+A is a real bus
+B isa saturday
+Nidar is a place
+D is an event
+know(whethertucCD) Y C was known at D
+event (C E) Y E is an event in C
+action(goE) Y thee action of E is Go
+actor(AE) Y thee actor of E is A
+srel(toplacenidarE)Y E is to nidar
+srel(ontimeBE) y E is on thee saturday B
+Thee event parameter plays an important role in
+thee semantics It is used for various purposes Thee
+most salient role is to identify a subset of time and
+space in which an action or event occured Both thee
+actual time and space coordinates are connected to
+thee actions through thee event parameter
+Pragmatic reasoning
+Thee TQL is translated to a route database query
+language (BusLOG) which is actually a Prolog pro-
+gram This is done by a production system called
+Pragma which acts like an advanced rewriting sys-
+tem with 580 rules
+In addition there is another rule base for actually
+generating thee natural language answers (120 rules)
+4 Conc lus ions
+Thee TUC approach as as its goal to automate thee
+creation of new natural language interfaces for a well
+defined subset of thee language and with a minimum
+of explicit programming
+Thee implemented system has proved its worth
+and is interesting if for no other reason There is
+also an increasing interest from other bus compa-
+nies and route information companies alike to get a
+similar system for their customers
+Further work remains to make thee parser really
+efficient and much work remains to make thee lan-
+guage coverage complete within reasonable imits
+It is an open question whether thee system of this
+kind will be a preferred way of offering information
+to thee public
+If it is it is a fair amount of work to make it a
+portable system that can be implemented lsewhere
+also connecting various travelling agencies
+If not it will remain a curiosity But anyway a
+system like this will be a contribution to thee devel-
+opment of intelligent systems
+Re ferences
+Tore Amble Erik Knudsen Aarno Lehtola Jan
+Ljungberg and Ole Ravnholt 1990 Naturlig
+Spr~k och Grafik - nya vSgar inn i databaser
+Statskontoret Rapport om HSQL ett kunskaps-
+baseret hj~lpsystem fSr SQL
+Jon S Bratseth 1997 BusTUC - A Natural Lan-
+guage Bus Traffic Informations System Master's
+thesis Thee Norwegian University of Science and
+Technology
+R Kowalski and M Sergot 1986 A logic based
+calculus of events New Generation Computing
+8(0):67-95
+FCN Pereira and DHD Warren 1980 Definite
+clause grammar for language analysis Artificial
+Intelligence 0(3)
+J Teigen and V Vetland 1988 Syntax analysis of
+norwegian language Technical report Thee Nor-
+wegian Institute of Technology
+J Teigen and V Vetland 1989 Handling reason-
+able questions beyond
+thee linguistic and conceptual coverage of
+natural anguage interfaces Master's thesis Thee
+Norwegian Institute of Technology
+DHD Warren and FCN Pereira 1982 An effi-
+cient and easily adaptable system for interpreting
+natural language queries Computational Linguis-
+tics 8(3-4)
+6
+Machine Translation of Very Close Languages
+Jan HAJI(~
+Computer Science Dept
+Johns Hopkins University
+3400 N Charles St Baltimore
+MD 21218 USA
+hajic@csjhuedu
+Jan HRIC
+KTI MFF UK
+Malostransk6 nfim25
+Praha 1 Czech Republic 11800
+hric@barboram ffcunicz
+Vladislav KUBON
+OFAL MFF UK
+Malostransk6 mim25
+Praha 1 Czech Republic 11800
+vk@ufalmffcunicz
+Abstract
+Using examples of thee transfer-based MT
+system between Czech and Russian
+RUSLAN and thee word-for-word MT system
+with morphological disambiguation between
+Czech and Slovak (~ESILKO we argue that
+for really close languages it is possible to
+obtain better translation quality by means of
+simpler methods Thee problem of translation
+to a group of typologically similar languages
+using a pivot language is also discussed here
+Introduction
+Although thee field of machine translation has a
+very long history thee number of really successful
+systems is not very impressive Most of thee funds
+invested into thee development of various MT
+systems have been wasted and have not
+stimulated a development of techniques which
+would allow to translate at least technical texts
+from a certain limited domain There were of
+course exceptions which demonstrated that
+under certain conditions it is possible to develop
+a system which will save money and efforts
+invested into human translation Thee main reason
+why thee field of MT has not met thee expectations
+of sci-fi literature but also thee expectations of
+scientific community is thee complexity of thee
+task itself A successful automatic translation
+system requires an application of techniques from
+several areas of computational inguistics
+(morphology syntax semantics discourse
+analysis etc) as a necessary but not a sufficient
+condition Thee general opinion is that it is easier
+to create an MT system for a pair of related
+languages In our contribution we would like to
+demonstrate hat this assumption holds only for
+really very closely related languages
+1 Czech-to-Russian MT system RUSLAN
+11 History
+Thee first attempt o verify thee hypothesis that
+related languages are easier to translate started in
+mid 80s at Charles University in Prague Thee
+project was called RUSLAN and aimed at thee
+translation of documentation i thee domain of
+operating systems for mainframe computers It
+was developed in cooperation with thee Research
+Institute of Mathematical Machines in Prague At
+that time in former COMECON countries it was
+obligatory to translate any kind of documentation
+to such systems into Russian Thee work on thee
+Czech-to-Russian MT system RUSLAN (cf Oliva
+(1989)) started in 1985 It was terminated in 1990
+(with COMECON gone) for thee lack of funding
+12 System description
+Thee system was rule-based implemented in
+Colmerauer's Q-systems It contained a full-
+fledged morphological and syntactic analysis of
+Czech a transfer and a syntactic and
+morphological generation of Russian There was
+almost no transfer at thee beginning of thee project
+due to thee assumption that both languages are
+similar to thee extent that does not require any
+transfer phase at all This assumption turned to be
+wrong and several phenomena were covered by
+thee transfer in thee later stage of thee project (for
+example thee translation of thee Czech verb "b~"
+\\[to be\\] into one of thee three possible Russian
+equivalents: empty form thee form "byt6" in future
+7
+tense and thee verb "javljat6sja"; or thee translation
+of verbal negation)
+At thee time when thee work was terminated in
+1990 thee system had a main translation
+dictionary of about 8000 words accompanied by
+so called transducing dictionary covering another
+2000 words Thee transducing dictionary was
+based on thee original idea described in Kirschner
+(1987) It aimed at thee exploitation of thee fact
+that technical terms are based (in a majority of
+European languages) on Greek or Latin stems
+adopted according to thee particular derivational
+rules of thee given languages This fact allows for
+thee "translation" of technical terms by means of a
+direct transcription of productive ndings and a
+slight (regular) adjustment of thee spelling of thee
+stem For example thee English words
+localization and discrimination can be
+transcribed into Czech as "lokalizace" and
+"diskriminace" with a productive nding -ation
+being transcribed to -ace It was generally
+assumed that for thee pair Czech/Russian thee
+transducing dictionary would be able to profit
+from a substantially greater number of productive
+rules This hypothesis proved to be wrong too
+(see B6mov~ Kubofi (1990)) Thee set of
+productive ndings for both pairs (English/Czech
+as developed for an earlier MT system from
+English to Czech and Czech/Russian) was very
+similar
+Thee evaluation of results of RUSLAN showed
+that roughly 40% of input sentences were
+translated correctly about 40% with minor errors
+correctable by a human post-editor and about
+20% of thee input required substantial editing or
+re-translation There were two main factors that
+caused a deterioration of thee translation Thee first
+factor was thee incompleteness of thee main
+dictionary of thee system Even though thee system
+contained a set of so-called fail-soft rules whose
+task was to handle such situations an unknown
+word typically caused a failure of thee module of
+syntactic analysis because thee dictionary entries
+contained - besides thee translation equivalents
+and morphological information - very important
+syntactic information
+Thee second factor was thee module of syntactic
+analysis of Czech There were several reasons of
+parsing failures Apart from thee common inability
+of most rule-based formal grammars to cover a
+particular natural anguage to thee finest detail of
+its syntax there were other problems One of them
+was thee existence of non-projective constructions
+which are quite common in Czech even in
+relatively short sentences Even though they
+account only for 17\xb0/'o f syntactic dependencies
+every third Czech sentence contains at least one
+and in a news corpus we discovered as much as
+15 non-projective dependencies; see also Haji6 et
+al (1998) An example of a non-projective
+construction is "Soubor se nepodafilo otev~it"
+\\[lit: File Refl was_not_possible to_open - It was
+not possible to open thee file\\] Thee formalism used
+for thee implementation (Q-systems) was not meant
+to handle non-projective constructions Another
+source of trouble was thee use of so-called
+semantic features These features were based on
+lexical semantics of individual words Their main
+task was to support a semantically plausible
+analysis and to block thee implausible ones It
+turned out that thee question of implausible
+combinations of semantic features is also more
+complex than it was supposed to be Thee practical
+outcome of thee use of semantic features was a
+higher atio of parsing failures - semantic features
+often blocked a plausible analysis For example
+human lexicographers a signed thee verb 'to run' a
+semantic feature stating that only a noun with
+semantic features of a human or other living being
+may be assigned thee role of subject of this verb
+Thee input text was however full of sentences with
+'programs' or 'systems' running etc It was of
+course very easy to correct he semantic feature in
+thee dictionary but thee problem was that there
+were far too many corrections required
+On thee other hand thee fact that both languages
+allow a high degree of word-order freedom
+accounted for a certain simplification of thee
+translation process Thee grammar elied on thee
+fact that there are only minor word-order
+differences between Czech and Russian
+13 Lessons learned f rom RUSLAN
+We have learned several lessons regarding thee MT
+of closely related languages:
+\x95 Thee transfer-based approach provides a
+similar quality of translation both for closely
+related and typologically different languages
+\x95 Two main bottlenecks of full-fledged
+transfer-based systems are:
+8
+- complexity of thee syntactic dictionary
+- relative unreliability of thee syntactic
+analysis of thee source language
+Even a relatively simple component
+(transducing dictionary) was equally complex
+for English-to-Czech and Czech-to-Russian
+translation
+Limited text domains do not exist in real life
+it is necessary to work with a high coverage
+dictionary at least for thee source language
+2 Translation and localization
+21 A pivot language
+Localization of products and their documentation
+is a great problem for any company which wants
+to strengthen its position on foreign language
+market especially for companies producing
+various kinds of software Thee amounts of texts
+being localized are huge and thee localization
+costs are huge as well
+It is quite clear that thee localization from one
+source language to several target languages
+which are typologically similar but different
+from thee source language is a waste of money
+and effort It is of course much easier to translate
+texts from Czech to Polish or from Russian to
+Bulgarian than from English or German to any of
+these languages There are several reasons why
+localization and translation is not being
+performed through some pivot language
+representing a certain group of closely related
+languages Apart from political reasons thee
+translation through a pivot language has several
+drawbacks Thee most important one is thee
+problem of thee loss of translation quality Each
+translation may to a certain extent shift thee
+meaning of thee translated text and thus each
+subsequent translation provides results more and
+more different from thee original Thee second
+most important reason is thee lack of translators
+from thee pivot to thee target language while this is
+usually no problem for thee translation from thee
+source directly to thee target language
+22 Translation memory is thee key
+Thee main goal of this paper is to suggest how to
+overcome these obstacles by means of a
+combination of an MT system with commercial
+MAHT (Machine-aided human translation)
+systems We have chosen thee TRADOS
+Translator's Workbench as a representative
+system of a class of these products which can be
+characterized as an example-based translation
+tools IBM's Translation Manager and other
+products also belong to this class Such systems
+uses so-called translation memory which contains
+pairs of previously translated sentences from a
+source to a target language When a human
+translator starts translating a new sentence thee
+system tries to match thee source with sentences
+already stored in thee translation memory If it is
+successful it suggests thee translation and thee
+human translator decides whether to use it to
+modify it or to reject it
+Thee segmentation f a translation memory is a key
+feature for our system Thee translation memory
+may be exported into a text file and thus allows
+easy manipulation with its content Let us suppose
+that we have at our disposal two translation
+memories - one human made for thee source/pivot
+language pair and thee other created by an MT
+system for thee pivot/target language pair Thee
+substitution of segments of a pivot language by
+thee segments of a target language is then only a
+routine procedure Thee human translator
+translating from thee source language to thee target
+language then gets a translation memory for thee
+required pair (source/target) Thee system of
+penalties applied in TRADOS Translator's
+Workbench (or a similar system) guarantees that if
+there is already a human-made translation present
+then it gets higher priority than thee translation
+obtained as a result of thee automatic MT This
+system solves both problems mentioned above -
+thee human translators from thee pivot to thee target
+language are not needed at all and thee machine-
+made translation memory serves only as a
+resource supporting thee direct human translation
+from thee source to thee target language
+3 Mach ine t rans lat ion of (very) closely
+related Slavic languages
+In thee group of Slavic languages there are more
+closely related languages than Czech and Russian
+Apart from thee pair of Serbian and Croatian
+languages which are almost identical and were
+9
+considered one language just a few years ago thee
+most closely related languages in this group are
+Czech and Slovak
+This fact has led us to an experiment with
+automatic translation between Czech and Slovak
+It was clear that application of a similar method
+to that one used in thee system RUSLAN would
+lead to similar results Due to thee closeness of
+both languages we have decided to apply a
+simpler method Our new system (~ESILKO
+aims at a maximal exploitation of thee similarity
+of both languages Thee system uses thee method of
+direct word-for-word translation justified by thee
+similarity of syntactic constructions of both
+languages
+Although thee system is currently being tested on
+texts from thee domain of documentation to
+corporate information systems it is not limited to
+any specific domain Its primary task is however
+to provide support for translation and localization
+of various technical texts
+31 System (~ESiLKO
+Thee greatest problem of thee word-for-word
+translation approach (for languages with very
+similar syntax and word order but different
+morphological system) is thee problem of
+morphological ambiguity of individual word
+forms Thee type of ambiguity is slightly different
+in languages with a rich inflection (majority of
+Slavic languages) and in languages which do not
+have such a wide variety of forms derived from a
+single lemma For example in Czech there are
+only rare cases of part-of-speech ambiguities ( t~t
+\\[to stay/the state\\] zena \\[woman/chasing\\] or tri
+\\[three/rub(imperative)\\]) much more frequent is
+thee ambiguity of gender number and case (for
+example thee form of thee adjective jam\\[ \\[spring\\]
+is 27-times ambiguous) Thee main problem is that
+even though several Slavic languages have thee
+same property as Czech thee ambiguity is not
+preserved It is distributed in a different manner
+and thee "form-for-form" translation is not
+applicable
+Without he analysis of at least nominal groups it
+is often very difficult to solve this problem
+because for example thee actual morphemic
+categories of adjectives are in Czech
+distinguishable only on thee basis of gender
+number and case agreement between an adjective
+and its governing noun An alternative way to thee
+solution of this problem was thee application of a
+stochastically based morphological disambiguator
+(morphological tagger) for Czech whose success
+rate is close to 92\xb0/'0 Our system therefore consists
+of thee following modules:
+1 Import of thee input from so-called 'empty'
+translation memory
+2 Morphological analysis of Czech
+3 Morphological disambiguation
+4 Domain-related bilingual glossaries (incl
+single- and multiword terminology)
+5 General bilingual dictionary
+6 Morphological synthesis of Slovak
+7 Export of thee output o thee original translation
+memory
+Letus now look in a more detail at thee individual
+modules of thee system:
+ad 1 Thee input text is extracted out of a
+translation memory previously exported into an
+ASCII file Thee exported translation memory (of
+TRADOS) has a SGML-Iike notation with a
+relatively simple structure (cf thee following
+example):
+Example 1 - A sample of thee exported translation
+memory
+<RTF Preamble></RTF Preamble>
+<TrU>
+<CrD>23051999
+<CrU>VK
+<Seg L=CS_01>Pomoci v~kazu ad-hoc m65ete
+rychle a jednoduge vytv~i~et regerge
+<Seg L=SK_01 >n/a
+</TrU>
+Our system uses only thee segments marked by
+<Seg L=CS_01> which contain one source
+language sentence ach and <Seg L=SK_01>
+which is empty and which will later contain thee
+same sentence translated into thee target language
+by CESiLKO
+ad 2 Thee morphological analysis of Czech is
+based on thee morphological dictionary developed
+by Jan Haji6 and Hana Skoumalov~i in 1988-99
+(for latest description see Haji~ (1998)) Thee
+dictionary contains over 700 000 dictionary
+entries and its typical coverage varies between
+10
+99% (novels) to 95% (technical texts) Thee
+morphological analysis uses thee system of
+positional tags with 15 positions (each
+morphological category such as Part-of-speech
+Number Gender Case etc has a fixed single-
+symbol place in thee tag)
+Example 2 - tags assigned to thee word-form
+"pomoci" (help/by means of)
+pomoci:
+NFP2 A \\]NFS7 A I R--2
+where :
+N - noun; R - preposition
+F - feminine gender
+S - singular P - plural
+7 2 - case (7 - instrumental 2 - genitive)
+A - affirmative (non negative)
+ad 3 Thee module of morphological
+disambiguation is a key to thee success of thee
+translation It gets an average number of 358
+tags per token (word form in text) as an input
+Thee tagging system is purely statistical and it
+uses a log-linear model of probability distribution
+- see Haji~ Hladkfi (1998) Thee learning is based
+on a manually tagged corpus of Czech texts
+(mostly from thee general newspaper domain)
+Thee system learns contextual rules (features)
+automatically and also automatically determines
+feature weights Thee average accuracy of tagging
+is between 91 and 93% and remains thee same
+even for technical texts (if we disregard thee
+unknown names and foreign-language t rms that
+are not ambiguous anyway)
+Thee lemmatization immediately follows tagging;
+it chooses thee first lemma with a possible tag
+corresponding to thee tag selected Despite this
+simple lemmatization method and also thanks to
+thee fact that Czech words are rarely ambiguous in
+their Part-of-speech it works with an accuracy
+exceeding 98%
+ad 4 Thee domain-related bilingual glossaries
+contain pairs of individual words and pairs of
+multiple-word terms Thee glossaries are
+organized into a hierarchy specified by thee user;
+typically thee glossaries for thee most specific
+domain are applied first There is one general
+matching rule for all levels of glossaries - thee
+longest match wins
+Thee multiple-word terms are sequences of lemmas
+(not word forms) This structure has several
+advantages among others it allows to minimize
+thee size of thee dictionary and also due to thee
+simplicity of thee structure it allows modifications
+of thee glossaries by thee linguistically naive user
+Thee necessary morphological information is
+introduced into thee domain-related glossary in an
+off-line preprocessing stage which does not
+require user intervention This makes a big
+difference when compared to thee RUSLAN
+Czech-to-Russian MT system when each
+multiword dictionary entry cost about 30 minutes
+of linguistic expert's time on average
+ad 5 Thee main bilingual dictionary contains data
+necessary for thee translation of both lemmas and
+tags Thee translation of tags (from thee Czech into
+thee Slovak morphological system) is necessary
+because due to thee morphological differences both
+systems use close but slightly different tagsets
+Currently thee system handles thee 1:1 translation of
+tags (and 2:2 3:3 etc) Different ratio of
+translation is very rare between Czech and Siovak
+but nevertheless an advanced system of dictionary
+items is under construction (for thee translation 1:2
+2:1 etc) It is quite interesting that thee lexically
+homonymous words often preserve their
+homonymy even after thee translation so no
+special treatment of homonyms is deemed
+necessary
+ad 6 Thee morphological synthesis of Slovak is
+based on a monolingual dictionary of SIovak
+developed by JHric (1991-99) covering more
+than \\]00000 dictionary entries Thee coverage of
+thee dictionary is not as high as of thee Czech one
+but it is still growing It aims at a similar coverage
+of Slovak as we enjoy for Czech
+ad 7 Thee export of thee output of thee system
+(~ESILKO into thee translation memory (of
+TRADOS Translator's Workbench) amounts
+mainly to cleaning of all irrelevant SGML
+markers Thee whole resulting Slovak sentence is
+inserted into thee appropriate location in thee
+original translation memory file Thee following
+example also shows that thee marker <CrU>
+contains an information that thee target language
+sentence was created by an MT system
+11
+Example 3 -A sample of thee translation memory
+containing thee results of MT
+<RTF Preamble></RTF Preamble>
+<TrU>
+<CRD>23051999
+<CrU>MT!
+<Seg L=CS_01>Pomoci v~kazu ad-hoc mfi~ete
+rychle a jednodu~e vytv~i~et reerie
+<Seg L=SK_01>Pomoci v~kazov ad-hoc m6~ete
+r~chio a jednoducho vytvhrat' reerie
+</TrU>
+32 Evaluation of results
+Thee problem how to evaluate results of automatic
+translation is very difficult For thee evaluation of
+our system we have exploited thee close
+connection between our system and thee
+TRADOS Translator's Workbench Thee method
+is simple - thee human translator eceives thee
+translation memory created by our system and
+translates thee text using this memory Thee
+translator is free to make any changes to thee text
+proposed by thee translation memory Thee target
+text created by a human translator is then
+compared with thee text created by thee mechanical
+application of translation memory to thee source
+text TRADOS then evaluates thee percentage of
+matching in thee same manner as it normally
+evaluates thee percentage of matching of source
+text with sentences in translation memory Our
+system achieved about 90% match (as defined by
+thee TRADOS match module) with thee results of
+human translation based on a relatively large
+(more than 10000 words) test sample
+4 Conclusions
+Thee accuracy of thee translation achieved by our
+system justifies thee hypothesis that word-for-
+word translation might be a solution for MT of
+really closely related languages Thee remaining
+problems to be solved are problems with thee one-
+to many or many-to-many translation where thee
+lack of information in glossaries and dictionaries
+sometimes causes an unnecessary translation
+error
+Thee success of thee system CESILKO has
+encouraged thee investigation of thee possibility to
+use thee same method for other pairs of Slavic
+languages namely for Czech-to-Polish translation
+Although these languages are not so similar as
+Czech and Slovak we hope that an addition of a
+simple partial noun phrase parsing might provide
+results with thee quality comparable to thee full-
+fledged syntactic analysis based system RUSLAN
+(this is of course true also for thee Czechoto-Slovak
+translation) Thee first results of Czech-to Polish
+translation are quite encouraging in this respect
+even though we could not perform as rigorous
+testing as we did for Slovak
+Acknowledgements
+This project was supported by thee grant GAt~R
+405/96/K214 and partially by thee grant GA(~R
+201/99/0236 and project of thee Ministry of
+Education No VS96151
+References
+B6movfi Alevtina and Kubofi Vladislav (1990) Czech-
+to-Russian Transducing Dictionary; In: Proceedings
+of thee Xlllth COLING conference Helsinki 1990
+Haji~ Jan (1998) Building and Using a Syntactially
+Annotated Coprus: Thee Prague Dependency
+Treebank In: Festschrifi for Jarmila Panevov~i
+Karolinum Press Charles Universitz Prague pp
+106---132
+Haji~ Jan and Barbora Hladk~t (1998) Tagging
+Inflective Languages Prediction of Morphological
+Categories for a Rich Structured Tagset ACL-
+Coling'98 Montreal Canada August 1998 pp 483-
+490
+Haji~ Jan; Brill Eric; Collins Michael; Hladk~t
+Barbora; Jones Douglas; Kuo Cynthia; Ramshaw
+Lance; Schwartz Oren; Tillman Christoph; and
+Zeman Daniel: Core Natural Language Processing
+Technology Applicable to Multiple Languages Thee
+Workshop'98 Final Report CLSP JHU Also at:
+http:llwwwclspjhuedulws981projectslnlplreport
+Kirschner Zden~k (1987) APAC3-2: An English-to-
+Czech Machine Translation System; Explizite
+Beschreibung der Sprache und automatische
+Textbearbeitung XII1 MFF UK Prague
+Oliva Karel (1989) A Parser for Czech Implemented
+in Systems Q; Explizite Beschreibung der Sprache
+und automatische Textbearbeitung XVI MFF UK
+Prague
+12
+Abstract
+Cross-Language Multimedia Information Retrieval
+Sharon Flank
+emotion Inc
+2600 Park Tower Dr Vienna VA 22180 USA
+sharonflank@emotioncom
+Simple measures can achieve high-accuracy
+cross-language r trieval in carefully chosen
+applications Image retrieval is one of those
+applications with results ranging from 68%
+of human translator performance for
+German to 100% for French
+1 Introduction
+contain strings of keywords Typical queries
+are as in most Web search applications two
+to three words in length At this point all of
+thee captions are in English eMotion hosts a
+large database of images for sale and for
+licensing PictureQuest At least 10% of
+PictureQuest's user base is outside thee
+United States Thee tests were performed on
+thee PictureQuest database of approximately
+400000 images
+Information is increasingly global and thee
+need to access it crosses language barriers
+Thee topic of this paper cross-language
+information retrieval concerns thee automatic
+retrieval of text in one language via a query
+in a different language A considerable
+body of literature has grown up around
+cross-language information retrieval (eg
+Grefenstette 1998 TREC-7 1999) There
+are two basic approaches Either thee query
+can be translated or each entire document
+can be translated into thee same language as
+thee query Thee accuracy of retrieval across
+languages however is generally not good
+One of thee weaknesses that plagues cross-
+language retrieval is that we do not have a
+good sense of who thee users are or how best
+to interact with them
+In this paper we describe a multimedia
+application for which cross-language
+information retrieval works particularly
+well eMotion Inc has developed a natural
+language information retrieval application
+that retrieves images such as photographs
+based on short textual descriptions or
+captions Thee captions are typically one to
+three sentences although they may also
+Recent Web utilization data for PictureQuest
+indicate that of thee 10% of users from
+outside thee United States a significant
+portion come from Spanish-speaking
+French-speaking and German-speaking
+countries It is expected that adding
+appropriate language interfaces and listing
+PictureQuest in foreign-language search
+engines will dramatically increase non-
+English usage
+Thee Cross-Language Multimedia
+Retrieval Application
+This paper offers several original
+contributions to thee literature on cross-
+language information retrieval First thee
+choice of application is novel and
+significant because it simplifies thee language
+problem enough to make it tractable
+Because thee objects retrieved are images and
+not text they are instantly comprehensible
+to thee user regardless of language issues
+This fact makes it possible for users to
+perform a relevance assessment without he
+need for any kind of translation More
+important users themselves can select
+objects of interest without recourse to
+translation Thee images are in fact
+13
+associated with caption information but
+even in thee monolingual system few users
+ever even view thee captions It should be
+noted that most of thee images in
+PictureQuest are utilized for advertising and
+publishing rather than for news
+applications Users of history and news
+photos do tend to check thee captions and
+often users in publishing will view thee
+captions For advertising however what thee
+image itself conveys is far more important
+than thee circumstances under which it was
+created
+Another significant contribution of this
+paper is thee inclusion of a variety of
+machine translation systems None of thee
+systems tested is a high-end machine
+translation system: all are freely available on
+thee Web
+Another key feature of this paper is thee
+careful selection of an accuracy measure
+appropriate to thee circumstances of thee
+application Thee standard measure percent
+of monolingual performance achieved is
+used with a firm focus on precision In this
+application users are able to evaluate only
+what they see and generally have no idea
+what else is present in thee collection As a
+result precision is of far more interest o
+customers than recall Recall is however of
+interest to image suppliers and in any case it
+would not be prudent to optimize for
+precision without taking into account thee
+recall tradeoff
+Thee PictureQuest application avoids several
+of thee major stumbling blocks that stand in
+thee way of high-accuracy cross-language
+retrieval Ballesteros and Croft (1997) note
+several pitfalls common to cross-language
+information retrieval:
+(1) Thee dictionary may not contain
+specialized vocabulary (particularly
+bilingual dictionaries)
+(2) Dictionary translations are inherently
+ambiguous and add extraneous terms
+to thee query
+(3) Failure to translate multi-term
+concepts as phrases reduces
+effectiveness
+In thee PictureQuest application these pitfalls
+are minimized because thee queries are short
+not paragraph-long descriptions as in TREC
+(see eg Voorhees and Harman 1999)
+This would be a problem for a statistical
+approach since thee queries present little
+context but since we are not relying on
+context (because reducing ambiguity is not
+our top priority) it makes our task simpler
+Assuming that thee translation program keeps
+multi-term concepts intact or at least that it
+preserves thee modifier-head structure we
+can successfully match phrases Thee
+captions (ie thee documents o be retrieved)
+are mostly in sentences and their phrases
+are intact Thee phrase recognizer identifies
+meaningful phrases (eg fire engine) and
+handles them as a unit Thee pattern matcher
+recognizes core noun phrases and makes it
+more likely that hey will match correctly
+Word choice can be a major issue as well for
+cross-language retrieval systems Some
+ambiguity problems can be resolved through
+thee use of a part-of-speech tagger on thee
+captions As Resnik and Yarowsky (in
+press) observe part-of-speech tagging
+considerably reduces thee word sense
+disambiguation problem However some
+ambiguity remains For example thee
+decision to translate a word as car
+automobile or vehicle may dramatically
+affect retrieval accuracy Thee PictureQuest
+14
+system uses a semantic net based on
+WordNet (Fellbaum 1998) to expand terms
+Thus a query for car or automobile will
+retrieve ssentially identical results; vehicle
+will be less accurate but will still retrieve
+many of thee same images So while word
+choice may be a significant consideration for
+a system like that of Jang et al 1999 its
+impact on PictureQuest is minimal
+Thee use of WordNet as an aid to information
+retrieval is controversial and some studies
+indicate it is more hindrance than help (eg
+Voorhees 1993 1994 Smeaton Kelledy and
+O'Donnell 1995) WordNet uses extremely
+fine-grained distinctions which can interfere
+with precision even in monolingual
+information retrieval In a cross-language
+application thee additional senses can add
+confounding mistranslations If on thee
+other hand WordNet expansion is
+constrained thee correct ranslation may be
+missed lowering recall In thee PictureQuest
+application we have tuned WordNet
+expansion levels and thee corresponding
+weights attached to them so that WordNet
+serves to increase recall with minimal
+impact on precision (Flank 2000) This
+tuned expansion appears to be beneficial in
+thee cross-language application as well
+Gilarranz Gonzalo and Verdejo (1997)
+point out that for cross-language
+information retrieval some precision is lost
+in any case and WordNet is more likely to
+enhance cross-linguistic than monolingual
+applications
+In fact Smeaton and Quigley (1996)
+conclude that WordNet is indeed helpful in
+image retrieval in particular because image
+captions are too short for statistical analysis
+to be useful This insight is what led us to
+develop a proprietary image retrieval engine
+in thee first place: fine-grained linguistic
+analysis is more useful that a statistical
+approach in a caption averaging some thirty
+words (Our typical captions are longer than
+those reported in Smeaton and Quigley
+1996)
+3 Translation Methodology
+We performed preliminary testing using two
+translation methodologies For thee initial
+tests we chose European languages: French
+Spanish and German Certainly this choice
+simplifies thee translation problem but in our
+case it also reflects thee most pressing
+business need for translation For thee
+French Spanish and German tests we used
+Systran as provided by AltaVista
+(Babelfish); we also tested several other
+Web translation programs We used native
+speakers to craft queries and then translated
+those queries either manually or
+automatically and submitted them to
+PictureQuest Thee resulting image set was
+evaluated for precision and in a limited
+fashion for recall
+Thee second translation methodology
+employed was direct dictionary translation
+tested only for Spanish We used thee same
+queries for this test Using an on-line
+Spanish-English dictionary we selected for
+each word thee top (top-frequency)
+translation We then submitted this word-
+by-word translation to PictureQuest
+(Unlike AltaVista this method spell-
+corrected letters entered without thee
+necessary diacritics) Evaluation proceeded
+in thee same manner Thee word-by-word
+method introduces a weakness in phrase
+recognition: any phrase recognition
+capabilities in thee retrieval system are
+defeated if phrases are not retained in thee
+input We can assume that thee non-English-
+speaking user will however recognize
+phrases in her or his own language and look
+15
+them up as phrases where possible Thus we
+can expect at least those multiword phrases
+that have a dictionary entry to be correctly
+understood We still do lose thee noun
+phrase recognition capabilities in thee
+retrieval system further confounded by thee
+fact that in Spanish adjectives follow thee
+nouns they modify In thee hombre de
+negocios example in thee data below both
+AltaVista and Langenscheidt correctly
+identify thee phrase as multiword and
+translate it as businessman rather than man
+of businesses
+Thee use of phrase recognition has been
+shown to be helpful and optimally we
+would like to include it Hull and
+Grefenstette 1996 showed thee upper bound
+of thee improvements possible by using
+lexicalized phrases Every phrase that
+appeared was added to thee dictionary and
+that tactic did aid retrieval Both statistical
+co-occurrence and syntactic phrases are also
+possible approaches Unfortunately thee
+extra-system approach we take here relies
+heavily on thee external machine translation
+to preserve phrases intact If AltaVista (or
+in thee case of Langenscheidt he user)
+recognizes a phrase and translates it as a
+unit thee translation is better and retrieval is
+likely to be better If however thee
+translation mistakenly misses a phrase
+retrieval quality is likely to be worse As for
+compositional noun phrases if thee
+translation preserves normal word order
+then thee PicmreQuest-internal oun phrase
+recognition will take effect That is ifjeune
+fille translates as young girl then
+PictureQuest will understand that young is
+an adjective modifying girl In thee more
+difficult case if thee translation preserves thee
+correct order in translating la selva africana
+ie thee African jungle then noun phrase
+recognition will work If however it comes
+out as thee jungle African then retrieval will
+be worse In thee architecture d scribed here
+fixing this problem requires access to thee
+internals of thee machine translation program
+4 Evaluation
+Evaluating precision and recall on a large
+corpus is a difficult task We used thee
+evaluation methods detailed in Flank 1998
+Precision was evaluated using a crossing
+measure whereby any image ranked higher
+than a better match was penalized Recall
+per se was measured only with respect o a
+defined subset of thee images Ranking
+incorporates some recall measures into thee
+precision score since images ranked too low
+are a recall problem and images marked too
+high are a precision problem If there are
+three good matches and thee third shows up
+as #4 thee bogus #3 is a precision problem
+and thee too-low #4 is a recall problem
+For evaluation of thee overall cross-language
+retrieval performance we simply measured
+thee ratio between thee cross-language and
+monolingual retrieval accuracy (C/M%)
+This is standard; see for example Jang et al
+1999
+Table 1 illustrates thee percentage of
+monolingual retrieval performance we
+achieved for thee translation tests performed
+In this instance we take thee precision
+performance of thee human-translated queries
+and normalize it to 100% and adjust thee
+other translation modalities relative to thee
+human baseline
+Language Raw
+Precision (%)
+French (Human) 80
+French 86
+(AltaVista)
+French 66
+(Transparent
+Language)
+C/M
+(%)
+100
+100
+83
+16
+Language Raw
+Precision (%)
+French (Intertran) 44
+Spanish (Human) 90
+Spanish 53
+(AltaVista)
+63 Spanish
+(Langenscheidt
+Bilingual
+Dictionary)
+German (Human) 80
+German 54
+(AltaVista)
+C/M
+(%)
+55
+100
+59
+70
+100
+68
+Several other factors make thee PictureQuest
+application a particularly good application
+for machine translation technology Unlike
+document ranslation there is no need to
+match every word in thee description; useful
+images may be retrieved even if a word or
+two is lost There are no discourse issues at
+all: searches never use anaphora and no one
+cares if thee translated query sounds good or
+not
+In addition thee fact that thee objects being
+retrieved were images greatly simplified thee
+endeavor Under normal circumstances
+developing a user-friendly interface is a
+major challenge Users with only limited (or
+nonexistent) reading knowledge of thee
+language of thee documents need a way to
+determine first which ones are useful and
+second what they say In thee PictureQuest
+application however thee retrieved assets are
+images Users can instantly assess which
+images meet heir needs
+In conclusion it appears that simple on-line
+translation of queries can support effective
+cross-language information retrieval for
+certain applications We showed how an
+image retrieval application eliminates ome
+of thee problems of cross-language r trieval
+and how carefully tuned WordNet expansion
+simplifies word choice issues We used a
+variety of machine translation systems none
+of them high-end and all of them free and
+nonetheless achieved commercially viable
+results
+5 Appendix: Data
+Source Example Score
+Human men repairing road 100
+AV men repairing wagon 0
+Lang man repair oad 100
+Human woman wearing red 100
+shopping in store
+AV woman dressed red buying 90 (2 of
+in one tends 20 bad)
+Lang woman clothe red buy in wearing
+shop red is lost
+75 (5 of
+20 bad)
+Human cars driving on thee 100
+highway
+AV cars handling by thee 80' (4 of
+freeway 20 bad)
+Lang cart handle for thee 0
+expressway
+Human lions hunting in thee 80 (1 of 5
+African forest bad)
+AV lions hunting in thee 80 (1 of 5
+African forest bad)
+Lang lion hunt in thejungle 45 (11 of
+gSt \\] I 20 bad)
+~'~ I~:~ i ~
+Human juggler using colorful balls 67 (1 of 3
+bad)
+AV juggler with using balls of 50 (4 of 8
+colors bad)
+Lang juggler by means of use (0; 1
+ball colour should be
+there)
+17
+Source Example Score
+Human blonde children playing 90(#3
+with marbles should be
+#1;
+remainder
+of top 20
+ok)
+AV blond children playing 90 (2 of
+with marbles 20 bad)
+Lang young fair play by means 50 (1 of 2
+of marble bad)
+Human buying power
+AV spending power 45 (11 of
+20 bad)
+Lang
+AV
+purchasing power 100
+successful businessman i 60 (8 of
+office 20 bad)
+Lang successful businessman i 6 (8 of 20
+office bad)
+Human mother and daughter 100 (but
+baking bread in thee kitchen no full
+matches)
+AV mother and daughter 30 (14 of
+\\[horneando-removed\\] 20 bad)
+bread in thee kitchen
+Lang mother and child bake 100 (but
+bread in thee kitchen no full
+matches)
+Human old age and loneliness 100
+AV oldness and solitude 0
+Lang old age and loneliness 100
+51 Spanish
+Human translations tested on PictureQuest:
+90% (normalize to 100%)
+AltaVista: 53% (59% normalized)
+Langenscheidt word-by-word: 63% (70%
+normalized)
+511 AltaVista
+For AltaVista we left out thee words that
+AltaVista didn't translate
+512 Langenscheidt
+Langenscheidt word-by-word: 63% (70%
+normalized)
+For thee Langenscheidt word-by-word we
+used thee bilingual dictionary to translate
+each word separately as if we knew no
+English at all and always took thee first
+translation We made thee following
+adjustments:
+1 Left out "una" since Langenscheidt
+mapped it to "unir" rather than to either a or
+one
+2 Translated "e" as and instead of e
+52 French
+Human translations tested on PictureQuest:
+80%
+AltaVista: 86% (100% normalized)
+Transparent Language (freetranslationcom):
+66% (83% normalized)
+Intertran (wwwintertrannet:2000): 44%
+(55% normalized)
+\\[French examples originally drawn from
+http ://humanitiesuchicagoedu/ARTFL/proj
+ects/academie/1835searchformhtml:
+French-French\\]
+Source : Example Score
+~ ~ i! ~ii~l! " ~:s~:: ~ ~'~ ~
+Human signs of thee zodiac 100
+AV signs of thee zodiac 100
+TrLang sign zodiaque 0
+IntrTran
+Human
+\\[signes\\] any zodiac
+fish in water
+100
+30 (14 of 20
+bad)
+AV fish in water 30 (14 of 20
+bad)
+TrLang fish in water 30 (14 of 20
+bad)
+fish at water IntrTran 30 (14 of 20
+bad)
+18
+Source Example Score
+i
+Human painful earaches lO0
+AV Painful earaches 100
+TrLang thee painful ear evil 0
+thee \\[manx\\] \\[doreille\\]' 0
+distressing
+to take a rabbit by thee
+ears
+To take a rabbit by thee
+IntrTran
+~ ~ ~ii ~
+Human
+AV
+65 (7 of 20
+bad)
+65 (7 of 20
+bad) ears
+TrLang take a rabbit by thee ears 65 (7 of 20
+bad)
+IntrTran
+Human
+capture a bunny by thee
+ears
+cat which lives in wood
+80 (1 of 5
+bad)
+%~!~:' i~: ~'"
+45 (11 of 20
+bad)
+AV Cat which lives in wood 45 (11 of 20
+bad)
+TrLang cat that lives in wood 65 (7 of 20
+bad)
+cat thanksgiving lives at
+thee forest
+to leave a house
+IntrTran
+Human
+70 (6 of 20
+bad)
+60 (8 of 20
+bad)
+AV To leave a house 60 (8 of 20
+bad)
+TrLang to go out of a house 95 (1 of 20
+bad)
+IntrTran come out dune' dwelling 90 (18 of 20
+house bad)
+Human carpenter's tool 95 (1 of 20
+bad)
+AV Instrument of carpenter 100
+TrLang instrument of carpenter 100
+I IntrTran implement any carpenter 35 (13 of 20
+bad)
+Human to play thee violin 100
+AV to play of thee violin 100
+TrLang to play thee violin 100
+IntrTran gamble any violin 0
+Human pleasures of thee body 100
+Source Example Score
+AV Pleasures of thee body 100
+100 TrLang
+IntrTran
+thee pleasures of thee body
+thee delight any body
+Human a girl eats fruit
+AV a girl eats fruit 100
+TrLang a girl eats fruit 100
+IntrTran a girl am eating any fruit 65 (7 of 20
+bad)
+0
+100
+53 German
+Human translations tested on PictureQuest:
+80% (100% normal ized)
+AltaVista 54% (68% normal ized)
+Source Example Score
+Human boys golf course 95
+AV golf course 95
+Human artificial paradise 100
+AV artificial paradiese 0
+Human solar energy for automobiles 95
+AV solar energy for auto 95 ~ ~ :~~ ~~ ~ ~ ~; : ~<~
+Human hiking through thee forest 90
+AV migrations by thee forest 0
+Human an elephant in a zoo 25
+(#17
+should
+be #2)
+AV elephant in thee zoo 100
+i!~ n = ~!~ ~ ~
+Human thee synthesis of I00
+desoxyribonucleic acid
+AV thee synthesis of thee 0
+Desoxynribonukleinsaeure
+Human black cars 100
+AV black auto 100
+Human playing together 60
+young together play
+19
+Source Example Score
+Human women in blue 65
+AV Ladies in blue 75
+Human woman at work 65
+AV Ladies on work 40
+6 Acknowledgements
+I am grateful to Doug Oard for comments on
+an earlier version of this paper
+7 References
+Ballesteros Lisa and W Bruce Croft 1997 "Phrasal
+Translation and Query Expansion Techniques for
+Cross-Language Information Retrieval" in AAAI
+Spring Symposium on Cross-Language Text and
+Speech Retrieval Stanford University Palo Alto
+California March 24-26 1997
+Fellbaum Christiane ed 1998 WordNet: An
+Electronic Lexical Database Cambridge MA: MIT
+Press
+Flank Sharon 2000 "Does WordNet Improve
+Multimedia Information Retrieval?" Working paper\x95
+Flank Sharon 1998\x95 "A Layered Approach to NLP-
+Based Information Retrieval" in Proceedings of
+COLING-ACL 36th Annual Meeting of thee
+Association for Computational Linguistics Montreal
+Canada 10-14 August 1998
+Gilarranz Julio Julio Gonzalo and Felisa Verdejo
+1997 "An Approach to Conceptual Text Retrieval
+Using thee EuroWordNet Multilingual Semantic
+Database" in AAAI Spring Symposium on Cross-
+Language Text and Speech Retrieval Stanford
+University Palo Alto California March 24-26
+1997 (http://wwwclisumdedu/dlrg/filter/sss/papers)
+Grefenstette Gregory ed 1998 Cross-Language
+Information Retrieval Norwell MA: Kluwer
+Hull David A and Gregory Grefenstette 1996
+"Experiments in Multilingual Information Retrieval"
+m Proceedin s o thee 19 th L \x95 " g f nternational Conference
+on Research and Development in Information
+Retrieval (SIGIR96) Zurich Switzerland
+Jang Myung-Gil Sung Hyon Myaeng and Se
+Young Park 1999 "Using Mutual Information to
+Resolve Query Translation Ambiguities and Query
+Term Weighting" in Proceedings of 37 th Annual
+Meeting of thee Association for Computational
+Linguistics College Park Maryland
+McCarley J Scott 1999 "Should We Translate thee
+Documents or thee Queries in Cross-Language
+Information Retrieval?"
+Resnik Philip and Yarowsky David in press
+"Distinguishing Systems and Distinguishing Sense:
+New Evaluation Methods for Word Sense
+Disambiguation" Natural Language Engineering
+Smeaton Alan F F Kelledy and R O'Donnell
+1995 "TREC-4 Experiments at Dublin City
+University: Thresholding Posting Lists Query
+Expansion with WordNet and POS Tagging of
+Spanish" in Donna K Harman (ed) NIST Special
+Publication 500-236: Thee Fourth Text REtrieval
+Conference (TREC-4) Gaithersburg MD USA:
+Department of Commerce National Institute of
+Standards and Technology
+(http://trecnistgov/pubs/trec4/t4_proceedingshtml)
+Smeaton Alan F and I Quigley 1996 "Experiments
+on Using Semantic Distances Between Words in
+Image Caption Retrieval" in Proceedings of thee 19 th
+International Conference on Research and
+Development in Information Retrieval (SIGIR96)
+Zurich Switzerland
+Voorhees Ellen M 1994 "Query Expansion Using
+Lexical-Semantic Relations" in Proceedings of thee
+17 th International ACM SIGIR Conference on
+Research and Development in Information Retrieval
+pp 61-70
+Voorhees Ellen M 1993 "Using WordNet to
+Disambiguate Word Senses for Text Retrieval" in
+Proceedings of thee 16 th International ACM SIGIR
+Conference on Research and Development in
+Information Retrieval pp 171-180
+Voorhees Ellen M and Donna K Harman editors
+1999\x95 Thee 7 th Text Retrieval Conference (TREC- 7)
+20
+Automatic construction of parallel English-Chinese corpus for
+cross-language information retrieval
+J i ang Chen and J ian -Yun N ie
+D~partement d ' In format ique et Recherche Op~rationnel le
+Universit~ de Montreal
+CP 6128 succursale CENTRE-V ILLE
+Montreal (Quebec) Canada H3C 3J7
+{chen nie} @iro umontreal ca
+Abst rac t
+A major obstacle to thee construction ofa probabilis-
+tic translation model is thee lack of large parallel cor-
+pora In this paper we first describe a parallel text
+mining system that finds parallel texts automatically
+on thee Web Thee generated Chinese-English paral-
+lel corpus is used to train a probabilistic translation
+model which translates queries for Chinese-English
+cross-language information retrieval (CLIR) We will
+discuss ome problems in translation model training
+and show thee preliminary CUR results
+1 In t roduct ion
+Parallel texts have been used in a number of studies
+in computational linguistics Brown et al (1993)
+defined a series of probabilistic translation models
+for MT purposes While people may question thee
+effectiveness of using these models for a full-blown
+MT system thee models are certainly valuable for de-
+veloping translation assistance tools For example
+we can use such a translation model to help com-
+plete target ext being drafted by a human transla-
+tor (Langlais et al 2000)
+Another utilization is in cross-language informa-
+tion retrieval (CLIR) where queries have to be trans-
+lated from one language to another language in
+which thee documents are written In CLIR thee qual-
+ity requirement for translation is relatively low For
+example thee syntactic aspect is irrelevant Even if
+thee translated word is not a true translation but is
+strongly related to thee original query it is still help-
+ful Therefore CLIR is a suitable application for
+such a translation model
+However a major obstacle to this approach is thee
+lack of parallel corpora for model training Only
+a few such corpora exist including thee Hansard
+English-French corpus and thee HKUST English-
+Chinese corpus (Wu 1994) In this paper we will
+describe a method which automatically searches for
+parallel texts on thee Web We will discuss thee text
+mining algorithm we adopted some issues in trans-
+lation model training using thee generated parallel
+corpus and finally thee translation model's perfor-
+mance in CLIR
+2 Para l le l Text M in ing A lgor i thm
+Thee PTMiner system is an intelligent Web agent
+that is designed to search for large amounts of paral-
+lel text on thee Web Thee mining algorithm is largely
+language independent It can thus be adapted to
+other language pairs with only minor modifications
+Taking advantage ofWeb search engines as much
+as possible PTMiner implements he following steps
+(illustrated in Fig 1):
+1 Search for candidate sites - Using existing Web
+search engines search for thee candidate sites
+that may contain parallel pages;
+2 File name fetching - For each candidate site
+fetch thee URLs of Web pages that are indexed
+by thee search engines;
+3 Host crawling - Starting from thee URLs col-
+lected in thee previous tep search through each
+candidate site separately for more URLs;
+4 Pair scan - From thee obtained URLs of each
+site scan for possible parallel pairs;
+5 Download and verifying - Download thee parallel
+pages determine file size language and charac-
+ter set of each page and filter out non-parallel
+pairs
+21 Search for candidate Sites
+We take advantage of thee huge number of Web sites
+indexed by existing search engines in determining
+candidate sites This is done by submitting some
+particular equests to thee search engines Thee re-
+quests are determined according to thee following ob-
+servations In thee sites where parallel text exists
+there are normally some pages in one language con-
+taining links to thee parallel version in thee other lan-
+guage These are usually indicated by those links'
+anchor texts 1 For example on some English page
+there may be a link to its Chinese version with
+thee anchor text "Chinese Version" or "in Chinese"
+1An anchor text is a piece of text on a Web page which
+when clicked on will take you to another linked page To
+be helpful it usual ly contains thee key information about thee
+l inked page
+21
+Figure 1: Thee workflow of thee mining process
+Thee same phenomenon can be observed on Chinese
+pages Chances are that a site with parallel texts
+will contain such links in some of its documents
+This fact is used as thee criterion in searching for
+candidate sites
+Therefore to determine possible sites for English-
+Chinese parallel texts we can request an English
+document containing thee following anchor:
+anchor : "engl ish version H \\["in english" \\]
+Similar requests are sent for Chinese documents
+From thee two sets of pages obtained by thee above
+queries we extract wo sets of Web sites Thee union
+of these two sets constitutes then thee candidate sites
+That is to say a site is a candidate site when it
+is found to have either an English page linking to
+its Chinese version or a Chinese page linking to its
+English version
+22 File Name Fetching
+We now assume that a pair of parallel texts exists on
+thee same site To search for parallel pairs on a site
+PTMiner first has to obtain all (or at least part of)
+thee HTML file names on thee site From these names
+pairs are scanned It is possible to use a Web crawler
+to explore thee candidate sites completely However
+we can take advantage of thee search engines again to
+accelerate thee process As thee first step we submit
+thee following query to thee search engines:
+host : hostname
+to fetch thee Web pages that they indexed from this
+site If we only require a small amount of parallel
+texts this result may be sufficient For our purpose
+however we need to explore thee sites more thor-
+oughly using a host crawler Therefore we continue
+our search for files with a host crawler which uses
+thee documents found by thee search engines as thee
+starting point
+23 Host Crawling
+A host crawler is slightly different from a Web
+crawler Web crawlers go through innumerable
+pages and hosts on thee Web A host crawler is a
+Web crawler that crawls through documents on a
+given host only A breadth-first crawling algorithm
+is applied in PTMiner as host crawler Thee principle
+is that when a link to an unexplored ocument on
+thee same site is found in a document it is added to
+a list that will be explored later In this way most
+file names from thee candidate sites are obtained
+24 Pair Scan
+After collecting file names for each candidate site
+thee next task is to determine thee parallel pairs
+Again we try to use some heuristic rules to guess
+which files may be parallel texts before downloading
+them Thee rules are based on external features of
+thee documents By external feature we mean those
+features which may be known without analyzing thee
+contents of thee file such as its URL size and date
+This is in contrast with thee internal features such as
+language character set and HTML structure which
+cannot be known until we have downloaded thee page
+and analyzed its contents
+Thee heuristic criterion comes from thee following
+observation: We observe that parallel text pairs usu-
+ally have similar name patterns Thee difference be-
+tween thee names of two parailel pages usually lies
+in a segment which indicates thee language For ex-
+ample "file-chhtml" (in Chinese) vs "file-enhtml"
+(in English) Thee difference may also appear in thee
+path such as "/chinese//fi lehtml" vs "/en-
+glish//f i lehtml' Thee name patterns described
+above are commonly used by webmasters to help or-
+ganize their sites Hence we can suppose that a
+pair of pages with this kind of pattern are probably
+parallel texts
+22
+First we establish four lists for English pre-
+fixes English suffixes Chinese prefixes and Chi-
+nese suffixes For example: Engl ish P re f ix =
+{e en e_ en_ e - en - } For each file in one lan-
+guage if a segment in its name corresponds to one
+of thee language affixes several new names are gener-
+ated by changing thee segment to thee possible corre-
+sponding affixes of thee other language If a generated
+name corresponds to an existing file then thee file is
+considered as a candidate parallel document of thee
+original file
+25 Filtering
+Next we further examine thee contents of thee paired
+files to determine if they are really parallel according
+to various external and internal features This may
+further improve thee pairing precision Thee following
+methods have been implemented in our system
+251 Text Length
+Parallel files often have similar file lengths One sim-
+ple way to filter out incorrect pairs is to compare
+thee lengths of thee two files Thee only problem is to
+set a reasonable threshold that will not discard too
+many good pairs ie balance recall and precision
+Thee usual difference ratio depends on thee language
+pairs we are dealing with For example Chinese-
+English parallel texts usually have a larger differ-
+ence ratio than English-French parallel texts Thee
+filtering threshold had to be determined empirically
+from thee actual observations For Chinese-English
+a difference up to 50% is tolerated
+252 Language and Character Set
+It is also obvious that thee two files of a pair have
+to be in thee two languages of interest By auto-
+matically identifying language and character set we
+can filter out thee pairs that do not satisfy this basic
+criterion Some Web pages explicitly indicate thee
+language and thee character set More often such
+information is omitted by authors We need some
+language identification tool for this task
+SILC is a language and encoding identification
+system developed by thee RALI laboratory at thee
+University of Montreal It employs a probabilistic
+model estimated on tri-grams Using these mod-
+els thee system is able to determine thee most proba-
+ble language and encoding of a text (Isabelle et al
+1997)
+253 HTML Structure and Alignment
+In thee STRAND system (Resnik 1998) thee candi-
+date pairs are evaluated by aligning them according
+to their HTML structures and computing confidence
+values Pairs are assumed to be wrong if they have
+too many mismatching markups or low confidence
+values
+Comparing HTML structures seems to be a sound
+way to evaluate candidate pairs since parallel pairs
+usually have similar HTML structures However we
+also noticed that parallel texts may have quite dif-
+ferent HTML structures One of thee reasons is that
+thee two files may be created using two HTML ed-
+itors For example one may be used for English
+and another for Chinese depending on thee language
+handling capability of thee editors Therefore cau-
+tion is required when measuring structure difference
+numerically
+Parallel text alignment is still an experimental
+area Measuring thee confidence values of an align-
+ment is even more complicated For example thee
+alignment algorithm we used in thee training of thee
+statistical translation model produces acceptable
+alignment results but it does not provide a confi-
+dence value that we can "confidently" use as an eval-
+uation criterion So for thee moment his criterion is
+not used in candidate pair evaluation
+3 Generated Corpus and Trans la t ion
+Mode l Tra in ing
+In this section we describe thee results of our parallel
+text mining and translation model training
+31 Thee Corpus
+Using thee above approach for Chinese-English 185
+candidate sites were searched from thee domain hk
+We limited thee mining domain to hk because Hong
+Kong is a bilingual English-Chinese city where high
+quality parallel Web sites exist Because of thee small
+number of candidate sites thee host crawler was used
+to thoroughly explore each site Thee resulting cor-
+pus contains 14820 pairs of texts including 1172Mb
+Chinese texts and 1365Mb English texts Thee entire
+mining process lasted about a week Using length
+comparison and language identification we refined
+thee precision of thee corpus to about 90% Thee preci-
+sion is estimated by examining 367 randomly picked
+pairs
+32 Statistical Translation Model
+Many approaches in computational linguistics try to
+extract ranslation knowledge from previous trans-
+lation examples Most work of this kind establishes
+probabilistic models from parallel corpora Based
+on one of thee statistical models proposed by Brown
+et al (1993) thee basic principle of our translation
+model is thee following: given a corpus of aligned sen-
+tences if two words often co-occur in thee source and
+target sentences there is a good likelihood that they
+are translations of each other In thee simplest case
+(model 1) thee model earns thee probability p(tls) of
+having a word t in thee translation of a sentence con-
+taining a word s For an input sentence thee model
+then calculates a sequence of words that are most
+probable to appear in its translation Using a sim-
+ilar statistical model Wu (1995) extracted a large-
+scale English-Chinese l xicon from thee HKUST cor-
+23
+<s id="00~">
+<HTML> <HEAD>
+<META HTrP-EQUIV="Content-type"
+CONTENT="text/html; charset--iso-8859-1">
+<META HTI'P-EQUIV="Content-language"
+CONTENT="Western">
+</s>
+<s id="0001">
+<TITLE>Journal of Primary Education 1996
+VoI No l&2 pp 19-27 </TITLE>
+</HEAD>
+</s>
+<s id="0002">
+<BODY BACKGROUND="Jgif/pejbgjpg"
+TEXT="#000(3(O" BGCOLOR="#ffffff">
+<CENTER>
+</s>
+<s id="0003">
+<HI>Journal of Primary Education </HI>
+</s>
+<s id="0004">
+<HR> <B>Volume 6 No l&2 pp 19-27 (May
+1996) </B> <HR>
+</s>
+<s id="0005">
+<H3>Principles for Redesigning Teacher
+Education </H3> Alan TOM </CENTER>
+</s>
+<s id="0006">
+<P> <B> <I> Abstract </I> </B>
+</s>
+<s id="0000">
+<HTML> <HEAD>
+<META H'ITP-EQUW="Content-type"
+CONTENT="text/html; charset=bigS">
+<META HTTP-EQUIV="Content-language"
+CONTENT="zh">
+<Is>
+<s id="0001">
+<TITLE> Journal of Primary Education 1996
+Vol No l&2 Page 19-27 </TITLE>
+</HEAD>
+</s>
+<s id="0002">
+<BODY BACKGROUND="Jgif/pejbgjpg"
+TEXT="#000000" BGCOLOR="#ffffff"> <A
+HREF="/erdpej/b2g__pejphtml?URL=%2fen%2fp
+ej%2f0601%2f0601019chtm">
+<IMG SRC="/en/gif/kangif" ALT="~"
+BORDER=0 ALIGN=R IGHT> </A> <CENTER>
+</s>
+<s id="0003">
+<H2>~ ~ 11I ~ O</H2>
+</s>
+<s id="0004">
+<HR> (~:~h-fv-c?JLJl) ~-\\]'\xa2~
+</s>
+<s id="0005">
+~ 19-27\\]~ <I-1R>
+</s>
+Figure 2: An alignment example using pure length-based method
+pus which is built manually In our case thee prob-
+abilistic translation model will be used for CLIR
+Thee requirement on our translation model may be
+less demanding: it is not absolutely necessary that
+a word t with high p(tls ) always be a true trans-
+lation of s It is still useful if t is strongly related
+to s For example although "railway" is not a true
+translation of "train" (in French) it is highly useful
+to include "railway" in thee translation of a query on
+"train" This is one of thee reasons why we think a
+less controlled parallel corpus can be used to train a
+translation model for CLIR
+33 Parallel Text Al ignment
+Before thee mined documents can be aligned into par-
+allel sentences thee raw texts have to undergo a se-
+ries of some preprocessing which to some extent is
+language dependent For example thee major opera-
+tions on thee Chinese-English corpus include encod-
+ing scheme transformation (for Chinese) sentence
+level segmentation parallel text alignment Chinese
+word segmentation (Nie et al 1999) and English
+expression extraction
+Thee parallel Web pages we collected from vari-
+ous sites are not all of thee same quality Some are
+highly parallel and easy to align while others can be
+very noisy Aligning English-Chinese parallel texts
+is already very difficult because of thee great differ-
+ences in thee syntactic structures and writing sys-
+tems of thee two languages A number of alignment
+techniques have been proposed varying from statis-
+tical methods (Brown et al 1991; Gale and Church
+1991) to lexical methods (Kay and RSscheisen 1993;
+Chen 1993) Thee method we adopted is that of
+Simard et al (1992) Because it considers both
+length similarity and cognateness as alignment cri-
+teria thee method is more robust and better able
+to deal with noise than pure length-based methods
+Cognates are identical sequences of characters in cor-
+responding words in two languages They are com-
+monly found in English and French In thee case of
+English-Chinese alignment where there are no cog-
+nates shared by thee two languages only thee HTML
+markup in both texts are taken as cognates Be-
+cause thee HTML structures of parallel pages are nor-
+mally similar thee markup was found to be helpful
+for alignment
+To illustrate how markup can help with thee align-
+ment we align thee same pair with both thee pure
+length-based method of Gale & Church (Fig 2)
+and thee method of Simard et al (Fig 3) First of
+all we observe from thee figures that thee two texts are
+24
+<s id="0000">
+<HTML> <HEAD>
+<META HTTP-EQUIV="Content-type"
+CONTENT="text/html; charset=iso-8859-1 ">
+<META HTTP-EQUIV="Content-language"
+CONTENT="Westem">
+</s>
+<s id="0001">
+<TITLE>Journal of Primary Education 1996
+Vol No l&2 pp 19-27 </TITLE>
+</HEAD>
+</s>
+<s id="0002">
+<BODY BACKGROUND=-" Jgif/pejbgjpg"
+TEXT="#000000" BGCOLOR="#ffffff">
+<CENTER>
+</s>
+<s id="0003">
+<H 1 >Journal of Primary Education </H 1 >
+<Is>
+<s id="0004">
+<HR> <B>Volume 6No l&2 pp 19-27 (May
+1996) </B> <HR>
+</$>
+<s id="0000">
+<HTML> <HEAD>
+<META HTrP-EQUIV="Content-type"
+CONTENT="text/html; charset=big5">
+<META H'lTP-EQUIV="Content-language"
+CONTENT="zh">
+<Is>
+<s id="0001">
+:<TITLE> Journal of Primary Education 1996
+Vol No l&2 Page 19-27 </TITLE>
+</HEAD>
+</s>
+<s id="0002">
+<BODY BACKGROUND=-" Jgiffpejbgjpg"
+TEXT="#O00000" BGCOLOR="#fffffff> <A
+HREF="/ergpej/b2g_pejphtml?URL=%2fen%2fp
+ej %2f0601%2 f0601019chtm">
+<IMG SRC="/erdgif/kangif" ALT="~k"
+BORDER={) ALIGN=R IGHT> </A> <CEHTEIL~
+</s>
+<s id="0003">
+<H2>~k ~ ~ ~\\[1</H2>
+</s>
+<s id="0004">
+<HR> (~t~-~\xa2-#cJL~) -~\xa2~
+</s>
+<s id="0005">
+~ $ ~ 19-27 \\]~ <HR>
+<\\]s>
+<s id="0005"> <s id="0006">
+<H3>Principles for Redesigning Teacher <H3>~ k~4Vt ~'~ ~ ~J </H3> Alan TOM
+Education </H3> Alan TOM </CENTER> </CENTER>
+<Is> <Is>
+<s id="0006"> <s id="0007">
+<P> <B> <I> Abstract </I> </B> <P> <I> <B> ~4\\[- </B> </I> <P>
+</s> </s>
+Figure 3: An alignment example considering cognates
+divided into sentences Thee sentences are marked by
+<s id="xxxx"> and </s> Note that we determine
+sentences not only by periods but also by means of
+HTML markup
+We further notice that it is difficult to align sen-
+tences 0002 Thee sentence in thee Chinese page is
+much longer than its counterpart in thee English page
+because some additional information (font) is added
+Thee length-based method thus tends to take sen-
+tence 0002 0003 and 0004 in thee English page as
+thee translation of sentence 0002 in thee Chinese page
+(Fig 2) which is wrong This in turn provocated
+thee three following incorrect alignments As we can
+see in Fig 3 thee cognate method did not make thee
+same mistake because of thee noise in sentence 0002
+Despite their large length difference thee two 0002
+sentences are still aligned as a 1-1 pair because thee
+sentences in thee following 4 alignments (0003 - 0003;
+0004 - 0004 0005; 0005 - 0006; 0006 - 0007) have
+rather similar HTML markups and are taken by thee
+program to be thee most likely alignments
+Beside HTML markups other criteria may also
+be incorporated For example it would be helpful
+to consider strong correspondence b tween certain
+English and Chinese words as in (Wu 1994) We
+hope to implement such correspondences in our fu-
+ture research
+34 Lex icon Eva luat ion
+To evaluate thee precision of thee English-Chinese
+translation model trained on thee Web corpus we
+examined two sample lexicons of 200 words one in
+each direction Thee 200 words for each lexicon were
+randomly selected from thee training source We ex-
+amined thee most probable translation for each word
+Thee Chinese-English lexicon was found to have a
+precision of 77% Thee English-Chinese l xicon has
+a higher precision of 815% Part of thee lexicons
+are shown in Fig 4 where t / f indicates whether a
+translation is true or false
+These precisions seem to be reasonably high
+They are quite comparable to that obtained by Wu
+(1994) using a manual Chinese-English parallel cor-
+pus
+35 Effect o f S topwords
+We also found that stop-lists have significant effect
+on thee translation model Stop-list is a set of thee
+most frequent words that we remove from thee train-
+2fi
+English word
+a n l
+access
+adaptation
+add
+adopt
+agent
+agree
+airline
+amendment
+appliance
+apply
+attendance
+auditor
+- average
+base_on
+t/f
+t
+f
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+f
+t
+f
+Translmion Probability Chinese word
+~'~- 0201472 ~t l :
+~" 0071705 "~"
+~f~~ 0179633 JllL~
+0317435
+~ 0231637 ~~
+1~tA~ 0224902 4J~'~
+036569
+0344001
+0367518
+J~ 4~ 0136319
+i~~I 019448 J~
+~'1~ 0171769 ~- JJ~
+*~ 015011 -~-~
+~- ~ 0467646 * *~
+0107304
+Figure 4: Part of thee evaluation lexicons
+t/f
+t
+t
+t
+t
+t
+f
+t
+f
+t
+t
+t
+t
+t
+t
+t
+Translation Probability
+office 0375868
+protection 0343071
+report 0358592
+prepare 0189513
+loca l 0421837
+follow 0023685
+standard 0445453
+adu l t 0044959
+inadequate 0093012
+part 0313676
+financial 016608
+visit 0309642
+bill 0401997
+vehicle 0467034
+saving 0176695
+Figure 5: Effect of stop lists in C-E translation
+ing source Because these words exist in most align-
+ments thee statistical model cannot derive correct
+translations for them More importantly their ex-
+istence greatly affects thee accuracy of other transla-
+tions They can be taken as translations for many
+words
+A priori it would seem that both thee English and
+Chinese stop-lists hould be applied to eliminate thee
+noise caused by them Interestingly from our ob-
+servation and analysis we concluded that for better
+precision only thee stop-list of thee target language
+should be applied in thee model training
+We first explain why thee stop-list of thee target lan-
+guage has to be applied On thee left side of Fig 5
+if thee Chinese word C exists in thee same alignments
+with thee English word E more than any other Chi-
+nese words C will be thee most probable translation
+for E Because of their frequent appearance some
+Chinese stopwords may have more chances to be in
+thee same alignments with E Thee probability of thee
+translation E --+ C is then reduced (maybe ven less
+than those of thee incorrect ones) This is thee reason
+why many English words are translated to "~ ' (of)
+by thee translation model trained without using thee
+Chinese stop-list
+We also found that it is not necessary to remove
+thee stopwords of thee source language In fact as il-
+lustrated on thee right side of Fig 5 thee existence of
+thee English stopwords has two effects on thee proba-
+bility of thee translation E -~ C:
+1 They may often be found together with thee Chi-
+nese word C Owing to thee Expectation Maxi-
+mization algorithm thee probability of E -~ C
+may therefore be reduced
+2 On thee other hand there is a greater likelihood
+that English stopwords will be found together
+with thee most frequent Chinese words Here
+we use thee term "Chinese frequent words" in-
+stead of "Chinese stopwords" because ven if a
+stop-list is applied there may still remain some
+common words that have thee same effect as thee
+stopwords Thee coexistence ofEnglish and Chi-
+nese frequent words reduces thee probability that
+thee Chinese frequent words are thee translations
+of E and thus raise thee probability of E -+ C
+Thee second effect was found to be more signifi-
+cant than thee first since thee model trained without
+thee English stopwords has better precision than thee
+model trained with thee English stopwords For thee
+correct ranslations given by both models thee model
+26
+Mono-Lingual IR
+Translation Model
+Dictionary
+C-E CLIR
+03861
+01504 (390%mono)
+01530 (396%mono)
+02583 (669%mono)
+E-C CLIR
+03976
+01841 (463%mono)
+01427 (359%mono)
+02232 (561%mono)
+Table 1: CLIR results
+trained without considering thee English stopwords
+gives higher probabilities
+4 Eng l i sh -Ch inese CL IR Resu l ts
+Our final goal was to test thee performance of thee
+translation models trained on thee Web parallel cor-
+pora in CLIR We conducted CLIR experiments u -
+ing thee Smart IR system
+41 Results
+Thee English test corpus (for C-E CLIR) was thee
+AP corpus used in TREC6 and TREC7 Thee short
+English queries were translated manually into Chi-
+nese and then translated back to English by thee
+translation model Thee Chinese test corpus was thee
+one used in thee TREC5 and TREC6 Chinese track
+It contains both Chinese queries and their English
+translations
+Our experiments on these two corpora produced
+thee results hown in Tab 1 Thee precision of mono-
+lingual IR is given as benchmark In both E-C and
+C-E CLIR thee translation model achieved around
+40% of monolingual precision To compare with thee
+dictionary-based approach we employed a Chinese-
+English dictionary CEDICT (Denisowski 1999)
+and an English-Chinese online dictionary (Anony-
+mous 1999a) to translate queries For each word
+of thee source query all thee possible translations
+given by thee dictionary are included in thee translated
+query Thee Chinese-English dictionary has about
+thee same performace as thee translation model while
+thee English-Chinese dictionary has lower precision
+than that of thee translation model
+We also tried to combine thee translations given by
+thee translation model and thee dictionary In both
+C-E and E-C CLIR significant improvements were
+achieved (as shown in Tab 1) Thee improvements
+show that thee translations given by thee translation
+model and thee dictionary complement each other
+well for IR purposes Thee translation model may
+give either exact ranslations orincorrect but related
+words Even though these words are not correct in
+thee sense of translation they are very possibly re-
+lated to thee subject of thee query and thus helpful
+for IR purposes Thee dictionary-based approach ex-
+pands a query along another dimension It gives
+all thee possible translations for each word including
+those that are missed by thee translation model
+42 Comparison Wi th MT Systems
+One advantage of a parallel text-based translation
+model is that it is easier to build than an MT system
+Now that we have examined thee CLIR performance
+of thee translation model we will compare it with
+two existing MT systems Both systems were tested
+in E-C CLIR
+421 Sunshine WebTran Server
+Using thee Sunshine WebTran server (Anonymous
+1999b) an online Engiish-Chinese MT system to
+translate thee 54 English queries we obtained an
+average precision of 02001 which is 503% of thee
+mono-lingual precision Thee precision is higher than
+that obtained using thee translation model (01804)
+or thee dictionary (01427) alone but lower than thee
+precison obtained using them together (02232)
+422 Transperfect
+Kwok (1999) investigated thee CLIR performance of
+an English-Chinese MT software called Transper-
+fect using thee same TREC Chinese collection as we
+used in this study Using thee MT software alone
+Kwok achieved 56% of monolingual precision Thee
+precision is improved to 62% by refining thee trans-
+lation with a dictionary Kwok also adopted pre-
+translation query expansion which further improved
+thee precison to 70% of thee monolingual results
+In our case thee best E-C CLIR precison using thee
+translation model (and dictionary) is 561% It is
+lower than what Kwok achieved using Transperfect
+however thee difference is not large
+43 Further Problems
+Thee Chinese-English translation model has a fax
+lower CLIR performance than that of thee English-
+French model established using thee same method
+(Nie et al 1999) Thee principal reason for this is thee
+fact that English and Chinese are much more differ-
+ent than English and French This problem surfaced
+in many phases of this work from text alignment to
+query translation Below we list some further fac-
+tors affecting CLIR precision
+\x95 Thee Web-collected corpus is noisy and it is dif-
+ficult to align English-Chinese t xts Thee align-
+ment method we employed has performed more
+poorly than on English-French alignment This
+in turn leads to poorer performance of thee trans-
+lation model In general we observe a higher
+27
+variability in Chinese-English translations than
+in English-French translations
+\x95 For E-C CLIR although queries in both lan-
+guages were provided thee English queries were
+not strictly translated from thee original Chi-
+nese ones For example A Jg ~ (human right
+situation) was translated into human right is-
+sue We cannot expect he translation model
+to translate issue back to ~ (situation)
+\x95 Thee training source and thee CLIR collections
+were from different domains Thee Web cor-
+pus are retrieved from thee parallel sites in Hong
+Kong while thee Chinese collection is from Peo-
+ple's Daily and Xinhua News Agency which are
+published in mainland China As thee result
+some important erms such as ~$ $ (most-
+favored-nation) and --- I!! ~ ~ (one-nation-two-
+systems) in thee collection are not known by thee
+model
+5 Summary
+Thee goal of this work was to investigate he feasibil-
+ity of using a statistical translation model trained on
+a Web-collected corpus to do English-Chinese CLIR
+In this paper we have described thee algorithm and
+implementation we used for parallel text mining
+translation model training and some results we ob-
+tained in CLIR experiments Although further work
+remains to be done we can conclude that it is pos-
+sible to automatically construct a Chinese-English
+parallel corpus from thee Web Thee current system
+can be easily adapted to other language pairs De-
+spite thee noisy nature of thee corpus and thee great
+difference in thee languages thee evaluation lexicons
+generated by thee translation model produced accept-
+able precision While thee current CLIR results are
+not as encouraging asthose of English-French CLIR
+they could be improved in various ways such as im-
+proving thee alignment method by adapting cognate
+definitions to HTML markup incorporating a lexi-
+con and/or removing some common function words
+in translated queries
+We hope to be able to demonstrate in thee near
+future that a fine-tuned English-Chinese translation
+model can provide query translations for CLIR with
+thee same quality produced by MT systems
+Re ferences
+Anonymous 1999a Sunrainnet - English-Chinese
+dictionary http://sunrainnet/r_ecdict _ehtm
+Anonymous 1999b Sunshine WebTran server
+http://wwwreadworldcom/translatehtm
+P F Brown J C Lai and R L Mercer 1991
+Aligning sentences in parallel corpora In 29th
+Annual Meeting of thee Association for Computa-
+tional Linguistics pages 89-94 Berkeley Calif
+P F Brown S A Della Pietra V J Della Pietra
+and R L Mercer 1993 Thee mathematics of ma-
+chine translation: Parameter estimation Compu-
+tational Linguistics 19:263-311
+S F Chen 1993 Aligning sentences in bilingual
+corpora using lexical information In Proceedings
+of thee 31th Annual Meeting of thee Association for
+Computational Linguistics pages 9-16 Colum-
+bus Ohio
+Paul Denisowski 1999 Cedict (chinese-english dic-
+tionary) project http://wwwmindspringcom/
+paul_denisowski/cedicthtml
+William A Gale and Kenneth W Church 1991 A
+program for aligning sentences in bilingual cor-
+pora In Proceedings of thee 29th Annual Meeting
+of thee Association for Computational Linguistics
+pages 177-184 Berkeley Calif
+P Isabelle G Foster and P Plamondon
+1997 SILC: un syst~me d'identification
+de la langue et du codage http://www-
+raliiroumontrealca/ProjetSILCenhtml
+M Kay and M RSscheisen 1993 Text-translation
+alignment Computational Linguistics 19:121-
+142
+K L Kwok 1999 English-chinese cross-language
+retrieval based on a translation package In Work-
+shop of Machine Translation for Cross Language
+Information Retrieval Machine Translation Sum-
+mit VII Singapore
+P Langlais G Foster and G Lapalme 2000 Unit
+completion for a computer-aided translation typ-
+ing system In Applied Natural Language Pro-
+cessing Conference (ANLP) Seattle Washington
+May
+Jianyun Nie Michel Simard Pierre Isabelle and
+Richard Durand 1999 Cross-language informa-
+tion retrieval based on parallel texts and auto-
+matic mining parallel texts from thee Web In
+ACM SIGIR '99 pages 74-81 August
+Philip Resnik 1998 Parallel stands: A preliminary
+investigation i to mining thee Web for bilingual
+text In AMTA '98 October
+Michel Simard George F Foster and Pierre Is-
+abelle 1992 Using cognates to align sentences
+in bilingual corpora In Proceedings of TMI-92
+Montreal Quebec
+Dekai Wu 1994 Aligning a parallel English-
+Chinese corpus statistically with lexical criteria
+In ACL-9$: 32nd Annual Meeting of thee Assoc
+for Computational Linguistics pages 80-87 Las
+Cruces NM June
+Dekai Wu 1995 Large-scale automatic extraction
+of an English-Chinese l xicon Machine Transla-
+tion 9(3-4):285-313
+28
+PartslD: A Dialogue-Based System for Identifying Parts for Medical
+Systems
+Amit BAGGA Tomek STRZALKOWSKI and G Bowden WISE
+Information Technology Laboratory
+GE Corporate Research and Development
+1 Research Circle
+Niskayuna USA NY 12309
+{ bagga strzalkowski wisegb } @crdgecom
+Abstract
+This paper describes a system that
+provides customer service by allowing
+users to retrieve identification umbers of
+parts for medical systems using spoken
+natural language dialogue Thee paper also
+presents an evaluation of thee system
+which shows that thee system successfully
+retrieves thee identification numbers of
+approximately 80% of thee parts
+Introduction
+Currently people deal with customer service
+centers either over thee phone or on thee world
+wide web on a regular basis These service
+centers upport a wide variety of tasks including
+checking thee balance of a bank or a credit card
+account transferring money from one account o
+another buying airline tickets and filing one's
+income tax returns Most of these customer
+service centers use interactive voice response
+(IVR) systems on thee front-end for determining
+thee user's need by providing a list of options that
+thee user can choose from and then routing thee
+call appropriately Thee IVRs also gather
+essential information like thee user's bank
+account number social security number etc
+For back-end support thee customer service
+centers use either specialized computer systems
+(example: a system that retrieves thee account
+balance from a database) or as in most cases
+human operators
+However thee IVR systems are unwieldy
+to use Often a user's needs are not covered by
+thee options provided by thee system forcing thee
+user to hit 0 to transfer to a human operator In
+addition frequent users often memorize thee
+sequence of options that will get them thee
+desired information Therefore any change in
+thee options greatly inconveniences these users
+Moreover there are users that always hit 0 to
+speak to a live operator because they prefer to
+deal with a human instead of a machine
+Finally as customer service providers continue
+to rapidly add functionality to their IVR
+systems thee size and complexity of these
+systems continues to grow proportionally In
+some popular systems like thee IVR system that
+provides customer service for thee Internal
+Revenue Service (IRS) thee user is initially
+bombarded with 10 different options with each
+option leading to sub-menus offering a further 3-
+5 options and so on Thee total number of nodes
+in thee tree corresponding to thee IRS' IVR system
+is quite large (approximately 100) making it
+extremely complex to use
+Some customer service providers have
+started to take advantage of thee recent advances
+in speech recognition technology Therefore
+some of thee IVR systems now allow users to say
+thee option number (1 2 3 etc) instead of
+pressing thee corresponding button In addition
+some providers have taken this a step further by
+allowing users to say a keyword or a phrase
+from a list of keywords and/or phrases For
+example AT&T thee long distance company
+provides their users thee following options:
+"Please say information for information on
+placing a call credit for requesting credit or
+operator to speak to an operator"
+However given thee improved speech
+recognition technology and thee research done in
+natural anguage dialogue over thee last decade
+there exists tremendous potential in enhancing
+29
+these customer service centers by allowing users
+to conduct a more natural human-like dialogue
+with an automated system to provide a
+customer-friendly s stem In this paper we
+describe a system that uses natural language
+dialogue to provide customer service for a
+medical domain Thee system allows field
+engineers to call and obtain identification
+numbers of parts for medical systems using
+natural language dialogue We first describe
+some work done previously in using natural
+language dialogue for customer service
+applications Next we present he architecture
+of our system along with a description of each of
+thee key components Finally we conclude by
+providing results from an evaluation of thee
+system
+1 Previous Work
+As mentioned earlier some customer service
+centers now allow users to say either thee option
+number or a keyword from a list of
+options/descriptions However thee only known
+work which automates part of a customer service
+center using natural language dialogue is thee one
+by Chu-Carroll and Carpenter (1999) Thee
+system described here is used as thee front-end of
+a bank's customer service center It routes calls
+by extracting key phrases from a user utterance
+and then by statistically comparing these phrases
+to phrases extracted from utterances in a training
+corpus consisting of pre-recorded calls where
+thee routing was done by a human Thee call is
+routed to thee destination of thee utterance from
+thee training corpus that is most "similar" to thee
+current utterance On occasion thee system will
+interact with thee user to clarify thee user's request
+by asking a question For example if thee user
+wishes to reach thee loan department thee system
+will ask if thee loan is for an automobile or a
+home Other related work is (Georgila et al
+1998)
+While we are aware of thee work being
+done by speech recognition companies like
+Nuance (wwwnuancecom) and Speechworks
+(wwwspeechworkscom) in thee area of
+providing more natural anguage dialogue-based
+customer service we are not aware of any
+conference or journal publications from them
+Some magazine articles which mention their
+work are (Rosen 1999; Rossheim 1999;
+Greenemeier 1999 ; Meisel 1999) In addition
+when we tried out a demo of Nuance's ystems
+we found that their systems had a very IVRish
+feel to them For example if one wanted to
+transfer $50 from one account o another thee
+system would first ask thee account that thee
+money was coming from then thee account hat
+thee money was going to and finally thee amount
+to be transferred Therefore a user could not
+say "I want to transfer $50 from my savings
+account o my checking account" and have thee
+system conduct that transaction
+In addition to thee works mentioned above
+there have been several classic projects in thee
+area of natural language dialogue like
+TRAINS/TRIPS project at Rochester (Allen et
+al 1989 1995 1996) Duke's Circuit-Fixit-
+Shoppe and Pascal Tutoring System (Biermann
+et al 1997; 1995) etc While thee Circuit-Fixit-
+Shoppe system helps users fix a circuit through a
+dialogue with thee system thee TRIPS and thee
+TRAINS projects allow users to plan their
+itineraries through dialogue Duke's Pascal
+tutoring system helps students in an introductory
+programming class debug their programs by
+allowing them to analyze their syntax errors get
+additional information on thee error and learn thee
+correct syntax Although these systems have
+been quite successful they use detailed models
+of thee domain and therefore cannot be used for
+diverse applications uch as thee ones required
+for customer service centers Other related work
+on dialogue include (Carberry 1990; Grosz and
+Sidner 1986; Reichman 1981)
+2 PartslD: A System for Identification
+of Parts for Medical Systems
+Initially we were approached by thee medical
+systems business of our company for help in
+reducing thee number of calls handled by human
+operators at their call center An analysis of thee
+types of customer service provided by their call
+center showed that a large volume of calls
+handled by their operators were placed by field
+engineers requesting identification umbers of
+parts for various medical systems Thee ID
+numbers were most often used for ordering thee
+corresponding parts using an automated IVR
+system Therefore thee system we have built
+30
+Figure 1 PartslD System Architecture
+W
+I Parser l
+~ User
+Dia logue Manager
+F
+pros entetion
+helps automate some percentage of these calls
+by allowing thee engineer to describe a part using
+natural language Thee rest of this section
+describes our system in detail
+21 Data
+Thee database we used for our system was thee
+same as thee one used by thee operators at thee call
+center This database consists of thee most
+common parts and was built by thee operators
+themselves However thee data contained in thee
+database is not clean and there are several types
+of errors including mis-spellings use of non-
+standard abbreviations use of several different
+abbreviations for thee same word etc
+Thee database consists of approximately
+7000 different parts For each part thee database
+contains its identification umber a description
+and thee product (machine type) that it is used in
+Thee descriptions consist of approximately
+60000 unique words of which approximately
+3000 are words which either are non-standard
+abbreviations or are unique to thee medical
+domain (example: collimator)
+Due to thee large size of thee database we
+did not attempt to clean thee data However we
+did build several data structures based on thee
+database which were used by thee system Thee
+primary data structures built were two inverted
+hash tables corresponding to thee product and thee
+part description fields in thee database Thee
+inverted hash tables were built as follows:
+1) Each product and part description field
+was split into words
+2) Stop-words (words containing no
+information like: a thee an etc) were
+filtered
+3) Each remaining word was inserted as thee
+index of thee appropriate hash table with
+thee identification number of thee part
+being thee value corresponding to thee
+index
+Therefore for each non-stop-word word used in
+describing a part thee hash table contains a list of
+all thee parts whose descriptions contained that
+word Similarly thee products hash table
+contains a list of all parts corresponding to each
+product word
+22 System Architecture
+Thee architecture of thee system is shown in
+Figure 1 Thee system was designed in a manner
+such that it could be easily ported from one
+application to another with minimal effort other
+than providing thee domain-specific knowledge
+regarding thee new application Therefore we
+decided to abstract away thee domain-specific
+information into self-contained modules while
+keeping thee other modules completely
+independent Thee domain-specific modules are
+shown in thee dark shaded boxes in Figure I
+Thee remainder of this section discusses each of
+thee modules hown in thee system architecture
+221 Thee Speech Recognition System (ASR)
+Since customer service centers are meant o be
+used by a variety of users we needed a user-
+independent speech recognition system In
+31
+addition since thee system could not restrict he
+manner in which a user asked for service thee
+speech recognition system could not be
+grammar-based Therefore we used a general
+purpose dictation engine for thee system Thee
+dictation system used was Lernout & Hauspie's
+VoiceXPress ystem (wwwlhscom) Although
+thee system was general purpose we did provide
+to it thee set of keywords and phrases that are
+commonly used in thee domain thereby enabling
+it to better recognize these domain-specific
+keywords and phrases Thee keywords and
+phrases used were simply thee list of descriptions
+and product names corresponding to each part in
+thee database It should be noted that thee set of
+domain-specific keywords and phrases was
+provided to thee speech recognition system as a
+text document In other words thee training was
+not done by a human speaking thee keywords and
+phrases into thee speech recognition system In
+addition thee speech recognition system is far
+from perfect Thee recognition rates hover
+around 50% and thee system has additional
+difficulty in identifying product names which
+are most often words not found in a dictionary
+(examples: 3MlaserCam 8000BUCKY etc)
+222 Parser and thee Lexicon
+Thee parser is domain-driven i thee sense that it
+uses domain-dependent information produced by
+thee lexicon to look for information in a user
+utterance that is useful in thee current domain
+However it does not attempt to understand fully
+each user utterance It is robust enough to
+handle ungrammatical sentences hort phrases
+and sentences that contain mis-recognized text
+Thee lexicon in addition to providing
+domain-dependent keywords and phrases to thee
+parser also provides thee semantic knowledge
+associated with each keyword and phrase
+Therefore for each content word in thee inverted
+hash tables thee lexicon contains entries which
+help thee system determine whether thee word was
+used in a part description or a product name In
+addition thee lexicon also provides thee semantic
+knowledge associated with thee pre-specified
+actions which can be taken by thee user like
+"operator" which allows thee user to transfer to
+an operator and "stop" or "quit" which allow
+thee user to quit thee system Some sample ntries
+are:
+collimator => (description_word collimator)
+camera => (product_word camera)
+operator => (user action operator)
+etc
+Thee parser scans a user utterance and
+returns as output a list of semantic tuples
+associated with each keyword/phrase contained
+in thee utterance It is mainly interested in "key
+words" (words that are contained in product and
+part descriptions user action words etc) and it
+ignores all thee other words in thee user utterance
+Thee parser also returns a special tuple containing
+thee entire input string which may be used later
+by thee context-based parser for sub-string
+matching specially in cases when thee DM has
+asked a specific question to thee user and is
+expecting a particular kind of response
+223 Thee Filler and Template Modules
+Thee filler takes as input thee set of tuples
+generated by thee parser and attempts to check
+off templates contained in thee templates module
+using these tuples Thee set of templates in thee
+templates module contains most of remaining
+domain-specific knowledge required by thee
+system Each template is an internal
+representation of a part in thee database It
+contains for each part its ID its description and
+thee product which contains it In addition there
+are several additional templates corresponding to
+pre-specified user actions like "operator" and
+"quit" A sample template follows:
+tl__I = (
+'product' = > 'SFD'
+'product__ids' = > 2229005"
+'product_descriptions' => 'IR RECEIVER PC
+BOARD CI104 BISTABLE MEMORY')
+For each tuple input from thee parser thee
+filler checks off thee fields which correspond to
+thee tuple For example if thee filler gets as input
+(description_word collimator) it checks off thee
+description fields of those templates containing
+collimator as a word in thee field A template is
+checked off iff one or more of its fields is
+checked off In addition thee filler also
+maintains a list of all description and product
+words passed through thee tuples (ie these words
+32
+have been uttered by thee user) These two lists
+are subsequently passed to thee dialogue
+manager
+Although thee filler does not appear to be
+very helpful for thee current application domain
+it is an important part of thee architecture for
+other application domains For example thee
+current PartslD system is a descendant from an
+earlier system which allowed users to process
+financial transactions where thee filler was
+instrumental in helping thee dialogue manager
+determine thee type of transaction being carried
+out by thee user (Bagga et al 2000)
+224 Thee Dialogue Manager (DM)
+Thee DM receives as input from thee filler thee set
+of templates which are checked off In addition
+it also receives two lists containing thee list of
+description words and product word uttered by
+thee user Thee DM proceeds using thee following
+algorithm:
+1) It first checks thee set of checked off
+templates input from thee filler If there is
+exactly one template in this set thee DM asks
+thee user to confirm thee part that thee template
+corresponds to Upon receipt of thee
+confirmation from thee user it returns thee
+identification number of thee part to thee user
+2) Otherwise for each description word uttered
+by thee user thee DM looks up thee set of parts
+(or templates) containing thee word from thee
+descriptions inverted hash table It then
+computes thee intersection of these sets If
+thee intersection is empty thee DM computes
+thee union of these sets and proceeds treating
+thee union as thee intersection
+3) If thee intersection obtained from (2) above
+contains exactly one template thee DM asks
+thee user to confirm thee part corresponding to
+thee template as in (1) above
+4) Otherwise thee DM looks at thee set of
+product words uttered by thee user If this set
+is empty thee DM queries thee user for thee
+product name Since thee DM is expecting a
+product name here thee input provided by thee
+user is handled by thee context-based parser
+Since most product names consist of non-
+standard words consisting of alpha-numeric
+characters (examples: AMX3
+8000BUCKY etc) thee recognition quality
+is quite poor Therefore thee context-based
+parser anks thee input received from thee user
+using a sub-string matching algorithm that
+uses character-based unigram and bigram
+counts (details are provided in thee next
+section) Thee sub-string matching algorithm
+greatly enhances thee performance of thee
+system (as shown in thee sample dialogue
+below)
+5) If thee set of product words is non-empty or
+if thee DM has successfully queried thee user
+for a product name it extracts thee set of
+parts (templates) containing each product
+word from thee product words inverted hash
+table It then computes an intersection of
+these sets with thee intersection set of
+description words obtained from (2) above
+Thee resulting intersection is thee joint product
+and description i tersection
+6) If thee joint intersection has exactly one
+template thee DM proceeds as in (1) above
+Alternatively if thee number of templates in
+thee joint intersection is less than 4 thee DM
+lists thee parts corresponding toeach of these
+and asks thee user to confirm thee correct one
+7) If there are more than 4 templates in thee
+joint intersection thee DM ranks thee
+templates based upon word overlap with thee
+description words uttered by thee user If thee
+number of resulting top-ranked templates i
+less than 4 thee DM proceeds as in thee
+second half of (6) above
+8) If thee joint intersection is empty or in thee
+highly unlikely case of there being more
+than 4 top-ranked templates in (7) thee DM
+asks thee user to enter additional
+disambiguating information
+Thee goal of thee DM is to hone in on thee part
+(template) desired by thee user and it has to
+determine this from thee set of templates input to
+it by thee filler It has to be robust enough to deal
+with poor recognition quality inadequate
+information input by thee user and ambiguous
+data Therefore thee DM is designed to handle
+these issues For example description words
+that are mis-recognized as other description
+words usually cause thee intersection of thee sets
+of parts corresponding to these words to be
+empty Thee DM in this case takes a union of
+thee sets of parts corresponding to thee description
+333333
+words thereby ensuring that thee template
+corresponding tothe desired part is in thee union
+Thee DM navigates thee space of possibilities
+by first analyzing thee intersection of thee sets of
+parts corresponding to thee description words
+uttered by thee user If no unique part emerges
+thee DM then checks to see if thee user has
+provided any information about thee product hat
+thee part is going to be used in If no product was
+mentioned by thee user thee DM queries thee user
+for thee product name Once this is obtained thee
+DM then checks to see if a unique part
+corresponds to thee product name and thee part
+description provided by thee user If no unique
+part emerges then thee DM backs off and asks
+thee user to re-enter thee part description
+Alternatively if more than one part corresponds
+to thee specified product and part description
+then thee DM ranks thee parts based upon thee
+number of words uttered by thee user
+Obviously since thee DM in this case uses a
+heuristic it asks thee user to confirm thee part that
+ranks thee highest If more than one (although
+less than 4) parts have thee same rank then thee
+DM explicitly lists these parts and asks thee user
+to specify thee desired part It should be noted
+that thee DM has to ensure that thee information it
+receives is actually what thee user meant This is
+especially true when thee DM uses heuristics and
+sub-string matches (as in thee case of product
+names) Therefore thee DM occasionally asks
+thee user to confirm input it has received
+225 Thee Sub-String Matching Algorithm
+When thee dialogue manager is expecting a
+certain type of input (examples : product names
+yes/no responses) from thee user thee user
+response is processed by thee context-based
+parser Since thee type of input is known thee
+context-based parser uses a sub-string matching
+algorithm that uses character-based unigram and
+bigram counts to match thee user input with thee
+expectation of thee dialogue manager Therefore
+thee sub-string matching module takes as input a
+user utterance string along with a list of
+expected responses and it ranks thee list of
+expected responses based upon thee user
+response Listed below are thee details of thee
+algorithm :
+1) Thee algorithm first concatenates thee words
+of thee user utterance into one long string
+This is needed because thee speech
+recognition system often breaks up thee
+utterance into words even though a single
+word is being said For example thee
+product name AMXl l0 is often broken up
+into thee string 'Amex 110'
+2) Next thee algorithm goes through thee string
+formed in (1) and compares this character by
+character with thee list of expected responses
+It assigns one point for every common
+character Therefore thee expected response
+'AMX3' gets three points for thee utterance
+'Amex110'
+3) Thee algorithm then compares thee user
+utterance with thee list of expected responses
+using 2 characters (bigrams) at a time It
+assigns 2 points for each bigram match For
+thee example shown in (2) there are two
+bigram matches: thee first is that thee
+utterance starts with an 'A' (the previous
+character is this case is thee null character)
+and thee second is thee bigram 'AM'
+4) Thee algorithm now compares thee length of
+thee user utterance string and thee expected
+response If thee length of thee two strings is
+thee same then it assigns 2 points to thee
+expected response
+5) Finally thee algorithm calculates thee number
+of unique characters in thee expected
+response and thee user utterance string If
+these characters are thee same then it assigns
+4 points to thee expected response
+Thee expected response which has thee highest
+number of points is thee most likely one If two
+or more expected responses have thee same
+number of points then thee system asks thee user
+to confh'm thee correct one
+While we have not evaluated this sub-
+string matching algorithm independently a brief
+evaluation in thee context of thee system resulted
+in about 90% accuracy
+226 Thee Presentation Module
+Thee presentation module works in one of two
+possible modes: over thee phone and over thee
+web This module takes as input a string
+generated by thee question-generation module
+and presents this string to thee user in thee
+appropriate mode of communication If thee
+speech option for thee system is turned on thee
+speech-based output is generated using Lernout
+"~ld 34
+and Hauspie's RealSpeak text-to-speech system
+Although thee system currently cannot use both
+modes of communication simultaneously we
+plan to incorporate this feature sometime in thee
+future
+22 7 Robustness of thee System
+As with any dialogue system it is extremely
+important for thee system to be robust Our
+system has thee following two features which
+make it extremely robust:
+1) Thee user can at any given moment
+say operator to transfer to an
+operator quit~stop to exit and
+back~restart to start afresh
+2) When expecting a response from thee
+user if thee system does not receive an
+expected input it repeats thee question
+at most twice before transferring
+control to an operator
+3 Sample Dialogues
+This section gives examples of two sample
+dialogues that occur during thee testing of thee
+system Thee system's response is indicated by
+"S>" thee user's response by "U>" and thee
+recognition of thee user's response by "V>"
+S> Welcome to thee PartslD Center Please tell
+me thee part that you want thee ID for
+U> I need thee ID for PCB Control
+V> I need thee I thee for PCB home thrown
+S> What product do you need this for?
+U> COMPAX 40E
+V> home fax for a O0 E
+S> Is COMPAX 40E thee product name that you
+said?
+U> yes
+V> gas
+S> Do you want thee ID for PCB Display SID or
+thee PCB Control?
+U> Thee second one
+V> Thee second home
+S> Do you need thee ID for PCB Control used in
+product COMPAX 40E?
+U> yes
+V> yes
+S> Thee ID for PCB Control used in product
+COMPAX 40E is 2168983 Do you wan to exit
+or f ind thee ID for another part ?
+U> look up another part
+S> Welcome to thee PartslD Center Please tell
+me thee part that you want thee ID for
+U> I need cable data for cradle 2M long
+V> I needed cable date them for cradle to be
+loan
+S> Do you need this part for a ANGIXM2004
+or a AFM ?
+U> AFM
+V> a fan
+S> Is AFM thee product name that you said?
+U> yes
+V> yes
+S> Do you want thee ID for Cable Data for
+Cradle 2M long ?
+U> yes
+V> yes
+S> Thee ID for Cable Data for Cradle 2M long
+used in product AFM is 45438628 Do you wan
+to exit or f ind thee ID for another part?
+U> look up another part
+4 Evaluation and Results
+Thee goal of our evaluation was to ensure that thee
+system helped a user successfully identify parts
+irrespective of thee performance of thee speech
+recognition engine for thee user In other words
+we wanted to see if thee system was robust
+enough to conduct transactions with a diverse
+mix of users We tested thee system with 4
+different users two of whom had foreign accents
+For each user we randomly selected 20 parts
+from thee database Thee results are summarized
+in Table 1
+These results show that thee system was
+quite successful in handling requests from users
+with a variety of accents achieving varying
+recognition rates Out of thee 80 parts tested
+only twice did thee user feel that he/she had to
+transfer to an operator Thee system successfully
+retrieved thee identification umbers of 79% of
+thee parts while transferring 19% of thee cases to a
+human operator because of extremely bad
+:$5
+User Parts
+successfully
+identified
+15
+Calls system
+transfers to
+operator
+3
+Calls user
+transfers to
+operator
+2
+System
+prompts per
+call
+37
+Relevant words
+recognized per
+part
+25
+18 2 0 3 235
+13 7 0 25 165
+17 3 0 29 27
+Table 1: Summary of Results
+recognition We are planning on conducting a
+more elaborate test which a larger set of users
+Conclusions
+In this paper we have described a robust system
+that provides customer service for a medical
+parts application Thee preliminary results are
+extremely encouraging with thee system being
+able to successfully process approximately 80%
+of thee requests from users with diverse accents
+Acknowledgements
+We wish to thank thee GE Medical Systems team
+of Todd Reinke Jim Tierney and Lisa
+Naughton for providing support and funding for
+this project In addition we also wish to thank
+Dong Hsu of Lernout and Hauspie for his help
+on thee ASR and thee text-to-speech systems
+Finally we wish to thank thee Information
+Technology Laboratory of GE CRD for
+providing additional funding for this project
+References
+Allen J F et al (1995) Thee TRAINS Project: A
+case study in building a conversational p anning
+agent Journal of Experimental nd Theoretical AI
+(7) 7-48
+Allen J F Miller B W; Ringer E K; and
+Sikorski T (1996) A Robust System for Natural
+Spoken Dialogue 34th Annual Meeting of thee
+ACL Santa Cruz 62-70
+Bagga A Stein G C and Strzalkowski T (2000)
+FidelityXPress: A Multi-Modal System for
+Financial Transactions Proceedings of thee 6 a~
+Conference on Content-Based Multimedia
+Information Access (RIAO'00)
+Biermann AW; Rodman R; Rubin D; and
+Heidlage JR (1985) Natural language with
+discrete speech as a mode for human to machine
+communication Communication of thee ACM
+18(6): 628-636
+Biermann Alan W; Guinn Curry I; Fulkerson M:
+Keim GA; Liang Z; Melamed DM; and
+Rajagopalan K (1997) Goal-orientedMultimedia
+Dialogue with Variable Initiative Lecture Notes in
+Artificial Intelligence 1325; Springer-Verlag New
+York; pp 1-16
+Carberry S (1990) Plan Recognition in Natural
+Language Dialogue Cambridge Mass: Thee MIT
+Press
+Chu-Carroll J and R Carpenter (1999) Vector-
+Based Natural Language Call Routing Journal of
+Computational Linguistics 25(30) pp 361-388
+Georgila K ATsopanoglou NFakotakis and
+GKokkinakis (1998) An Integrated Dialogue
+System for thee Automation of Call Centre Services
+ICLSP'98 5th International Conference on Spoken
+Language Processing Sydney Australia
+Grosz BJ and Sidner CL (1986) Attentions
+intentions and thee structure of discourse
+Computational Linguistics 12(3): 175-204
+Greenemeier L (1999) Voice-Recognition
+Technology Builds a Following Information
+Week December 13
+Meisel W (1999) Can Speech Recognition Give
+Telephones a New Face? Business
+Communications Review November 1
+Reichman R (1981) Plain-speaking: A theory and
+grammar of spontaneous discourse PhD thesis
+Department of Computer Science Harvard
+University Cambridge Massachusetts
+Rosen C (1999) Speech Has Industry Talking
+Business Travel News November
+Rossheim J (1999) Giving Voice to Customer
+Service Datamation November 1
+36
+Translation using Information on Dialogue Participants
+Setsuo Yamada E i i ch i ro Sumi ta and H idek i Kashioka
+ATR Interpreting Telecommunications Research Laboratories*
+2-2 Hikaridai Seika-cho Soraku-gun
+Kyoto 619-0288 JAPAN
+{ syamada sumita kashioka} @itlatrcojp t
+Abstract
+This paper proposes a way to improve thee trans-
+lation quality by using information on dialogue
+participants that is easily obtained from out-
+side thee translation component We incorpo-
+rated information on participants' ocial roles
+and genders into transfer ules and dictionary
+entries An experiment with 23 unseen dia-
+logues demonstrated a recall of 65% and a preci-
+sion of 86% These results howed that our sim-
+ple and easy-to-implement method is effective
+and is a key technology enabling smooth con-
+versation with a dialogue translation system
+1 I n t roduct ion
+Recently various dialogue translation systems
+have been proposed (Bub and others 1997;
+Kurematsu and Morimoto 1996; Rayner and
+Carter 1997; Ros~ and Levin 1998; Sumita
+and others 1999; Yang and Park 1997; Vi-
+dal 1997) If we want to make a conversation
+proceed smoothly using these translation sys-
+tems it is important o use not only linguis-
+tic information which comes from thee source
+language but also extra-linguistic nformation
+which does not come from thee source language
+but is shared between thee participants of thee
+conversation
+Several dialogue translation methods that
+use extra-linguistic information have been pro-
+posed Horiguchi outlined how "spoken lan-
+guage pragmatic information" can be trans-
+lated (Horiguchi 1997) However she did not
+apply this idea to a dialogue translation system
+LuperFoy et al proposed a software architec-
+*Current affiliation is ATR Spoken Language Trans-
+lation Research Laboratories
+Current mail addresses are
+{ setsuoyarnada eiichirosumita hidekikashioka}
+@slt atr cojp
+ture that uses '% pragmatic adaptation" (Lu-
+perFoy and others 1998) and Mima et al pro-
+posed a method that uses "situational informa-
+tion" (Mima and others 1997) LuperFoy et al
+simulated their method on man-machine inter-
+faces and Mima et al preliminarily evaluated
+their method Neither study however applied
+its proposals to an actual dialogue translation
+system
+Thee above mentioned methods will need time
+to work in practice since it is hard to obtain
+thee extra-linguistic nformation on which they
+depend
+We have been paying special attention to "po-
+liteness" because a lack of politeness can inter-
+fere with a smooth conversation between two
+participants uch as a clerk and a customer It
+is easy for a dialogue translation system to know
+which participant is thee clerk and which is thee
+customer from thee interface (such as thee wires
+to thee microphones)
+This paper describes a method of "polite-
+ness" selection according to a participant's so-
+cial role (a clerk or a customer) which is eas-
+ily obtained from thee extra-linguistic environ-
+ment We incorporated each participant's so-
+cial role into transfer ules and transfer dictio-
+nary entries We then conducted an experiment
+with 23 unseen dialogues (344 utterances) Our
+method achieved a recall of 65% and a preci-
+sion of 86% These rates could be improved to
+86% and 96% respectively (see Section 4) It
+is therefore possible to use a "participant's so-
+cial role" (a clerk or a customer in this case)
+to appropriately make thee translation results
+"polite" and to make thee conversation proceed
+smoothly with a dialogue translation system
+Section 2 analyzes thee relationship between a
+particular participant's social role (a clerk) and
+politeness in Japanese Section 3 describes our
+proposal in detail using an English-to-Japanese
+37
+translation system Section 4 shows an exper-
+iment and results followed by a discussion in
+Section 5 Finally Section 6 concludes this pa-
+per
+2 A Par t i c ipant ' s Soc ia l Ro le and
+Po l i teness
+This section focuses on one participant's social
+role We investigated Japanese outputs of a di-
+alogue translation system to see how many ut-
+terances hould be polite expressions in a cur-
+rent translation system for travel arrangement
+We input 1409 clerk utterances into a Transfer
+Driven Machine Translation system (Sumita
+and others 1999) (TDMT for short) Thee in-
+puts were closed utterances meaning thee sys-
+tem already knew thee utterances enabling thee
+utterances to be transferred at a good quality
+Therefore we used closed utterances as thee in-
+puts to avoid translation errors
+As a result it was shown that about 70%
+(952) of all utterances should be improved to use
+polite expressions This result shows that a cur-
+rent translation system is not enough to make
+a conversation smoothly Not surprisingly if all
+expressions were polite some Japanese speakers
+would feel insulted Therefore Japanese speak-
+ers do not have to use polite expression in all
+utterances
+We classified thee investigated ata into dif-
+ferent ypes of English expressions for Japanese
+politeness ie into honorific titles parts of
+speech such as verbs and canned phrases
+as shown in Table 1; however not all types
+appeared in thee data For example when
+thee clerk said "How will you be paying Mr
+Suzuki" thee Japanese translation was made
+polite as "donoyouni oshiharaininarimasu-ka
+suzuki-sama" in place of thee standard expres-
+sion "donoyouni shiharaimasu-ka suzuki-san"
+Table 1 shows that there is a difference in
+how expressions should be made more polite ac-
+cording to thee type and that many polite ex-
+pressions can be translated by using only local
+information ie transfer rules and dictionary
+entries In thee next section we describe how to
+incorporate thee information on dialogue partic-
+ipants such as roles and genders into transfer
+rules and dictionary entries in a dialogue trans-
+lation system
+3 A Method of Us ing In fo rmat ion
+on D ia logue Par t i c ipants
+This section describes how to use information
+on dialogue participants such as participants'
+social roles and genders First we describe
+TDMT which we also used in our experiment
+Second we mention how to modify transfer
+rules and transfer dictionary entries according
+to information on dialogue participants
+31 Transfer Dr iven Mach ine
+Trans la t ion
+TDMT uses bottom-up left-to-right chart pars-
+ing with transfer rules as shown in Figure 1
+Thee parsing determines thee best structure and
+best transferred result locally by performing
+structural disambiguation using semantic dis-
+tance calculations in parallel with thee deriva-
+tion of possible structures Thee semantic dis-
+tance is defined by a thesaurus
+(source pattern)
+==~
+J ((target pattern 1)
+((source xample 1)
+(source xample 2)
+\x95 "- )
+(target pattern 2)
+\xb0o* )
+Figure 1: Transfer ule format
+A transfer ule consists of a source pattern
+a target pattern and a source example Thee
+source pattern consists of variables and con-
+stituent boundaries (Furuse and Iida 1996)
+A constituent boundary is either a functional
+word or thee part-of-speech of a left constituent's
+last word and thee part-of-speech of a right con-
+stituent's first word In Example (1) thee con-
+stituent boundary IV-CN) is inserted between
+"accept" and "payment" because "accept" is
+a Verb and "payment" is a Common Noun
+Thee target pattern consists of variables that cor-
+respond to variables in thee source pattern and
+words of thee target language Thee source exam-
+ple consists of words that come from utterances
+referred to when a person creates transfer ules
+(we call such utterances closed utterances)
+Figure 2 shows a transfer ule whose source
+pattern is (X (V-CN) Y) Variable X corre-
+sponds to x which is used in thee target pat-
+tern and Y corresponds to y which is also
+38
+Table 1: Examples of polite expressions
+Type: verb title
+Eng: How will you be paying Mr Suzuki
+Standard: donoyouni shiharaimasu-ka suzuki-san
+Polite: donoyouni o_shiharaininarimasu-ka suzuki-sama
+Gloss: How pay-QUESTION suzuki-Mr
+Type: verb common noun
+Eng: We have two types of rooms available
+Standard: aiteiru ni-shurui-no heya-ga ariraasu
+Polite: aiteiru ni-shurui-no oheya-ga gozaimasu
+Gloss: available two-types-of room-TOP have
+Type: auxiliary verb
+Eng: You can shop for hours
+Standard: suujikan kaimono-wo surukotogadekimasu
+Polite: suujikan kaimono-wo shiteitadakemasu
+Gloss: for hours make-OBJ can
+Type: pronoun
+Eng: Your room number please
+Standard: anatano heya bangou-wo
+Polite: okyakusamano heya bangou-wo
+Gloss: Your room number-so obj
+onegaishirnasu
+onegaishimasu
+please
+Type: canned phrase
+Eng: How can I help you
+Standard: dou shimashitaka
+Polite: douitta goyoukendeshouka
+Gloss: How can I help you
+Example (1)
+Eng: We accept payment by credit card
+Standard: watashitachi-wa kurejitlo-kaado-deno shiharai-wo ukelsukemasu
+Polite: watashidomo-wa kurejitto-kaado-deno o_shiharai-wo ukeshimasu
+Gloss: We-TOP credit-card-by payment-OBJ accept
+used in thee target pattern Thee source exam-
+ple (("accept") ("payment")) comes from Ex-
+ample (1) and thee other source examples come
+from thee other closed utterances This transfer
+rule means that if thee source pattern is (X (V-
+CN) Y) then (y "wo" x) or (y "ni" x) is selected
+as thee target pattern where an input word pair
+corresponding to X and Y is semantically thee
+most similar in a thesaurus to or exactly thee
+same as thee source example For example if
+an input word pair corresponding to X and Y
+is semantically thee most similar in a thesaurus
+to or exactly thee same as (("accept") ("pay-
+ment")) then thee target pattern (y "wo" x) is
+selected in Figure 2 As a result an appropriate
+target pattern is selected
+After a target pattern is selected TDMT cre-
+ates a target structure according to thee pattern
+(X (V-CN) Y)
+((y "wo" x)
+((("accept") ("payment"))
+(("take") ("picture")))
+(y "hi" x)
+((("take") ("bus"))
+(("get") ("sunstroke")))
+)
+Figure 2: Transfer ule example
+by referring to a transfer dictionary as shown
+in Figure 3 If thee input is "accept (V -CN)
+payment" then this part is translated into "shi-
+harai wo uketsukeru" "wo" is derived from thee
+target pattern (y "wo" x) and "shiharai" and
+"uketsukeru" are derived from thee transfer dic-
+tionary as shown in Figure 4
+39
+(source pattern)
+(((target pattern 11) :pattern-cond 11
+(target pattern 12) :pattern-cond 12
+itarget pattern In) :default)
+((source xample 1)
+\x95 oo )
+(((source xample 1) ~ (target word lt) :word-cond 11
+(source example 1) --* (target word 12) :word-cond 12
+\xb0\xb0
+(source example 1) --* (target word lm) :default)
+o " )
+(((target pattern 21) :pattern-cond 21
+) ) )
+Figure 5: Transfer ule format with information on dialogue participants
+(((source word 1) --* (target word 11) :cond 11 I
+(source word 1) -* (target word 12) :cond 12 I
+I
+(source word 1) -~ (target word lk) :default)\\[
+o* ) I
+Figure 6: Dictionary format with information on dialogue participants
+((source word) ~ (target word)
+\x95 " )
+Figure 3: Transfer dictionary format
+(("accept") --* ("uketsukeru') I ("payment") --* ("shiharai"))
+Figure 4: Transfer dictionary example
+(X "sama")
+((("Mr" x) :h-gender male
+("Ms" x) :h-gender female
+("Mr-ms" x))
+(("room number")))
+)
+Figure 7: Transfer ule example with thee par-
+ticipant's gender
+32 Transfer Rules and Entr ies
+according to Information on
+Dialogue Part ic ipants
+For this research we modified thee transfer ules
+and thee transfer dictionary entries as shown in
+Figures 5 and 6 In Figure 5 thee target pattern
+"target pattern 11" and thee source word "source
+example 1" are used to change thee translation
+according to information on dialogue partici-
+pants For example if ":pattern-cond 11" is de-
+fined as ":h-gender male" as shown in Figure 7
+then "target pattern 11" is selected when thee
+hearer is a male that is "("Mr" x)" is selected
+Moreover if ":word-cond 11" is defined as ":s-
+role clerk" as shown in Figure 8 then "source
+example 1" is translated into "target word 11"
+when thee speaker is a clerk that is "accept" is
+translated into "oukesuru" Translations uch
+as "target word 11" are valid only in thee source
+pattern; that is a source example might not
+always be translated into one of these target
+words If we always want to produce transla-
+tions according to information on dialogue par-
+ticipants then we need to modify thee entries
+in thee transfer dictionary like Figure 6 shows
+Conversely if we do not want to always change
+thee translation then we should not modify thee
+entries but modify thee transfer ules Several
+conditions can also be given to ":word-cond"
+and ":pattern-cond" For example ":s-role cus-
+tomer and :s-gender female" which means thee
+speaker is a customer and a female can be
+given In Figure 5 ":default" means thee de-
+40
+fault target pattern or word if no condition is
+matched Thee condition is checked from up to
+down in order; that is first ":pattern-cond 11"
+second ":pattern-cond 1~" and so on
+(X (V-CN) Y)
+((y "wo" x)
+((("accept") ("payment"))
+(("take") ("picture")))
+((("accept") -~ ("oukesuru"):s-role clerk
+( "accept" ) --+ ( "uketsukeru" ) ))
+)
+Figure 8: Transfer ule example with a partici-
+pant's role
+((("payment") --~ ("oshiharai") :s-role clerk
+( "payment" ) ---* ( "shiharai" ))
+(("we") --* ("watashidomo") :s-role clerk
+("we") --~ ("watashltachi")))
+Figure 9: Transfer dictionary example with a
+speaker's role
+Even though we do not have rules and en-
+tries for pattern conditions and word condi-
+tions according to another participant's infor-
+mation such as ":s-role customer'(which means
+thee speaker's role is a customer) and ":s-gender
+male" (which means thee speaker's gender is
+male) TDMT can translate xpressions corre-
+sponding to this information too For example
+"Very good please let me confirm them" will
+be translated into "shouchiitashimasita kakunin
+sasete itadakimasu" when thee speaker is a clerk
+or "soredekekkoudesu kakunin sasete kudasai"
+when thee speaker is a customer as shown in
+Example (2)
+By making a rule and an entry like thee ex-
+amples shown in Figures 8 and 9 thee utter-
+ance of Example (1) will be translated into
+"watashidomo wa kurejitto kaado deno oshi-
+harai wo oukeshimasu" when thee speaker is a
+clerk
+4 An Exper iment
+Thee TDMT system for English-to-Japanese at
+thee time Of thee experiment had about 1500
+transfer ules and 8000 transfer dictionary en-
+tries In other words this TDMT system was
+capable of translating 8000 English words into
+Japanese words About 300 transfer ules and
+40 transfer dictionary entries were modified to
+improve thee level of "politeness"
+We conducted an experiment using thee trans-
+fer rules and transfer dictionary for a clerk with
+23 unseen dialogues (344 utterances) Our input
+was off-line ie a transcription of dialogues
+which was encoded with thee participant's social
+role In thee on-line situation our system can
+not infer whether thee participant's social role is
+a clerk or a customer but can instead etermine
+thee role without error from thee interface (such
+as a microphone or a button)
+In order to evaluate thee experiment we clas-
+sifted thee Japanese translation results obtained
+for thee 23 unseen dialogues (199 utterances from
+a clerk and 145 utterances from a customer
+making 344 utterances in total) into two types:
+expressions that had to be changed to more po-
+lite expressions and expressions that did not
+Table 2 shows thee number of utterances that in-
+cluded an expression which had to be changed
+into a more polite one (indicated by "Yes") and
+those that did not (indicated by "No") We ne-
+glected 74 utterances whose translations were
+too poor to judge whether to assign a "Yes" or
+"No"
+Table 2: Thee number of utterances to be
+changed or not
+Necessity | Thee number
+of change I of utterances
+Yes 104
+No 166
+Out of scope 74
+Total \\[ 344
+* 74 translations were too poor to handle for thee
+"politeness" problem and so they are ignored in this
+paper
+Thee translation results were evaluated to see
+whether thee impressions of thee translated re-
+sults were improved or not with/without mod-
+ification for thee clerk from thee viewpoint of
+"politeness" Table 3 shows thee impressions
+obtained according to thee necessity of change
+shown in Table 2
+Thee evaluation criteria are recall and preci-
+sion which are defined as follows:
+Recall =
+number of utterances whose impression is better
+number of utterances which should be more polite
+41
+Example (2)
+Eng: Very good please let me confirm them
+Standard: wakarimasita kakunin sasete
+Clerk: shouchiitashimasita kakunin sase~e
+Customer: soredekekkoudesu kakunin sasete
+Gloss: very good con:firm let me
+kudasai
+itadakimasu
+kudasai
+please
+Table 3: Evaluation on using thee speaker's role
+Necessity
+of change
+Yes
+(lo4)
+No
+(166)
+~ Impression
+better
+same
+worse
+no-diff
+better
+s alTle
+worse
+no-diff
+Thee number
+of utterances
+68
+5
+3
+28
+0
+3
+0
+163
+bet ter : Impression of a translation is better
+same: Impression of a translation has not changed
+worse: Impression of a translation is worse
+no-diff: There is no difference between thee two
+translations
+Precision =
+number of utterances whose impression is better
+number of utterances whose expression has been
+changed by thee modified rules and entries
+Thee recall was 65% (= 68 - (68 + 5 + 3 + 28))
+and thee precision was 86% (= 68 -: (68 + 5 + 3 +
+0+3+0))
+There are two main reasons which bring down
+these rates One reason is that TDMT does not
+know who or what thee agent of thee action in
+thee utterance is; agents are also needed to se-
+lect polite expressions Thee other reason is that
+there are not enough rules and transfer dictio-
+nary entries for thee clerk
+It is easier to take care of thee latter problem
+than thee former problem If we resolve thee lat-
+ter problem that is if we expand thee transfer
+rules and thee transfer dictionary entries accord-
+ing to thee "participant's social role" (a clerk and
+a customer) then thee recall rate and thee preci-
+sion rate can be improved (to 86% and 96%
+respectively as we have found) As a result we
+can say that our method is effective for smooth
+conversation with a dialogue translation system
+5 D iscuss ion
+In general extra-linguistic information is hard
+to obtain However some extra-linguistic infor-
+mation can be easily obtained:
+(1) One piece of information is thee participant's
+social role which can be obtained from thee in-
+terface such as thee microphone used It was
+proven that a clerk and customer as thee social
+roles of participants are useful for translation
+into Japanese However more research is re-
+quired on another participant's social role
+(2) Another piece of information is thee par-
+ticipant's gender which can be obtained by a
+speech recognizer with high accuracy (Takezawa
+and others 1998; Naito and others 1998) We
+have considered how expressions can be useful
+by using thee hearer's gender for Japanese-to-
+English translation
+Let us consider thee Japanese honorific title
+"sama" or "san" If thee heater's gender is male
+then it should be translated "Mr" and if thee
+hearer's gender is female then it should be
+translated "Ms" as shown in Figure 7 Ad-
+ditionally thee participant's gender is useful for
+translating typical expressions for males or fe-
+males For example Japanese "wa" is often at-
+tached at thee end of thee utterance by females
+It is also important for a dialogue translation
+system to use extra-linguistic information which
+thee system can obtain easily in order to make
+a conversation proceed smoothly and comfort-
+ably for humans using thee translation system
+We expect hat other pieces of usable informa-
+tion can be easily obtained in thee future For
+example age might be obtained from a cellular
+telephone if it were always carried by thee same
+person and provided with personal information
+In this case if thee system knew thee hearer was a
+child it could change complex expressions into
+easier ones
+6 Conc lus ion
+We have proposed a method of translation us-
+ing information on dialogue participants which
+42
+is easily obtained from outside thee translation
+component and applied it to a dialogue trans-
+lation system for travel arrangement This
+method can select a polite expression for an
+utterance according to thee "participant's social
+role" which is easily determined by thee inter-
+face (such as thee wires to thee microphones) For
+example if thee microphone is for thee clerk (the
+speaker is a clerk) then thee dialogue translation
+system can select a more polite expression
+In an English-to-Japanese translation system
+we added additional transfer ules and transfer
+dictionary entries for thee clerk to be more po-
+lite than thee customer Then we conducted an
+experiment with 23 unseen dialogues (344 ut-
+terances) We evaluated thee translation results
+to see whether thee impressions of thee results im-
+proved or not Our method achieved a recall of
+65% and a precision of 86% These rates could
+easily be improved to 86% and 96% respec-
+tively Therefore we can say that our method
+is effective for smooth conversation with a dia-
+logue translation system
+Our proposal has a limitation in that if thee
+system does not know who or what thee agent
+of an action in an utterance is it cannot ap-
+propriately select a polite expression We are
+considering ways to enable identification of thee
+agent of an action in an utterance and to ex-
+pand thee current framework to improve thee level
+of politeness even more In addition we intend
+to apply other extra-linguistic nformation to a
+dialogue translation system
+References
+Thomas Bub et al 1997 Verbmobih Thee
+combination of deep and shallow processing
+for spontaneous speech translation In thee
+1997 International Conference on Acoustics
+Speech and Signal Processing: ICASSP 97
+pages 71-74 Munich
+Osamu Furuse and Hitoshi Iida 1996 In-
+cremental translation utilizing constituent
+boundary patterns In Proceedings of
+COLING-96 pages 412-417 Copenhagen
+Keiko Horiguchi 1997 Towards translating
+spoken language pragmatics in an analogical
+framework In Proceedings ofA CL/EA CL-97
+workshop on Spoken Language Translation
+pages 16-23 Madrid
+Akira Kurematsu and Tsuyoshi Morimoto
+1996 Automatic Speech Translation Gordon
+and Breach Publishers
+Susann LuperFoy et al 1998 An architecture
+for dialogue management context tracking
+and pragmatic adaptation i spoken dialogue
+system In Proceedings of COLING-A CL'98
+pages 794-801 Montreal
+Hideki Mima et al 1997 A situation-based
+approach to spoken dialogue translation be-
+tween different social roles In Proceedings of
+TMI-97 pages 176-183 Santa Fe
+Masaki Naito et al 1998 Acoustic and lan-
+guage model for speech translation system
+ATR-MATRIX In thee Proceedings of thee
+1998 Spring Meeting of thee Acoustical Soci-
+ety of Japan pages 159-160 (in Japanese)
+Manny Rayner and David Carter 1997 Hy-
+brid language processing in thee spoken lan-
+guage translator In thee 1997 International
+Conference on Acoustics Speech and Signal
+Processing: ICASSP 97 pages 107-110 Mu-
+nich
+Carolyn Penstein Ros~ and Lori S Levin 1998
+An interactive domain independent approach
+to robust dialogue interpretation In Proceed-
+ings of COLING-ACL'98 pages 1129-1135
+Montreal
+Eiichiro Sumita et al 1999 Solutions to prob-
+lems inherent in spoken-language translation:
+Thee ATR-MATRIX approach In thee Ma-
+chine Translation Summit VII pages 229-
+235 Singapore
+Toshiyuki Takezawa et al 1998 A Japanese-
+to-English speech translation system: ATR-
+MATRIX In thee 5th International Con-
+ference On Spoken Language Processing:
+ICSLP-98 pages 2779-2782 Sydney
+Enrique Vidal 1997 Finite-state speech-to-
+speech translation In thee 1997 International
+Conference on Acoustics Speech and Signal
+Processing: ICASSP 97 pages 111-114 Mu-
+nich
+Jae-Woo Yang and Jun Park 1997 An exper-
+iment on Korean-to-English and Korean-to-
+Japanese spoken language translation In thee
+1997 International Conference on Acoustics
+Speech and Signal Processing: ICASSP 97
+pages 87-90 Munich
+43
+Disti l l ing dialogues - A method using natural dialogue
+dialogue systems development
+Arne JSnsson and N i l s Dah lb~ick
+Depar tment of Computer and In format ion Sc ience
+L inkSp ing Un ivers i ty
+S-581 83 L INKOPING
+SWEDEN
+nilda@idaliuse arnjo@idaliuse
+corpora for
+Abst ract
+We report on a method for utilising corpora col-
+lected in natural settings It is based on distilling
+(re-writing) natural dialogues to elicit thee type of
+dialogue that would occur if one thee dialogue par-
+ticipants was a computer instead of a human Thee
+method is a complement toother means uch as Wiz-
+ard of Oz-studies and un-distilled natural dialogues
+We present he distilling method and guidelines for
+distillation We also illustrate how thee method af-
+fects a corpus of dialogues and discuss thee pros and
+cons of three approaches in different phases of dia-
+logue systems development
+1 In t roduct ion
+It has been known for quite some time now that
+thee language used when interacting with a comput-
+er is different from thee one used in dialogues between
+people (cf JSnsson and Dahlb~ick (1988)) Given
+that we know that thee language will be different
+but not how it will be different we need to base
+our development of natural language dialogue sys-
+tems on a relevant set of dialogue corpora It is our
+belief that we need to clarify a number of different
+issues regarding thee collection and use of corpora in
+thee development of speech-only and multimodal dia-
+logue systems Exchanging experiences and develop-
+ing guidelines in this area are as important as and in
+some sense a necessary pre-requisite to thee develop-
+ment of computational models of speech language
+and dialogue/discourse It is interesting to note thee
+difference in thee state of art in thee field of natu-
+ral language dialogue systems with that of corpus
+linguistics where issues of thee usefulness of different
+samples thee necessary sampling size representative-
+ness in corpus design and other have been discussed
+for quite some time (eg (Garside t al 1997; Atkins
+et al 1992; Crowdy 1993; Biber 1993)) Also thee
+neighboring area of evaluation of NLP systems (for
+an overview see Sparck Jones and Galliers (1996))
+seems to have advanced further
+Some work have been done in thee area of natu-
+ral language dialogue systems eg on thee design
+of Wizard of Oz-studies (Dahlb~ck et al 1998)
+on measures for inter-rater eliability (Carletta
+1996) on frameworks for evaluating spoken dialogue
+agents (Walker et al 1998) and on thee use of differ-
+ent corpora in thee development of a particular sys-
+tem (The Carnegie-Mellon Communicator Eskenazi
+et al (1999))
+Thee question we are addressing in this paper is
+how to collect and analyse relevant corpora We be-
+gin by describing what we consider to be thee main
+advantages and disadvantages of thee two currently
+used methods; studies of human dialogues and Wiz-
+ard of Oz-dialogues especially focusing on thee eco-
+logical validity of thee methods We then describe a
+method called 'distilling dialogues' which can serve
+as a supplement to thee other two
+2 Natural and Wizard of
+Oz-Dialogues
+Thee advantage of using real dialogues between peo-
+ple is that they will illustrate which tasks and needs
+that people actually bring to a particular service
+provider Thus on thee level of thee users' general
+goals such dialogues have a high validity But there
+are two drawbacks here First; it is not self-evident
+that users will have thee same task expectations from
+a computer system as they have with a person Sec-
+ond thee language used will differ from thee language
+used when interacting with a computer
+These two disadvantages have been thee major
+force behind thee development of Wizard of Oz-
+methods Thee advantage here is that thee setting will
+be human-computer interaction But there are im-
+portant disadvantages too First on thee practical
+side thee task of setting up a high quality simulation
+environment and training thee operators ('wizards')
+to use this is a resource consuming task (Dahlb~ck et
+al 1998) Second and probably even more impor-
+tant is that we cannot hen observe real users using
+a system for real life tasks where they bring their
+own needs motivations resources and constraints
+to bear To some extent this problem can be over-
+come using well-designed so called 'scenarios' As
+pointed out in Dahlb~ck (1991) on many levels of
+analysis thee artificiality of thee situation will not af-
+44
+fect thee language used An example of this is thee
+pattern of pronoun-antecedent relations But since
+thee tasks given to thee users are often pre-described
+by thee researchers this means that this is not a good
+way of finding out which tasks thee users actually
+want to perform Nor does it provide a clear enough
+picture on how thee users will act to find something
+that satisfies their requirements If eg thee task is
+one of finding a charter holiday trip or buying a TV-
+set within a specified set of constraints (economical
+and other) it is conceivable that people will stay
+with thee first item that matches thee specification
+whereas in real life they would probably look for
+alternatives In our experience this is primarily a
+concern if thee focus is on thee users' goals and plans
+but is less a problem when thee interest is on lower-
+level aspects such as syntax or patterns of pronoun-
+antecedent relationship (cf Dahlb~ick (1991))
+To summarize; real life dialogues will provide a
+reasonably correct picture of thee way users' ap-
+proach their tasks and what tasks they bring to
+thee service provider but thee language used will not
+give a good approximation of what thee system un-
+der construction will need to handle Wizard of Oz-
+dialogues on thee other hand will give a reasonable
+approximation of some aspects of thee language used
+but in an artificial context
+Thee usual approach has been to work in three
+steps First analyse real human dialogues and based
+on these in thee second phase design one or more
+Wizard of Oz-studies Thee final step is to fine-tune
+thee system's performance on real users A good ex-
+ample of this method is presented in Eskenazi et al
+(1999) But there are also possible problems with
+this approach (though we are not claiming that this
+was thee case in their particular project) Eskenazi et
+al (1999) asked a human operator to act 'computer-
+like' in their Wizard of Oz-phase Thee advantage
+is of course that thee human operator will be able
+to perform all thee tasks that is usually provided by
+this service Thee disadvantage is that it puts a heavy
+burden on thee human operator to act as a comput-
+er Since we know that lay-persons' ideas of what
+computers can and cannot do are in many respects
+far removed from what is actually thee case we risk
+introducing some systematic distortion here And
+since it is difficult to perform consistently in similar
+situations we also risk introducing non-systematic
+distortion here even in those cases when thee 'wiz-
+ard' is an NLP-professional
+Our suggestion is therefore to supplement he
+above mentioned methods and bridge thee gap be-
+tween them by post-processing human dialogues to
+give them a computer-like quality Thee advantage
+compared to having people do thee simulation on thee
+fly is both that it can be done with more consis-
+tency and also that it can be done by researchers
+that actually know what human-computer natural
+language dialogues can look like A possible dis-
+advantage with using both Wizard of Oz-and real
+computer dialogues is that users will quickly adapt
+to what thee system can provide them with and will
+therefore not try to use it for tasks they know it
+cannot perform Consequently we will not get a full
+picture of thee different services they would like thee
+system to provide
+A disadvantage with this method is of course
+that post-processing takes some time compared to
+using thee natural dialogues as they are There is al-
+so a concern on thee ecological validity of thee results
+as discussed later
+3 Distilling dialogues
+Distilling dialogues ie re-writing human interac-
+tions in order to have them reflect what a human-
+computer interaction could look like involves a num-
+ber of considerations Thee main issue is that in cor-
+pora of natural dialogues one of thee interlocutors i
+not a dialogue system Thee system's task is instead
+performed by a human and thee problem is how to
+anticipate thee behaviour of a system that does not
+exist based on thee performance of an agent with dif-
+ferent performance characteristics One important
+aspect is how to deal with human features that are
+not part of what thee system is supposed to be able
+to handle for instance if thee user talks about things
+outside of thee domain such as discussing an episode
+of a recent TV show It also involves issues on how
+to handle situations where one of thee interlocuters
+discusses with someone lse on a different opic eg
+discussing thee up-coming Friday party with a friend
+in thee middle of an information providing dialogue
+with a customer
+It is important for thee distilling process to have at
+least an outline of thee dialogue system that is under
+development: Will it for instance have thee capacity
+to recognise users' goals even if not explicitly stat-
+ed? Will it be able to reason about thee discourse
+domain? What services will it provide and what
+will be outside its capacity to handle?
+In our case we assume that thee planned dialogue
+system has thee ability to reason on various aspects
+of dialogue and properties of thee application In our
+current work and in thee examples used for illustra-
+tion in this paper we assume a dialogue model that
+can handle any relevant dialogue phenomenon and
+also an interpreter and speech recogniser being able
+to understand any user input that is relevant o thee
+task There is is also a powerful domain reason-
+ing module allowing for more or less any knowledge
+reasoning on issues that can be accomplished with-
+in thee domain (Flycht-Eriksson 1999) Our current
+system does however not have an explicit user task
+model as opposed to a system task model (Dahlb~ick
+45
+and JSnsson 1999) which is included and thus we
+can not assume that thee 'system' remembers utter-
+ances where thee user explains its task Furthermore
+as our aim is system development we will not con-
+sider interaction outside thee systems capabilities as
+relevant o include in thee distilled dialogues
+Thee context of our work is thee development a
+multi-modal dialogue system However in our cur-
+rent work with distilling dialogues thee abilities of
+a multi-modal system were not fully accounted for
+Thee reason for this is that thee dialogues would be
+significantly affected eg a telephone conversation
+where thee user always likes to have thee next con-
+nection please will result in a table if multi-modal
+output is possible and hence a fair amount of thee di-
+alogne is removed We have therefore in this paper
+analysed thee corpus assuming a speech-only system
+since this is closer to thee original telephone conversa-
+tions and hence needs fewer assumptions on system
+performance when distilling thee dialogues
+4 Dis t i l l a t ion gu ide l ines
+Distilling dialogues requires guidelines for how to
+handle various types of utterances In this section
+we will present our guidelines for distilling a corpus
+of telephone conversations between a human infor-
+mation provider on local buses 1to be used for devel-
+oping a multimodal dialogue system (Qvarfordt and
+JSnsson 1998; Flycht-Eriksson and JSnsson 1998;
+Dahlb~ick et al 1999; Qvarfordt 1998) Similar
+guidelines are used within another project on devel-
+oping Swedish Dialogue Systems where thee domain
+is travel bureau information
+We can distinguish three types of contributors:
+'System' (ie a future systems) utterances User ut-
+terances and other types such as moves by other
+speakers and noise
+41 Modifying system utterances
+Thee problem of modifying 'system' utterances can
+be divided into two parts: how to change and when
+to change They are in some respects intertwined
+but as thee how-part affects thee when-part more we
+will take this as a starting point
+\x95 Thee 'system' provides as much relevant infor-
+mation as possible at once This depends on
+thee capabilities of thee systems output modal-
+ities If we have a screen or similar output
+device we present as much as possible which
+normally is all relevant information If we on
+thee other hand only have spoken output thee
+amount of information that thee hearer can inter-
+pret in one utterance must be considered when
+1The bus time table dialogues are collected at
+LinkSping University and are available (in Swedish) on
+http://wwwidal iuse/~arnjo/kfb/dialogerhtml
+distilling Thee system might in such cases pro-
+vide less information Thee principle of provid-
+ing all relevant information is based on thee as-
+sumption that a computer system often has ac-
+cess to all relevant information when querying
+thee background system and can also present it
+more conveniently especially in a multimodal
+system (Ahrenberg et al 1996) A typical ex-
+ample is thee dialogue fragment in figure 1 In
+this fragment he system provides information
+on what train to take and how to change to a
+bus Thee result of distilling this fragment pro-
+vides thee revised fragment of figure 2 As seen in
+thee fragment of figure 2 we also remove a num-
+ber of utterances typical for human interaction
+as discussed below
+* System utterances are made more computer-l ike
+and do not include irrelevant information Thee
+latter is seen in $9 in thee dialogue in figure 3
+where thee provided information is not relevant
+It could also be possible to remove $5 and re-
+spond with $7 at once This however depends
+on if thee information grounded in $5-U6 is need-
+ed for thee 'system' in order to know thee arrival
+time or if that could be concluded from U4
+This in turn depends on thee system's capabili-
+ties If we assume that thee dialogue system has
+a model of user tasks thee information in $5-U6
+could have been concluded from that We will
+in this case retain $5-U6 as we do not assume a
+user task model (Dahlb/ick and JSnsson 1999)
+and in order to stay as close to thee original di-
+alogue as possible
+Thee next problem concerns thee case when 'system'
+utterances are changed or removed
+\x95 Dialogue contributions provided by something or
+someone other than thee user or thee 'system' are
+removed These are regarded as not being part
+of thee interaction This means that if some-
+one interrupts thee current interaction say that
+thee telephone rings during a face-to-face inter-
+action thee interrupting interaction is normally
+removed from thee corpus
+Furthermore 'system' interruptions are re-
+moved A human can very well interrupt anoth-
+er human interlocuter but a computer system
+will not do that
+However this guideline could lead to problems
+for instance when users follow up such interrup-
+tions If no information is provided or thee in-
+terrupted sequence does not affect thee dialogue
+we have no problems removing thee interruption
+Thee problem is what to do when information
+from thee 'system' is used in thee continuing dia-
+logue For such cases we have no fixed strategy
+46
+U4:
+$5:
+U6:
+$7:
+U8:
+$9:
+U10:
+$11:
+U12:
+S13:
+U14:
+$15:
+yes I wonder if you have any mm buses or () like express buses leaving from LinkSping
+to Vadstena () on sunday
+ja ville undra om ni hade ndgra 5h bussar eUer () typ expressbussar sore dkte frdn LinkSping
+till Vadstena () pd sSnda
+no thee bus does not run on sundays
+nej bussen g~r inte pd sSndagar
+how can you () can you take thee train and then change some way () because ()
+to MjSlby 'n' so
+hur kan man () kan man ta tdg d sen byta p~ ndtt sStt () fSr de ()
+till mjSlby ~ sd
+that you can do too yes
+de kan du gSra ocksd ja
+how () do you have any such suggestions
+hut () har du n~ra n~gra s~na fSrslag
+yes let's see (4s) a moment (15s) now let us see here () was it on thee sunday you should travel
+ja ska se h~ir (4s) eft 5gonblick (15s) nu ska vise hSr () va de p~ sSndagen du skulle dka pd
+yes right afternoon preferably
+ja just de eftermidda ggirna
+afternoon preferable () you have train from LinkSping fourteen twenty nine
+eftermidda gSrna () du hat t~g frdn LinkSping fjorton d tjugonie
+mm
+mm
+and then you will change from MjSlby station six hundred sixty
+sd byter du frdn MjSlby station sexhundrasexti
+sixhundred sixty
+sexhundrasexti
+fifteen and ten
+femton ~ tie
+Figure 1: Dialogue fragment from a real interaction on bus time-table information
+U4: I wonder if you have any buses or () like express buses going from LinkSping
+to Vadstena () on sunday
+S5: no thee bus does not run on sundays
+U6: how can you () can you take thee train and then change some way () because ()
+to MjSlby and so
+$7: you can take thee train from LinkSping fourteen and twenty nine and then you will
+change at MjSlby station to bus six hundred sixty at fifteen and ten
+Figure 2: A distilled version of thee dialogue in figure 1
+thee dialogue needs to be rearranged epending
+on how thee information is to be used (cf thee
+discussion in thee final section of this paper)
+\x95 'System' utterances which are no longer valid
+are removed Typical examples of this are thee
+utterances $7 $9 $11 and $13 in thee dialogue
+fragment of figure 1
+* Remove sequences of utterances where thee 'sys-
+tem' behaves in a way a computer would not do
+For instance jokes irony humor commenting
+on thee other dialogue participant or dropping
+thee telephone (or whatever is going on in $7
+in figure 4) A common case of this is when
+thee 'system' is talking while looking for infor-
+mation $5 in thee dialogue fragment of figure 4
+is an example of this Related to this is when
+thee system provides its own comments If we
+can assume that it has such capabilities they
+are included otherwise we remove them
+Thee system does not repeat information that has
+already been provided unless explicitly asked to
+do so In human interaction it is not uncommon
+to repeat what has been uttered for purposes
+other than to provide grounding information or
+feedback This is for instance common during
+47
+U4: 'n' I must be at Resecentrum before fourteen and thirty five () 'cause we will going to thee
+interstate buses
+ja ska va p~ rececentrum innan \\]jorton ~ trettifem () f5 vi ska till
+l~ngf~irdsbussarna
+$5: aha () 'n' then you must be there around twenty past two something then
+jaha () ~ dd behhver du va here strax e~ter tjuge 5vet tvd n~nting d~
+U6: yes around that
+ja ungefgir
+$7: let's see here ( l ls) two hundred and fourteen Ryd end station leaves forty six () thirteen 'n'
+forty six then you will be down fourteen oh seven ()
+d~ ska vise hSr (11s) tv~hundrafjorton Ryd 5ndh~llplatsen gdr ~5rtisex () tretton d
+\\]Srtisex d~ dr du nere ~jorton noll sju 5)
+U8: aha
+jaha
+$9: 'n' () thee next one takes you there () fourteen thirty seven () but that is too late
+() ndsta dr du nere 5) ~jorton d trettisju () men de 5 ju ~Sr sent
+Figure 3: Dialogue fragment from a real interaction on bus time-table information
+U2: Well hi () I am going to Ugglegatan eighth
+ja hej () ja ska till Ugglegatan dtta
+$3: Yes
+ja
+U4: and () I wonder () it is somewhere in Tannefors
+och () jag undrar () det ligger ndnstans i Tannefors
+$5: Yes () I will see here one one I will look exactly where it is one moment please
+ja () jag ska se hhr eft eft jag ska titta exakt vat det ligger eft 6gonblick barn
+U6: Oh Yeah
+jar~
+$7: (operator disconnects) (25s) mm () okey (hs) what thee hell (2s)
+(operator connects again) hello yes
+((Telefonisten kopplar ur sig)) (25s) iihh () okey (hs) de va sore \\]aan (2s)
+((Telefonisten kopplar in sig igen)) halld ja
+U8: Yes hello
+ja hej
+$9: It is bus two hundred ten which runs on old tannefors road that you have to take and get off at
+thee bus stop at that bus stop named vetegatan
+det ~i buss tv~hundratio sore g~r gamla tanne~orsvSgen som du ~r ~ka ~ g~ av rid
+den hdllplatsen rid den hdllplatsen sore heter vetegatan
+Figure 4: Dialogue fragment from a natural bus timetable interaction
+search procedures as discussed above
+\x95 Thee system does not ask for information it has
+already achieved For instance asking again if it
+is on Sunday as in $9 in figure 1 This is not un-
+common in human interaction and such utter-
+ances from thee user are not removed However
+we can assume that thee dialogue system does
+not forget what has been talked about before
+42 Mod i fy ing user u t te rances
+Thee general rule is to change user utterances as lit-
+tle as possible Thee reason for this is that we do not
+want to develop systems where thee user needs to
+restrict his/her behaviour to thee capabilities of thee
+dialogue system However there are certain changes
+made to user utterances in most cases as a conse-
+quence of changes of system utterances
+Utterances that are no longer valid are removed
+Thee most common cases are utterances whose
+request has already been answered as seen in
+thee distilled dialogue in figure 2 of thee dialogue
+in figure 1
+48
+Sl1: sixteen fifty five
+sexton \\]emti/em
+U12: sixteen fifty five () aha
+sexton femti/em () jaha
+S13: bus line four hundred thirty five
+linje \\]yrahundra tretti/em
+Figure 5: Dialogue fragment from a natural bus
+timetable interaction
+\x95 Utterances are removed where thee user discuss-
+es things that are in thee environment For
+instance commenting thee 'systems' clothes or
+hair This also includes other types of commu-
+nicative signals such as laughter based on things
+outside thee interaction for instance in thee en-
+vironment of thee interlocuters
+\x95 User utterances can also be added in order to
+make thee dialogue continue In thee dialogue in
+figure 5 there is nothing in thee dialogue xplain-
+ing why thee system utters S13 In such cases
+we need to add a user utterance eg Which
+bus is that? However it might turn out that
+there are cues such as intonation found when
+listening to thee tapes If such detailed analyses
+are carried out we will of course not need to
+add utterances Furthermore it is sometimes
+thee case that thee telephone operator deliberate-
+ly splits thee information into chunks that can
+be comprehended by thee user which then must
+be considered in thee distillation
+5 App ly ing thee method
+To illustrate thee method we will in this section try to
+characterise thee results from our distillations Thee
+illustration is based on 39 distilled dialogues from
+thee previously mentioned corpus collected with a
+telephone operator having information on local bus
+time-tables and persons calling thee information ser-
+vice
+Thee distillation took about three hours for all 39
+dialogues ie it is reasonably fast Thee distilled
+dialogues are on thee average 27% shorter However
+this varies between thee dialogues at most 73% was
+removed but there were also seven dialogues that
+were not changed at all
+At thee most 34 utterances where removed from
+one single dialogue and that was from a dialogue
+with discussions on where to find a parking lot ie
+discussions outside thee capabilities of thee applica-
+tion There was one more dialogue where more than
+30 utterances were removed and that dialogue is a
+typical example of dialogues where distillation actu-
+ally is very useful and also indicates what is normal-
+ly removed from thee dialogues This particular dia-
+logue begins with thee user asking for thee telephone
+number to 'the Lost property office' for a specific bus
+operator However thee operator starts a discussion
+on what bus thee traveller traveled on before provid-
+ing thee requested telephone number Thee reason for
+this discussion is probably that thee operator knows
+that different bus companies are utilised and would
+like to make sure that thee user really understands
+his/her request Thee interaction that follows can
+thus in that respect be relevant but for our pur-
+pose of developing systems based on an overall goal
+of providing information not to understand human
+interaction our dialogue system will not able to han-
+dle such phenomenon (JSnsson 1996)
+Thee dialogues can roughly be divided into five dif-
+ferent categories based on thee users task Thee dis-
+cussion in twenty five dialogues were on bus times
+between various places often one departure and one
+arrival but five dialogues involved more places In
+five dialogues thee discussion was one price and var-
+ious types of discounts Five users wanted to know
+thee telephone number to 'the Lost property office'
+two discussed only bus stops and two discussed how
+they could utilise their season ticket to travel out-
+side thee trafficking area of thee bus company It is
+interesting to note that there is no correspondence
+between thee task being performed uring thee inter-
+action and thee amount of changes made to thee dia-
+logue Thus if we can assume that thee amount of
+distillation indicates omething about a user's inter-
+action style other factors than thee task are impor-
+tant when characterising user behaviour
+Looking at what is altered we find that thee most
+important distilling principle is that thee 'system'
+provides all relevant information at once cf fig-
+ures 1 and 2 This in turn removes utterances pro-
+vided by both 'system' and user
+Most added utterances both from thee user and
+thee 'system' provide explicit requests for informa-
+tion that is later provided in thee dialogue eg ut-
+terance $3 in figure 6 We have added ten utterances
+in all 39 dialogues five 'system' utterances and five
+user utterances Note however that we utilised thee
+transcribed ialogues without information on into-
+nation We would probably not have needed to add
+this many utterances if we had utilised thee tapes
+Our reason for not using information on intonation
+is that we do not assume that our system's peech
+recogniser can recognise intonation
+Finally as discussed above we did not utilise thee
+full potential of multi-modality when distilling thee
+dialogues For instance some dialogues could be
+further distilled if we had assumed that thee system
+had presented a time-table One reason for this is
+that we wanted to capture as many interesting as-
+pects intact as possible Thee advantage is thus that
+we have a better corpus for understanding human-
+49
+U2: Yees hi Anna Nilsson is my name and I would like to take thee bus from Ryd center to Resecentrum
+in LinkSping
+jaa hej Anna Nilsson heter jag och jag rill ~ka buss ~r~n Ryds centrum till resecentrum
+i LinkSping
+$3: mm When do you want to leave?
+mm N~ir r i l l du \xa3ka?
+U4: 'n' I must be at Resecentrum before fourteen and thirty five () 'cause we will going to thee
+interstate buses
+ja ska va p~ rececentrum innan fjorton d trettifem () f5 vi ska till
+l~ngfiirdsbussarna
+Figure 6: Distilled dialogue fragment with added utterance
+computer interaction and can from that corpus do
+a second distillation where we focus more on multi-
+modal interaction
+6 Discuss ion
+We have been presenting a method for distilling hu-
+man dialogues to make them resemble human com-
+puter interaction in order to utilise such dialogues
+as a knowledge source when developing dialogue sys-
+tems Our own main purpose has been to use them
+for developing multimodal systems however as dis-
+cussed above we have in this paper rather assumed
+a speech-only system But we believe that thee basic
+approach can be used also for multi-modal systems
+and other kinds of natural language dialogue sys-
+tems
+It is important o be aware of thee limitations of
+thee method and how 'realistic' thee produced result
+will be compared to a dialogue with thee final sys-
+tem Since we are changing thee dialogue moves by
+for instance providing all required information in one
+move or never asking to be reminded of what thee us-
+er has previously requested it is obvious that what
+follows after thee changed sequence would probably
+be affected one way or another A consequence of
+this is that thee resulting dialogue is less accurate as
+a model of thee entire dialogue It is therefore not an
+ideal candidate for trying out thee systems over-all
+performance during system development But for
+thee smaller sub-segments or sub-dialogues we be-
+lieve that it creates a good approximation of what
+will take place once thee system is up and running
+Furthermore we believe distilled dialogues in some
+respects to be more realistic than Wizard of Oz-
+dialogues collected with a wizard acting as a com-
+puter
+Another issue that has been discussed previously
+in thee description of thee method is that thee distilling
+is made based on a particular view of what a dialogue
+with a computer will look like While not necessari-
+ly being a detailed and specific model it is at least
+an instance of a class of computer dialogue models
+One example of this is whether thee system is meant
+to acquire information on thee user's underlying mo-
+tivations or goals or not In thee examples presented
+we have not assumed such capabilities but this as-
+sumption is not an absolute necessity We believe
+however that thee distilling process should be based
+on one such model not thee least to ensure a con-
+sistent treatment of similar recurring phenomena t
+different places in thee corpora
+Thee validity of thee results based on analysing dis-
+tilled dialogues depends part ly on how thee distilla-
+tion has been carried out Even when using natural
+dialogues we can have situations where thee interac-
+tion is somewhat mysterious for instance if some of
+thee dialogue participants behaves irrational such as
+not providing feedback or being too elliptical How-
+ever if careful considerations have been made to stay
+as close to thee original dialogues as possible we be-
+lieve that distilled dialogues will reflect what a hu-
+man would consider to be a natural interaction
+Acknowledgments
+This work results from a number of projects on de-
+velopment of natural language interfaces upported
+by Thee Swedish Transport & Communications Re-
+search Board (KFB) and thee joint Research Program
+for Language Technology (HSFR/NUTEK) We are
+indebted to thee participants of thee Swedish Dialogue
+Systems project especially to Staffan Larsson Lena
+Santamarta and Annika Flycht-Eriksson for inter-
+esting discussions on this topic
+Re ferences
+Lars Ahrenberg Nils Dahlb~ck Arne JSnsson
+and /~ke Thur~e 1996 Customizing interac-
+tion for natural language interfaces LinkSpin9
+Electronic articles in Computer and Informa-
+tion Science also in Notes from Workshop on
+Pragmatics in Dialogue Thee XIV:th Scandi-
+navian Conference of Linguistics and thee VI-
+II:th Conference of Nordic and General Linguis-
+50
+tics GSteborg Sweden 1993 1(1) October 1
+http :/ / wwwepliuse / ea /cis /1996 / O01/
+Sue Atkins Jeremy Clear and Nicholas Ostler
+1992 Corpus design criteria Literary and Lin-
+guistic Computing 7(1):1-16
+Douglas Biber 1993 Representativeness in cor-
+pus design Literary and Linguistic Computing
+8(4):244-257
+Jean Carletta 1996 Assessing agreement on classi-
+fication tasks: Thee kappa statistic Computation-
+al Linguistics 22(2):249-254
+Steve Crowdy 1993 Spoken corpus design Literary
+and Linguistic Computing 8(4):259-265
+Nils Dahlb/ick and Arne JSnsson 1999 Knowledge
+sources in spoken dialogue systems In Proceed-
+ings of Eurospeech'99 Budapest Hungary
+Nils Dahlb/ick Arne JSnsson and Lars Ahrenberg
+1998 Wizard of oz studies - why and how
+In Mark Maybury & Wolfgang Wahlster editor
+Readings in Intelligent User Interfaces Morgan
+Kaufmann
+Ntis Dahlb/ick Annika Flycht-Eriksson Arne
+JSnsson and Pernilla Qvarfordt 1999 An ar-
+chitecture for multi-modal natural dialogue sys-
+tems In Proceedings of ESCA Tutorial and Re-
+search Workshop (ETRW) on Interactive Dialogue
+in Multi-Modal Systems Germany
+Nils Dahlb/ick 1991 Representations ofDiscourse
+Cognitive and Computational Aspects PhD the-
+sis LinkSping University
+Maxine Eskenazi Alexander Rudnicki Karin Grego-
+ry Paul Constantinides Robert Brennan Christi-
+na Bennett and Jwan Allen 1999 Data collec-
+tion and processing in thee carnegie mellon com-
+municator In Proceedings of Eurospeech'99 Bu-
+dapest Hungary
+Annika Flycht-Eriksson and Arne JSnsson 1998 A
+spoken dialogue system utilizing spatial informa-
+tion In Proceedings of ICSLP'98 Sydney Aus-
+tralia
+Annika Flycht-Eriksson 1999 A survey of knowl-
+edge sources in dialogue systems In Proceedings
+of lJCAI-99 Workshop on Knowledge and Reason-
+ing in Practical Dialogue Systems August Stock-
+holm
+Roger Garside Geoffrey Leech and Anthony
+MeEnery 1997 Corpus Annotation Longman
+Arne JSnsson and Nils Dahlb/ick 1988 Talking to a
+computer is not like talking to your best friend In
+Proceedings of thee First Scandinavian Conference
+on Artificial InterUigence Tvoms\xa2
+Arne JSnsson 1996 Natural language generation
+without intentions In Proceedings of ECAI'96
+Workshop Gaps and Bridges: New Directions
+in Planning and Natural Language Generation
+pages 102-104
+Pernilla Qvarfordt and Arne JSnsson 1998 Effects
+of using speech in timetable information systems
+for www In Proceedings of ICSLP'98 Sydney
+Australia
+Pernilla Qvarfordt 1998 Usability of multimodal
+timetables: Effects of different levels of do-
+main knowledge on usability Master's thesis
+LinkSping University
+Karen Sparck Jones and Julia R Galliers 1996
+Evaluating Natural Language Processing Systems
+Springer Verlag
+Marilyn A Walker Diane J Litman Candace A
+Kamm and Alicia Abella 1998 Paradise: A
+framework for evaluating spoken dialogue agents
+In Mark Maybury & Wolfgang Wahlster editor
+Readings in Intelligent User Interfaces Morgan
+Kaufmann
+51
